@@ -1,0 +1,118 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Financial Year Manage</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All Financial Year List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"></i> Create Financial Year</a>
+                        </li>
+
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="fin_year">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Financial Year
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.fin_year }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" *ngIf="element.status=='INACTIVE'" (click)="active(element)">Active</button>
+                                            <button class="btn btn-outline-danger" *ngIf="element.status=='ACTIVE'" (click)="deactive(element)">Deactive</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Financial Year :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" name="fin_year" [(ngModel)]="obj['fin_year']" placeholder="YYYY-YYYY">
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="addNewRow()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

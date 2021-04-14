@@ -1,0 +1,287 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">MANAGE Nominee</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" (click)="refressadd()" data-toggle="tab"><i class="ti-bar-chart"></i> All
+                                Nominee List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refressadd()"><i class="ti-settings"></i> Create
+                                Nominee</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refressadd()"><i class="ti-announcement"></i> Update
+                                Nominee</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+
+                            <div class=" table-container ">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="example-container">
+                                    <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                        <ng-container matColumnDef="party_id">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Party ID</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.party_id}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="party_name">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Party Name</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ partyObj[element.party_id] }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="nominee_name">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Nominee Name</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.nominee_name }} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="relation_code">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Relation</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.relation_code }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="nominee_phone_no">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Nominee Mob No.</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.nominee_phone_no }} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="nominee_email">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Nominee Email</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.nominee_email }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                                <button class="btn btn-outline-primary" (click)="openUpdate(element,i)">Update</button>
+
+
+                                            </td>
+
+                                        </ng-container>
+
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Party :</h6>
+                                </div>
+                                <!-- <div class="col-4">
+                                    <ng-select class="form-control" name="party" [(ngModel)]="obj['party_id']" placeholder="Party">
+                                        <option *ngFor="let partyArr of partyArr" ngValue="{{partyArr.party_id}}">{{partyArr.party_name}}
+
+                                        </option>
+                                    </ng-select>
+                                </div> -->
+                                <div class="col-4">
+                                    <ng-select [items]="partyArr" bindLabel="party_name"  bindValue="party_id" [multiple]="false" placeholder="Select party" [(ngModel)]="obj['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Nominee Name :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_name" [(ngModel)]="obj['nominee_name']" placeholder="Nominee Name">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Nominee Email :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_email" [(ngModel)]="obj['nominee_email']" placeholder="Nominee Email">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Nominee Mobile No. :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_phone_no" [(ngModel)]="obj['nominee_phone_no']" placeholder="Nominee Mobile No.">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Relation :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0002']" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="obj['relation_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="carry">
+                                    </ng-select>
+                                    <!-- <input class="form-control" name="relation_code" [(ngModel)]="obj['relation_code']" placeholder="Relation"> -->
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Nominee ID Type :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0003']" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="obj['id_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="carry">
+                                    </ng-select>
+                                    <!-- <input class="form-control" name="id_type_code" [(ngModel)]="obj['id_type_code']" placeholder="Nominee ID Type"> -->
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Nominee ID No. :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_id_no" [(ngModel)]="obj['nominee_id_no']" placeholder="Nominee ID Number">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="addNewRow()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Party :</h6>
+                                </div>
+                                <div class="col-4">
+
+
+                                    <input class="form-control" name="party_id" [(ngModel)]="obj['party_name']" placeholder="Party Info" disabled>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Nominee Name :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_name" [(ngModel)]="obj['nominee_name']" placeholder="Nominee Name">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Nominee Email :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_email" [(ngModel)]="obj['nominee_email']" placeholder="Nominee Email">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Nominee Mobile No. :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_phone_no" [(ngModel)]="obj['nominee_phone_no']" placeholder="Nominee Mobile No.">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Relation :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0002']" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="obj['relation_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="carry">
+                                    </ng-select>
+                                    <!-- <input class="form-control" name="relation_code" [(ngModel)]="obj['relation_code']" placeholder="Relation"> -->
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Nominee ID Type :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0003']" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="obj['id_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="carry">
+                                    </ng-select>
+                                   <!--  <input class="form-control" name="id_type_code" [(ngModel)]="obj['id_type_code']" placeholder="Nominee ID Type"> -->
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Nominee ID No. :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_id_no" [(ngModel)]="obj['nominee_id_no']" placeholder="Nominee ID Number">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

@@ -1,0 +1,148 @@
+<div style="background-image: url('./assets/img/vns.jpg');" class="c page-content fade-in-up">
+    <br>
+    <!-- <br> -->
+    <div class="login-form">
+
+        <form action="/examples/actions/confirmation.php" method="post">
+            <div class="content-center">
+                <div class="container">
+                    <div class="title-brand">
+                        <div class="angular-logo">
+                            <img src="assets/img/vdalogo.png" style="width: 1000px; height: 80px;" alt="Error Loading Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <!-- <h2 class="login-title">Varanasi Development Authority Login</h2> -->
+            <div class="row ">
+                <div class="col-12 text-right ">
+                    <a class="color-blue" (click)="forgetPassWord()" type="submit">Forgot Password ?</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <br>
+                    <div class="text-center">
+                        <h6> LOGIN WITH OTP</h6>
+                    </div>
+                    <br>
+
+                    <div class="form-group" class="row">
+                        <div class="col-3">
+                            Enter Mobile Number:
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" type="number" name="mobile_number" (change)="allowLoginValidate()" placeholder="Enter Mobile Number" autocomplete="off" [(ngModel)]="obj['mobile_number']">
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-info " (click)="sendOtp()" type="submit">Send OTP</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group" class="row" *ngIf="otp_flag">
+                        <div class="col-3">
+                            Enter Otp:
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" id="text" type="password" name="otp" placeholder="OTP" [(ngModel)]="obj.otp">
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-info " (click)="sendOtp()" type="submit">Resend OTP</button>
+                        </div>
+                    </div>
+
+                    <br>
+
+
+                    <div class="form-group">
+                        <button class="btn btn-info btn-block" (click)="LoginWithOtp()" type="submit">Login</button>
+                    </div>
+
+
+                </div>
+                <div class="vl"></div>
+                <div class="col-5" style="margin-left:3%;">
+                    <br>
+
+                    <div class="text-center">
+                        <h6> LOGIN WITH PASSWORD</h6>
+                    </div>
+                    <br> LOGIN WITH MOBILE : <input type="checkbox" style="margin-right:5%;" name="test" [checked]="currentlyChecked === check_box_type.APPLY_FOR_JOB" (click)="selectCheckBox(check_box_type.APPLY_FOR_JOB)"> LOGIN WITH EMAIL: <input type="checkbox"
+                        name="test" [checked]="currentlyChecked === check_box_type.MODIFY_A_JOB" (click)="selectCheckBox(check_box_type.MODIFY_A_JOB)">
+                    <br>
+                    <br>
+
+
+                    <div class="form-group" *ngIf="currentlyChecked==0">
+
+                        <input class="form-control" type="email" name="email" placeholder="Enter mobile number" autocomplete="off" [(ngModel)]="obj.email">
+                    </div>
+                    <div class="form-group" *ngIf="currentlyChecked!=0">
+
+                        <input class="form-control" type="email" name="email" placeholder="Enter email" autocomplete="off" [(ngModel)]="obj.email">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="password" type="password" name="password" placeholder="Enter password" [(ngModel)]="obj.password">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-info btn-block" (click)="login()" type="submit">Login</button>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+
+<div class="modal" id="forget">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Forgot Password:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-4 text-right">
+                        Enter Phone Number:
+                    </div>
+                    <div class="col-6 text-center">
+                        <input class="form-control" type="number" [(ngModel)]="phone_no" name="phone_no" />
+                    </div>
+
+                </div>
+                <br *ngIf="your_password_flag">
+                <div class="row" *ngIf="your_password_flag">
+
+                    <div class="col-4 text-right">
+                        Your Password:
+                    </div>
+                    <div class="col-6 text-center">
+                        {{your_password}}
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="SubmitForgetPassword()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="close()" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

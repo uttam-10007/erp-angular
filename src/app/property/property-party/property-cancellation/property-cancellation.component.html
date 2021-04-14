@@ -1,0 +1,420 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">MANAGE Property Cancellation</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" (click)="refressadd()" data-toggle="tab"><i
+                                    class="ti-bar-chart"></i> All
+                                    Property Cancellation List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refressadd()"><i
+                                    class="ti-settings"></i> Property Cancellation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refressadd()"><i
+                                    class="ti-announcement"></i> Update
+                                    Property Cancellation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab" (click)="refressadd()"><i
+                                    class="ti-announcement"></i> View
+                                    Property Cancellation</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+
+
+
+                            <div class="row ">
+                                <div class="col-2 text-right">
+                                    <h6>Select Scheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+                                   <!--  <select class="form-control" name="generateSchemeCode" [(ngModel)]="selectedSchemeCode" (change)="getAllSubschemes()" placeholder="Scheme">
+                                        <option *ngFor="let schemeArr of schemeArr" ngValue="{{schemeArr.scheme_code}}">{{schemeArr.scheme_name}}
+                            
+                                        </option>
+                                    </select> -->
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="getAllSubschemes()" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="selectedSchemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>Select Subscheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+                                    <!-- <select class="form-control" name="subselectedSchemeCode" [(ngModel)]="subselectedSchemeCode" placeholder="Scheme">
+                                        <option *ngFor="let subschemeArr of subschemeArr" ngValue="{{subschemeArr.sub_scheme_code}}">{{subschemeArr.sub_scheme_name}}
+                            
+                                        </option>
+                                    </select> -->
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="subselectedSchemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-primary" (click)="getcancellations()">Fetch</button>
+                                </div>
+                            </div>
+                            <div class="example-container">
+                                <div class=" table-container ">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <mat-form-field style="margin-left: 2%">
+                                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4 text-center">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="example-container">
+                                        <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                            <ng-container matColumnDef="arr_id">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Arrangment
+                                                        ID</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.arr_id}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="party_name">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                    Party Name</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.party_name }} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="payment_status">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Payment Status</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.payment_status }} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="party_bank_name">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Party Bank Name</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.party_bank_name }} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="party_branch_name">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Party Branch Name</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.party_branch_name }} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="party_account_no">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Party Account No</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.party_account_no }} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                    Action</th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    <button *ngIf="element.payment_status==='ACCRUED'" class="btn btn-info" type="button" (click)="paymentDone(element,i)">Done</button>
+                                                    <button class="btn btn-outline-primary" (click)="edit(element,i)">Update</button>
+                                                    <button class="btn btn-outline-success" (click)="view(element, i)">View</button>
+
+                                                </td>
+
+                                            </ng-container>
+
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                            </tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                            </tr>
+                                        </table>
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                                        </mat-paginator>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Arrangement ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_name" [(ngModel)]="arr_id" placeholder="Arrangement ID">
+                                </div>
+                                <div class="col-4 text-left">
+                                    <button class="btn btn-primary" (click)="fetch()">Fetch</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div *ngIf="scheduleArr.length>0">
+                                <div class="row">
+
+                                    <div class=" text-right" style="width:23%">
+                                        <h6> Party Name :</h6>
+
+                                    </div>
+                                    <div style="width:25%;margin-left: 2%;">
+                                        <input class="form-control" type="text" name="Party Name" [(ngModel)]="obj['party_name']" placeholder="Party Name">
+                                    </div>
+                                    <div class=" text-right" style="width:18%">
+                                        <h6> Transaction Amount :</h6>
+
+                                    </div>
+                                    <div style="width:25%;margin-left: 2%;">
+                                        <input class="form-control" type="text" name="txn_amt" [(ngModel)]="obj['txn_amt']" placeholder="Transaction Amount">
+                                    </div>
+
+
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div class=" text-right" style="width:23%">
+                                        <h6> Cancellation Amount :</h6>
+
+                                    </div>
+                                    <div style="width:25%;margin-left: 2%;">
+                                        <input class="form-control" type="text" name="cancelation_amount" [(ngModel)]="obj['cancellation_amount']" placeholder="Party Name">
+                                    </div>
+                                    <div class=" text-right" style="width:18%">
+                                        <h6> Cancellation Refund Amount :</h6>
+
+                                    </div>
+                                    <div style="width:25%;margin-left: 2%;">
+                                        <input class="form-control" type="text" name="cancellation_refund_amt" [(ngModel)]="obj['cancellation_refund_amt']" placeholder="Cancellation Refund Amount">
+                                    </div>
+
+
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div class=" text-right" style="width:23%">
+                                        <h6> Party Bank Name :</h6>
+
+                                    </div>
+                                    <div style="width:25%;margin-left: 2%;">
+                                        <input class="form-control" type="text" name="party_bank_name" [(ngModel)]="obj['party_bank_name']" placeholder="Party Bank Name">
+                                    </div>
+                                    <div class=" text-right" style="width:18%">
+                                        <h6> Party Branch Name :</h6>
+
+                                    </div>
+                                    <div style="width:25%;margin-left: 2%;">
+                                        <input class="form-control" type="text" name="party_branch_name" [(ngModel)]="obj['party_branch_name']" placeholder="Party Branch Name">
+                                    </div>
+
+
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div class=" text-right" style="width:23%">
+                                        <h6> Party IFSC Code :</h6>
+
+                                    </div>
+                                    <div style="width:25%;margin-left: 2%;">
+                                        <input class="form-control" type="text" name="party_ifsc_code" [(ngModel)]="obj['party_ifsc_code']" placeholder="Party IFSC Code">
+                                    </div>
+                                    <div class=" text-right" style="width:18%">
+                                        <h6> Party Account No :</h6>
+
+                                    </div>
+                                    <div style="width:25%;margin-left: 2%;">
+                                        <input class="form-control" type="text" name="party_account_no" [(ngModel)]="obj['party_account_no']" placeholder="Party Account No">
+                                    </div>
+
+
+                                </div>
+                                <br>
+
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="addNew()">Save</button>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Arrangement ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_name" [(ngModel)]="obj1['arr_id']" placeholder="Arrangement ID" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+
+                                <div class=" text-right" style="width:23%">
+                                    <h6> Party Name :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="party_name" [(ngModel)]="obj1['party_name']" placeholder="Party Name">
+                                </div>
+                                <div class=" text-right" style="width:18%">
+                                    <h6> Cancellation Refund Amount :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="cancellation_refund_amt" [(ngModel)]="obj1['cancellation_refund_amt']" placeholder="Cancellation Refund Amount">
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class=" text-right" style="width:23%">
+                                    <h6> Party Bank Name :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="party_bank_name" [(ngModel)]="obj1['party_bank_name']" placeholder="Party Bank Name">
+                                </div>
+                                <div class=" text-right" style="width:18%">
+                                    <h6> Party Branch Name :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="party_branch_name" [(ngModel)]="obj1['party_branch_name']" placeholder="Party Branch Name">
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class=" text-right" style="width:23%">
+                                    <h6> Party IFSC Code :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="party_ifsc_code" [(ngModel)]="obj1['party_ifsc_code']" placeholder="Party IFSC Code">
+                                </div>
+                                <div class=" text-right" style="width:18%">
+                                    <h6> Party Account No :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="party_account_no" [(ngModel)]="obj1['party_account_no']" placeholder="Party Account No">
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-4">
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Arrangement ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="arr_id1" [(ngModel)]="obj2['arr_id']" placeholder="Arrangement ID" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class=" text-right" style="width:23%">
+                                    <h6> Party Name :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="party_name" [(ngModel)]="obj2['party_name']" placeholder="Party Name" disabled>
+                                </div>
+                                <div class=" text-right" style="width:18%">
+                                    <h6> Cancellation Refund Amount :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="cancellation_refund_amt" [(ngModel)]="obj2['cancellation_refund_amt']" placeholder="Cancellation Refund Amount" disabled>
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class=" text-right" style="width:23%">
+                                    <h6> Party Bank Name :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="party_bank_name" [(ngModel)]="obj2['party_bank_name']" placeholder="Party Bank Name" disabled>
+                                </div>
+                                <div class=" text-right" style="width:18%">
+                                    <h6> Party Branch Name :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="party_branch_name" [(ngModel)]="obj2['party_branch_name']" placeholder="Party Branch Name" disabled>
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class=" text-right" style="width:23%">
+                                    <h6> Party IFSC Code :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="party_ifsc_code" [(ngModel)]="obj2['party_ifsc_code']" placeholder="Party IFSC Code" disabled>
+                                </div>
+                                <div class=" text-right" style="width:18%">
+                                    <h6> Party Account No :</h6>
+
+                                </div>
+                                <div style="width:25%;margin-left: 2%;">
+                                    <input class="form-control" type="text" name="party_account_no" [(ngModel)]="obj2['party_account_no']" placeholder="Party Account No" disabled>
+                                </div>
+
+
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

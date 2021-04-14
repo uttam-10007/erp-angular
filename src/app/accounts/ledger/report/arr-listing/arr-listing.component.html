@@ -1,0 +1,182 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">MANAGE Arrangement Listing </div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" (click)="refressadd()" data-toggle="tab"><i
+                                    class="ti-bar-chart"></i> Arrangement
+                                List</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Process Date :
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj['proc_dt']">
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Accounting Date :
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj['acct_dt']">
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Ledger Type :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="ledger" bindLabel="value" bindValue="code" [multiple]="false"
+                                        placeholder="" [(ngModel)]="obj['ledger_type']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Financial Year :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0025']" bindLabel="value"
+                                        bindValue="value" [multiple]="false" placeholder=""
+                                        [(ngModel)]="obj['fin_year']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Ledger:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allChartOfAccount" bindLabel="leaf_value" bindValue="leaf_code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['chart_of_account']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class=" table-container ">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)"
+                                                placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <button class="btn btn-primary" (click)="print1()">PRINT</button>
+
+                                    </div>
+
+                                </div>
+
+                                <div class=" example-container">
+                                    <table mat-table [dataSource]="dataSource" matSort>
+
+                                        <ng-container matColumnDef="party_id">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Party ID
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.party_id }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="party_name">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Party
+                                                Name
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.party_name }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="arr_id">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                Arrangement ID
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.arr_id }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="arr_desc">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                Arrangement Description
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.arr_desc }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="cr_amount">
+                                            <th mat-header-cell *matHeaderCellDef class="text-right" mat-sort-header>CR
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="text-right">
+                                                {{element.cr_amount}} </td>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="db_amount">
+                                            <th mat-header-cell *matHeaderCellDef class="text-right" mat-sort-header>DB
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="text-right">
+                                                {{element.db_amount}} </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

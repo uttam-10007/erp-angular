@@ -1,0 +1,169 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Party Wise Report</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i
+                                    class="ti-bar-chart"></i>
+                                Party Wise Report</a>
+                        </li>
+
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" ><i
+                                    class="ti-settings"></i> Drill Down Accros </a>
+                        </li> -->
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Ledger Account :
+                                </div>
+                                <div class="col-4 text-center">
+                                    <ng-select [items]="allAccountInfo" bindLabel="lvl5_value" bindValue="lvl5_code" [multiple]="false" placeholder="Select Ledger Account" [(ngModel)]="obj['acct_num']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select From Date :
+                                </div>
+                                <div class="col-4 text-center">
+                                    <input class="form-control" type="date" [(ngModel)]="obj['from_accounting_dt']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select To Date :
+                                </div>
+                                <div class="col-4 text-center">
+                                    <input class="form-control" type="date" [(ngModel)]="obj['to_accounting_dt']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-12 text-center">
+                                <button class="btn btn-primary" (click)="getJournalDetail()">SUBMIT</button>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="print()">Print</button>
+                                </div>
+                            </div>
+
+                            <div id="p">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <img [src]="mainService.accountImageUrl" class="img-circle" width="90px" />
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h4>{{mainService.accInfo['account_name']}} ({{mainService.accInfo['account_short_name']}})
+                                        </h4>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6> PARTY LISTING FROM {{obj['from_accounting_dt']}} TO {{obj['to_accounting_dt']}}
+                                        </h6>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <!-- <div class="row">
+                                    <div class="col-3 text-right">
+
+                                    </div>
+                                </div> -->
+
+
+                                <table class="table" style="border: black;">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>VOUCHER NO</th>
+                                            <th>DATE
+                                            </th>
+                                            <th>PARTY NAME</th>
+                                            <!-- <th>PARTICULARS</th> -->
+                                            <th>DEBIT(DR)/CREDIT(CR)
+                                            </th>
+
+                                            <th style="text-align: right;">AMOUNT
+                                            </th>
+                                            <!-- <th style="text-align: right;">TOTAL
+                                            </th> -->
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr *ngFor="let ob of data">
+                                            <td>{{ob['jrnl_line_id']}}</td>
+                                            <td>{{ob['accounting_dt'].split('T')[0]}}</td>
+                                            <td>{{ob['party_legal_name']}}</td>
+                                            <!-- <td>{{ob['jrnl_desc']}}</td> -->
+                                            <td>{{ob['debit_credit_ind']}}</td>
+
+                                            <td style="text-align: right;">{{ob['amount']}}</td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="text-align: right;">
+                                                <h6>TOTAL CREDIT</h6>
+                                            </td>
+                                            <td style="text-align: right;">
+                                                {{total['cr']}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="text-align: right;">
+                                                <h6>TOTAL DEBIT</h6>
+                                            </td>
+                                            <td style="text-align: right;">
+                                                {{total['db']}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="text-align: right;">
+                                                <h6>NET</h6>
+                                            </td>
+                                            <td style="text-align: right;">
+                                                {{net}} {{netBal}}
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

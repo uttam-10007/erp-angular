@@ -1,0 +1,482 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">ITEM SELECTION</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" ><i
+                                class="fa fa-line-chart"></i>
+                                Item Selection List</a>
+                        </li>
+
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()" ><i
+                                class="fa fa-plus-circle" ></i> Create Item Selection </a>
+                        </li>
+
+
+                    <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update Item Selection 
+                            </a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="item_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Item ID
+
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.item_id}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="sor_item_category">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Sor Item
+                                            Category
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.sor_item_category}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="region_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Region
+
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.region_cd}}
+                                        </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="circle_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Circle
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.circle_cd}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="proj_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Project
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.proj_cd}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="act_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Activity
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.act_cd}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="bud_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Budget
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.bud_cd}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="prod_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Product
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.prod_cd}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-success"
+                                                (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-info" (click)="print1(element)">Print</button>
+                                            <button class="btn btn-danger"
+                                                (click)="delete_item(element)">Delete</button>
+
+
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="list"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: list;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                            <br>
+
+                        </div>
+
+                      <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    List Of Item ID :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="itemList" bindLabel="id" bindValue="id"
+                                    [multiple]="false" [(ngModel)]="header['id']"
+                                    (change)="show_table()"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                    name="chart_of_account0"> 
+                                </ng-select>                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    ITEM CATEGORY :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN033']" bindLabel="value" bindValue="code"
+                                        [multiple]="false" [(ngModel)]="header['sor_item_category']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                        name="chart_of_account0">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                           
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    REGION :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN034']" bindLabel="value" bindValue="code"
+                                        [multiple]="false" [(ngModel)]="header['region_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                        name="chart_of_account0">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    CIRCLE :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN035']" bindLabel="value" bindValue="code"
+                                        [multiple]="false" [(ngModel)]="header['circle_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                        name="chart_of_account0"> 
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    PROJECT :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="header['proj_cd']">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    BUDGET :
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="header['bud_cd']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    PRODUCT :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="header['prod_cd']">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    ACTIVITY :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="header['act_cd']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <table class="table table-bordered" style="width: 90%; margin-left: 5%;">
+                                    <thead style="background-color: blue; color: white;">
+                                        <tr>
+                                            <th scope="col">SR NO.</th>
+                                            <th scope="col">ITEM CODE </th>
+                                            <th scope="col">ITEM OF WORK</th>
+                                            <th scope="col">ITEM DESCRIPTION</th>
+                                            <th scope="col">PWD SPECIFICATION</th>
+
+                                            <th scope="col">UNIT</th>
+                                            <th scope="col">RATE</th>
+                                            <th scope="col">SELECT</th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let element of table_data; index as i;">
+                                        <tr>
+                                            <th scope="row">{{i+1}}</th>
+                                            <th scope="row"><input type="text" [(ngModel)]="element['item_code']"
+                                                    class="form-control"></th>
+                                            <th scope="row"><input type="text" class="form-control"
+                                                    [(ngModel)]="element['item_work']"></th>
+                                            <th scope="row"><input type="text" class="form-control"
+                                                    [(ngModel)]="element['desc']"></th>
+                                            <th scope="row"><input type="text" class="form-control"
+                                                    [(ngModel)]="element['pwd_spec']"></th>
+                                            <th scope="row"><input type="text" class="form-control"
+                                                    [(ngModel)]="element['unit']"></th>
+                                            <th scope="row"><input type="number" class="form-control"
+                                                    [(ngModel)]="element['rate']"></th>
+                                            <th scope="row">
+                                                <input class="form-check-input" type="checkbox" 
+                                                style="height: 20px; width: 20px; margin-left: 10%;"
+                                                [checked]="element.select"
+                                                [(ngModel)]="table_data[i]['select']">
+
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button (click)="save()" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    List Of Item ID :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="itemList" bindLabel="id" bindValue="id"
+                                    [multiple]="false" [(ngModel)]="header['id']"
+                                    (change)="show_table()"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                    name="chart_of_account0"> 
+                                </ng-select>                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    ITEM CATEGORY :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN033']" bindLabel="value" bindValue="code"
+                                        [multiple]="false" [(ngModel)]="header['sor_item_category']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                        name="chart_of_account0">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                           
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    REGION :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN034']" bindLabel="value" bindValue="code"
+                                        [multiple]="false" [(ngModel)]="header['region_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                        name="chart_of_account0">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    CIRCLE :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN035']" bindLabel="value" bindValue="code"
+                                        [multiple]="false" [(ngModel)]="header['circle_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                        name="chart_of_account0"> 
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    PROJECT :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="header['proj_cd']">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    BUDGET :
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="header['bud_cd']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    PRODUCT :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="header['prod_cd']">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    ACTIVITY :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="header['act_cd']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <table class="table table-bordered" style="width: 90%; margin-left: 5%;">
+                                    <thead style="background-color: blue; color: white;">
+                                        <tr>
+                                            <th scope="col">SR NO.</th>
+                                            <th scope="col">ITEM CODE </th>
+                                            <th scope="col">ITEM OF WORK</th>
+                                            <th scope="col">ITEM DESCRIPTION</th>
+                                            <th scope="col">PWD SPECIFICATION</th>
+                                            <th scope="col">UNIT</th>
+                                            <th scope="col">RATE</th>
+                                            <th scope="col">SELECT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let element of table_data; index as i;">
+                                        <tr>
+                                            <th scope="row">{{i+1}}</th>
+                                            <th scope="row"><input type="text" [(ngModel)]="element['item_code']"
+                                                    class="form-control"></th>
+                                            <th scope="row"><input type="text" class="form-control"
+                                                    [(ngModel)]="element['item_work']"></th>
+                                            <th scope="row"><input type="text" class="form-control"
+                                                    [(ngModel)]="element['desc']"></th>
+                                            <th scope="row"><input type="text" class="form-control"
+                                                    [(ngModel)]="element['pwd_spec']"></th>
+                                            <th scope="row"><input type="text" class="form-control"
+                                                    [(ngModel)]="element['unit']"></th>
+                                            <th scope="row"><input type="number" class="form-control"
+                                                    [(ngModel)]="element['rate']"></th>
+                                            <th scope="row">
+                                                <input class="form-check-input" type="checkbox" 
+                                                style="height: 20px; width: 20px; margin-left: 10%;"
+                                                [checked]="element.select"
+                                                [(ngModel)]="table_data[i]['select']">
+
+                                            </th>
+
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button (click)="update()" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

@@ -1,0 +1,1054 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Rule</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                All Rule List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh1()"><i
+                                    class="fa fa-plus-circle"></i> Create Rule </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Rule </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+                            <br>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Rule ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="rule_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Rule Description
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.rule_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="priority">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Rule Priority
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.priority }} </td>
+                                    </ng-container>
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="open_update(element)">update</button>&nbsp;&nbsp;
+                                            <button class="btn btn-outline-danger" (click)="delete(element)">Delete</button>
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Rule Description:
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['ruleDesc']" name="ruleDesc" placeholder="Rule Description">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Rule Priority:
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="obj['rulePriority']" name="rulePriority" placeholder="Rule Priority">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="container p-3 my-3 border border-dark">
+
+
+
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        Select Event :
+                                    </div>
+
+                                    <div class="col-4 text-left">
+                                        <!-- <ng-select [items]="allEvents" bindLabel="event_desc" bindValue="event_code"
+                                            [multiple]="false" placeholder="Select Event" (change)="eventChange()"
+                                            [(ngModel)]="obj['event_code']" [selectableGroup]="true"
+                                            [selectableGroupAsModel]="true" [closeOnSelect]="false" name="event">
+                                        </ng-select> -->
+
+                                        <div id="text" (click)="open_event_popup()" style="color: rgb(37, 130, 236);">
+                                            {{obj['event_desc']}}&nbsp;&nbsp;
+                                            <h6>
+                                                <b><u>Select Event</u></b></h6>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-2">
+
+
+                                    </div>
+                                    <div class="col-2 text-left" *ngIf="obj['event_code']!=undefined && obj['event_code']!=''">
+                                        <button class="btn btn-primary" (click)="changeEvent()"><i class="fa fa-edit"
+                                                aria-hidden="true"></i></button>
+
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-4 text-right">
+
+                                        <h6><b>{{cRdBObj[obj['journals'][0]['db_cd_ind']]}}</b></h6>
+                                        <!-- <ng-select [items]="allDBIND" (change)="changeDebitCreditIndicator(0)" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Debit Credit Indicater" [(ngModel)]="obj['journals'][0]['db_cd_ind']" [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                            [closeOnSelect]="false" name="db_cd_ind">
+                                        </ng-select> -->
+
+
+
+                                    </div>
+                                    <div class="col-4 text-left">
+                                        <ng-select [items]="allChartOfAccount" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="obj['journals'][0]['chart_of_account']" [selectableGroup]="true" (change)="changeChartOfAccount(0)"
+                                            [selectableGroupAsModel]="true" [closeOnSelect]="false" name="chart_of_account0">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2">
+
+
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <button class="btn btn-primary" (click)="changeJournal('0')"><i
+                                                class="fa fa-edit" aria-hidden="true"></i></button>
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        <!-- <ng-select [items]="allDBIND" (change)="changeDebitCreditIndicator(1)" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Debit Credit Indicater" [(ngModel)]="obj['journals'][1]['db_cd_ind']" [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                            [closeOnSelect]="false" name="db_cd_ind1">
+                                        </ng-select> -->
+
+                                        <h6><b>{{cRdBObj[obj['journals'][1]['db_cd_ind']]}}</b></h6>
+
+                                    </div>
+                                    <div class="col-4 text-left">
+                                        <ng-select [items]="allChartOfAccount" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" (change)="changeChartOfAccount(1)" [(ngModel)]="obj['journals'][1]['chart_of_account']" [selectableGroup]="true"
+                                            [selectableGroupAsModel]="true" [closeOnSelect]="false" name="chart_of_account1">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2">
+
+
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <button class="btn btn-primary" (click)="changeJournal('1')"><i
+                                                class="fa fa-edit" aria-hidden="true"></i></button>
+
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-8 text-right">
+
+                                    </div>
+
+                                    <div class="col-2 text-center">
+
+                                        <button class="btn btn-info" (click)="addRow()"><i class="fa fa-plus"
+                                                aria-hidden="true"></i></button>
+                                    </div>
+
+                                </div>
+
+
+
+                                <br>
+                                <div *ngFor="let ln of obj['journals']; let i = index;">
+                                    <div *ngIf="i!=0 && i!=1">
+                                        <div class="row">
+                                            <div class="col-4 text-right">
+                                                <!-- <ng-select [items]="allDBIND" (change)="changeDebitCreditIndicator(i)" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Debit Credit Indicater" [(ngModel)]="obj['journals'][i]['db_cd_ind']" [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                                    [closeOnSelect]="false" name="db_cd_indz">
+                                                </ng-select> -->
+
+                                                <h6><b>{{cRdBObj[obj['journals'][i]['db_cd_ind']]}}</b></h6>
+
+                                            </div>
+                                            <div class="col-4 text-left">
+                                                <ng-select [items]="allChartOfAccount" (change)="changeChartOfAccount(i)" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="obj['journals'][i]['chart_of_account']" [selectableGroup]="true"
+                                                    [selectableGroupAsModel]="true" [closeOnSelect]="false" name="chart_of_account">
+                                                </ng-select>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                            </div>
+                                            <div class="col-2 text-left">
+                                                <button class="btn btn-primary" (click)="changeJournal(i)"><i
+                                                        class="fa fa-edit" aria-hidden="true"></i></button> &nbsp;&nbsp;
+                                                <button *ngIf="i%2==0" class="btn btn-danger" (click)="deleteRow(i)"><i
+                                                        class="fa fa-trash" aria-hidden="true"></i></button>
+
+
+                                            </div>
+
+                                        </div>
+                                        <br>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Rule Description:
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['ruleDesc']" name="ruleDesc" placeholder="Rule Description">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Rule Priority:
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="obj['rulePriority']" name="rulePriority" placeholder="Rule Priority">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="container p-3 my-3 border border-dark">
+
+
+
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        Select Event :
+                                    </div>
+
+                                    <div class="col-4 text-left">
+                                        <!--   <ng-select [items]="allEvents" bindLabel="event_desc" bindValue="event_code"
+                                            [multiple]="false" placeholder="Select Event" (change)="eventChange()"
+                                            [(ngModel)]="obj['event_code']" [selectableGroup]="true"
+                                            [selectableGroupAsModel]="true" [closeOnSelect]="false" name="event">
+                                        </ng-select> -->
+
+
+                                        <div id="text" (click)="open_event_popup()" style="color: rgb(37, 130, 236);">
+                                            {{obj['event_desc']}}&nbsp;&nbsp;
+                                            <h6>
+                                                <b><u>Select Event</u></b></h6>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-2">
+
+
+                                    </div>
+                                    <div class="col-2 text-left" *ngIf="obj['event_code']!=undefined && obj['event_code']!=''">
+                                        <button class="btn btn-primary" (click)="changeEvent()"><i class="fa fa-edit"
+                                                aria-hidden="true"></i></button>
+
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        <h6><b>{{cRdBObj[obj['journals'][0]['db_cd_ind']]}}</b></h6>
+
+                                        <!-- <ng-select [items]="allDBIND" (change)="changeDebitCreditIndicator(0)" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Debit Credit Indicater" [(ngModel)]="obj['journals'][0]['db_cd_ind']" [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                            [closeOnSelect]="false" name="db_cd_ind">
+                                        </ng-select> -->
+                                    </div>
+                                    <div class="col-4 text-left">
+                                        <ng-select [items]="allChartOfAccount" (change)="changeChartOfAccount(0)" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="obj['journals'][0]['chart_of_account']" [selectableGroup]="true"
+                                            [selectableGroupAsModel]="true" [closeOnSelect]="false" name="chart_of_account0">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2">
+
+
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <button class="btn btn-primary" (click)="changeJournal('0')"><i
+                                                class="fa fa-edit" aria-hidden="true"></i></button>
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        <!-- <ng-select [items]="allDBIND" (change)="changeDebitCreditIndicator(1)" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Debit Credit Indicater" [(ngModel)]="obj['journals'][1]['db_cd_ind']" [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                            [closeOnSelect]="false" name="db_cd_ind1">
+                                        </ng-select> -->
+                                        <h6><b>{{cRdBObj[obj['journals'][1]['db_cd_ind']]}}</b></h6>
+
+                                    </div>
+                                    <div class="col-4 text-left">
+                                        <ng-select [items]="allChartOfAccount" (change)="changeChartOfAccount(1)" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="obj['journals'][1]['chart_of_account']" [selectableGroup]="true"
+                                            [selectableGroupAsModel]="true" [closeOnSelect]="false" name="chart_of_account1">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2">
+
+
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <button class="btn btn-primary" (click)="changeJournal('1')"><i
+                                                class="fa fa-edit" aria-hidden="true"></i></button>
+
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-8 text-right">
+
+                                    </div>
+
+                                    <div class="col-2 text-center">
+
+                                        <button class="btn btn-info" (click)="addRow()"><i class="fa fa-plus"
+                                                aria-hidden="true"></i></button>
+                                    </div>
+
+                                </div>
+
+
+
+                                <br>
+                                <div *ngFor="let ln of obj['journals']; let i = index;">
+                                    <div *ngIf="i!=0 && i!=1">
+                                        <div class="row">
+                                            <div class="col-4 text-right ">
+                                                <!-- <ng-select [items]="allDBIND" (change)="changeDebitCreditIndicator(i)" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Debit Credit Indicater" [(ngModel)]="obj['journals'][i]['db_cd_ind']" [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                                    [closeOnSelect]="false" name="db_cd_indz">
+                                                </ng-select> -->
+
+                                                <h6><b>{{cRdBObj[obj['journals'][i]['db_cd_ind']]}}</b></h6>
+
+                                            </div>
+                                            <div class="col-4 text-left">
+                                                <ng-select [items]="allChartOfAccount" (change)="changeChartOfAccount(i)" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="obj['journals'][i]['chart_of_account']" [selectableGroup]="true"
+                                                    [selectableGroupAsModel]="true" [closeOnSelect]="false" name="chart_of_account">
+                                                </ng-select>
+                                            </div>
+                                            <div class="col-2">
+
+
+                                            </div>
+                                            <div class="col-2 text-left">
+                                                <button class="btn btn-primary" (click)="changeJournal(i)"><i
+                                                        class="fa fa-edit" aria-hidden="true"></i></button> &nbsp;&nbsp;
+                                                <button class="btn btn-danger" *ngIf="i%2==0" (click)="deleteRow(i)"><i
+                                                        class="fa fa-trash" aria-hidden="true"></i></button>
+
+
+                                            </div>
+
+                                        </div>
+                                        <br>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Event</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+
+
+                <div class="row">
+                    <div class="col-2 text-left">
+                        <h4><b>When :</b></h4>
+                    </div>
+                    <div class="col-8"></div>
+                    <div class="col-2 text-right">
+                        <button class="btn btn-primary" (click)="addwhenCondition()"><i class="fa fa-plus"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col-2 text-center">
+                        <b>Condition</b>
+                    </div>
+                    <div class="col-3 text-center">
+                        <b>Select Field</b>
+                    </div>
+                    <div class="col-2 text-center">
+                        <b>Select Operator</b>
+                    </div>
+                    <div class="col-3 text-center">
+                        <b>Enter value</b>
+                    </div>
+                    <div class="col-2 text-center">
+                        <b>Action</b>
+                    </div>
+                </div>
+                <br>
+                <div class="row" *ngFor="let ln of obj['when']; let i = index;" style="margin-top: 15px;">
+
+                    <div class="col-2" *ngIf="i==0">
+
+                    </div>
+                    <div class="col-3" *ngIf="i==0">
+                        <ng-select [items]="selectLayoutFields" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="ln['key']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="key">
+                        </ng-select>
+                    </div>
+                    <div class="col-2" *ngIf="i==0">
+                        <ng-select [items]="allOperator" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Operator" [(ngModel)]="ln['operator']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="operator">
+                        </ng-select>
+                    </div>
+                    <div class="col-3" *ngIf="i==0">
+                        <input class="form-control" type="text" [(ngModel)]="ln['value']" disabled>
+                    </div>
+                    <div class="col-2" *ngIf="i==0">
+
+                    </div>
+
+
+                    <div class="col-2" *ngIf="i!=0">
+                        <ng-select [items]="condition" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="ln['condition']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="condition">
+                        </ng-select>
+                    </div>
+                    <div class="col-3" *ngIf="i!=0">
+                        <ng-select [items]="selectLayoutFields" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="ln['key']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="key">
+                        </ng-select>
+                    </div>
+                    <div class="col-2" *ngIf="i!=0">
+                        <ng-select [items]="allOperator" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Operator" [(ngModel)]="ln['operator']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="operator">
+                        </ng-select>
+                    </div>
+                    <div class="col-3" *ngIf="i!=0">
+                        <input class="form-control" type="text" [(ngModel)]="ln['value']">
+                    </div>
+                    <div class="col-2 text-center" *ngIf="i!=0">
+                        <button class="btn btn-danger" (click)="deletewhenCondition(i)"><i class="fa fa-trash"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="myModal2">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Journal</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+                <div *ngFor="let ln of selectedJournal; let i = index;">
+                    <div *ngIf="ln['type']=='field'">
+                        <div class="row">
+                            <div class="col-3 text-left">
+                                {{fieldTechNameTOBusinessName[ln['key']]}}
+                            </div>
+                            <div class="col-3 text-center">
+                                <h6><b>==</b></h6>
+                            </div>
+
+                            <!-- <div class="col-4">
+                            <ng-select [items]="type" bindLabel="value" bindValue="code" [multiple]="false"
+                                placeholder="" [(ngModel)]="ln['type']" [selectableGroup]="true"
+                                [selectableGroupAsModel]="true" [closeOnSelect]="false" name="type">
+                            </ng-select>
+
+                        </div> -->
+                            <div class="col-4 text-left">
+                                <!-- <div *ngIf="ln['type']=='static'">
+                                <input class="form-control" type="text" [(ngModel)]="ln['value']">
+                            </div> -->
+
+                                <div *ngIf="ln['key']=='chart_of_account'">
+
+
+                                    <ng-select [items]="allChartOfAccount" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="ln['value']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="chart_of_account0">
+                                    </ng-select>
+                                </div>
+
+                                <div *ngIf="ln['key']=='db_cd_ind'">
+
+                                    <!-- <ng-select [items]="allDBIND" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Debit Credit Indicater" [(ngModel)]="ln['value']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="db_cd_ind1">
+                                    </ng-select> -->
+                                    <h6><b>{{cRdBObj[ln['value']]}}</b></h6>
+
+
+                                </div>
+                                <div *ngIf="ln['key']=='ledger_type'">
+
+                                    <ng-select [items]="ledgerTypeArr" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Ledger Typer" [(ngModel)]="ln['value']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="db_cd_ind1">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <br>
+                    </div>
+                </div>
+
+
+
+                <!-- Modal footer -->
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" (click)="saveJournal()" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+                <div class="row" style="background-color: #217dbb;color:white;padding-top:8px;padding-bottom:8px;margin-left:5px;margin-right:5px;">
+                    <div class="col-3">Select Project</div>
+                    <div class="col-3">Select Product</div>
+                    <div class="col-3">Select Activity</div>
+                    <div class="col-3">Select Budget</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allProject" bindLabel="desc" (change)="changeProject()" bindValue="code" [multiple]="false" placeholder="Select Project" [(ngModel)]="selectObj['proj_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="proj_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('project')">Select</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allProduct" bindLabel="desc" (change)="changeProduct()" bindValue="code" [multiple]="false" placeholder="Select Product" [(ngModel)]="selectObj['prod_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="prod_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('product')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allActivity" bindLabel="desc" (change)="changeActivity()" bindValue="code" [multiple]="false" placeholder="Select Activity" [(ngModel)]="selectObj['act_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="act_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('activity')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allBudget" bindLabel="desc" (change)="changeBudget()" bindValue="code" [multiple]="false" placeholder="Select Budget" [(ngModel)]="selectObj['bud_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="bud_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('budget')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="row" style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+                            <div class="col-9">Project</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['proj_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['proj_lvl']}}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row" style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Product</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['prod_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['prod_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row" style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Activity</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['act_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['act_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row" style="background-color:  #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Budget</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['bud_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['bud_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button type="button" class="btn btn-outline-primary" (click)="FilteredEvents()">Submit</button>
+                    </div>
+                </div>
+                <hr>
+                <br>
+                <div class=" table-container ">
+                    <div class="row">
+                        <div class="col-4">
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4 text-center">
+
+                        </div>
+
+                    </div>
+
+                    <div class="example-container">
+                        <table mat-table [dataSource]="dataSource1" matSort #sortCol2="matSort" style="width: 100%">
+
+                            <ng-container matColumnDef="event_code">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Event Code</b> </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                    {{ element.event_code}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="event_desc">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Event
+                                        Description</b> </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                    {{ element.event_desc }} </td>
+                            </ng-container>
+
+
+
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                    <button class="btn btn-outline-primary" (click)="select(element)">Select</button>
+
+                                </td>
+
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns1;sticky: true">
+                            </tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                            </tr>
+                        </table>
+                        <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="select">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-3 text-center">
+
+
+                    </div>
+                    <div class="col-3 text-center" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b>Code</b></h6>
+
+
+                    </div>
+                    <div class="col-3 text-center" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b> Value</b></h6>
+
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 1:
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl1_cd']" disabled>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd" (change)="onChangeLvl1()" [multiple]="false" placeholder="Select Level 1 " [(ngModel)]="Chartobj['lvl1_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl1_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 2 :
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl2_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd" (change)="onChangeLvl2()" [multiple]="false" placeholder="Select Level 2" [(ngModel)]="Chartobj['lvl2_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl2_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 3 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl3_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd" (change)="onChangeLvl3()" [multiple]="false" placeholder="Select Level 3" [(ngModel)]="Chartobj['lvl3_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl3_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 4 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl4_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+                        <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd" (change)="onChangeLvl4()" [multiple]="false" placeholder="Select Level 4" [(ngModel)]="Chartobj['lvl4_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl4_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 5 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl5_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd" (change)="onChangeLvl5()" [multiple]="false" placeholder="Select Level 5" [(ngModel)]="Chartobj['lvl5_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl5_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 6 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl6_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd" (change)="onChangeLvl6()" [multiple]="false" placeholder="Select Level 6" [(ngModel)]="Chartobj['lvl6_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl6_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 7 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl7_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level7" (change)="onChangeLvl7()" bindLabel="lvl7_value" bindValue="lvl7_cd" [multiple]="false" placeholder="Select Level 7" [(ngModel)]="Chartobj['lvl7_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl7_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Leaf :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['leaf_cd']">
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['leaf_value']">
+
+                    </div>
+                </div>
+                <br>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="SubmitSelectedEvnetHier()">Submit</button>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

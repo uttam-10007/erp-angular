@@ -1,0 +1,150 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Employee Joining</div>
+                </div>
+                <div class="ibox-body">
+
+                    <div class="ibox-body">
+                        <ul class="nav nav-tabs tabs-line">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                    Employee Joining Detail</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <div class="row" *ngIf="errorMsg!=''" style="color: red;">
+                                <div class="col-12 text-center">
+                                    {{errorMsg}}
+                                </div>
+                            </div>
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Employee ID * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="joiningObj['emp_id']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Employee Name * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="joiningObj['emp_name']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Employee Phone Number * :
+                                </div>
+                                <div class="col-4">
+                                    <input size="10" class="form-control" [(ngModel)]="joiningObj['emp_phone_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Employee Email * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="email" [(ngModel)]="joiningObj['emp_email']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Father's Name *:
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="joiningObj['emp_father_name']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Employee DOB * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="joiningObj['emp_dob']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Joining Type * :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0007']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="joiningObj['joining_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Joining of Service Date * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="joiningObj['joining_service_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Joining Date * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="joiningObj['joining_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Joining Order ID * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="joiningObj['joining_order_id']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Joining Time * :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="ts" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="joiningObj['joining_time']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="addJoining()">ADD</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

@@ -1,0 +1,309 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Suspension </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                All Employee Suspension List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Employee
+                                Suspension </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update Suspension
+                                </a>
+
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ empIdToName[element.emp_id] }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="order_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Order ID
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.order_id }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="suspension_start_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Suspension Start Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.dateformatchange(element.suspension_start_dt)}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="suspension_end_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Suspension End Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.dateformatchange(element.suspension_end_dt)}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="charge_sheet_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Charge Sheet Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.dateformatchange(element.charge_sheet_dt)}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="en_officer_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Enquiry Officer Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.en_officer_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="openUpdate(element)">Update</button>
+                                            <button class="btn btn-outline-info" (click)="withdraw(element)">Suspension Withdraw</button>
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="newallEmplyees" bindLabel="emp_name" bindValue="emp_id" [multiple]="false" placeholder="" [(ngModel)]="suspensionObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Order ID :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="suspensionObj['order_id']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Suspension Start Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="suspensionObj['suspension_start_dt']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Suspension End Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="suspensionObj['suspension_end_dt']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enquiry Officer Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="suspensionObj['en_officer_name']">
+                                </div>
+                            </div>
+                            <br>
+                           
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Charge Sheet Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="suspensionObj['charge_sheet_dt']">
+                                </div>
+                            </div>
+                            <br>
+                            
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Fraction Percentage :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="suspensionObj['fraction_per']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submitSuspension()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                   
+                                   <b>
+                                    {{empIdToName[suspensionObj['emp_id']]}}
+                                   </b> 
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Order ID :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="suspensionObj['order_id']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Suspension Start Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="suspensionObj['suspension_start_dt']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                   Old Fraction Percentage :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="suspensionObj['old_fraction_per']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enquiry Officer Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="suspensionObj['en_officer_name']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Suspension End Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="suspensionObj['suspension_end_dt']">
+                                </div>
+                            </div>
+                            <br>
+                            
+                           
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Charge Sheet Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="suspensionObj['charge_sheet_dt']">
+                                </div>
+                            </div>
+                            <br>
+                            
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                   New Fraction Percentage :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="suspensionObj['fraction_per']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Do You Want To Generate Arrears ? :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="arrearArray" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" (change)="check()" [(ngModel)]="suspensionObj['arrear']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Arrear Amount :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="amountObj['pay_component_amt']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="check()">Check</button>
+
+                                    <button class="btn btn-primary" (click)="updateSuspension()">Update</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

@@ -1,0 +1,261 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">GST Report</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i class="ti-bar-chart"></i> GST Input Report</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i class="ti-bar-chart"></i> 
+                                GST Output Report</a>
+                        </li>
+                        
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                          
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>From Date :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj['from_dt']">
+                                </div> </div><br><div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>To Date :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj['to_dt']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>Select Party :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allParty" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="obj['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" (click)="getreportoutput()">Submit</button>
+                                </div>
+                               
+                            </div>
+                            <br>
+                            <hr>
+
+                            <div class="row">
+                                
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="print()">Print</button> &nbsp;&nbsp;
+                               
+                                    <button class="btn btn-success" (click)="export()">Export</button> &nbsp;&nbsp;
+                                </div>
+
+
+                            </div>
+
+                            <br>
+                            <div id="e">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>{{acount_name}}</h6>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <!-- <div class="row">
+                                    <div class="col-12 text-center">
+                                        Equity ({{obj['acc_desc']}})
+                                    </div>
+                                </div>
+                                <br> -->
+                                <div class="row">
+                                   <!--  <div class="col-2 text-left">
+                                        <h6>Financial Year :</h6>
+                                    </div>
+                                    <div class="col-2">{{res_obj['fin_year']}}</div> -->
+                                    <div class="col-2 text-left">
+                                        <h6>From :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="obj['from_dt']">{{ mainService.dateFormatChange(obj['from_dt'])}}</div>
+                                    <div class="col-2 text-left">
+                                        <h6>To :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="obj['to_dt']">{{mainService.dateFormatChange(obj['to_dt'])}}</div>
+                                </div>
+                                <br>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>GSTIN</th>
+                                            <!-- <th>Account Code</th> -->
+                                            <th>Party Name</th>
+                                            <th>Rate of GST</th>
+                                            <th>Taxable Amount</th>
+                                            <th>CGST</th>
+                                            <th>SGST</th>
+                                            <th>IGST</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of reportdata; let i= index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{item['gstin_no']}}</td>
+                                            <!-- <td>{{obj['c_acc']}}</td> -->
+                                            <td>{{item['party_name']}}</td>
+                                            <td>{{item['gst_rate']}}</td>
+                                            <td>{{item['amount']}}</td>
+                                            <td style="text-align:right">{{item['cgst']}}</td>
+                                            <td style="text-align:right">{{item['sgst']}}</td>
+                                            <td style="text-align:right">{{item['igst']}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                          
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>From Date :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj['from_dt']">
+                                </div> </div><br><div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>To Date :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj['to_dt']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>Select Party :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allParty" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="obj['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" (click)="getGstInputReport()">Submit</button>
+                                </div>
+                               
+                            </div>
+                            <br>
+                            <hr>
+
+                            <div class="row">
+                                
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="print1()">Print</button> &nbsp;&nbsp;
+                               
+                                    <button class="btn btn-success" (click)="export1()">Export</button> &nbsp;&nbsp;
+                                </div>
+
+
+                            </div>
+
+                            <br>
+                            <div id="e">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>{{acount_name}}</h6>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <!-- <div class="row">
+                                    <div class="col-12 text-center">
+                                        Equity ({{obj['acc_desc']}})
+                                    </div>
+                                </div>
+                                <br> -->
+                                <div class="row">
+                                   <!--  <div class="col-2 text-left">
+                                        <h6>Financial Year :</h6>
+                                    </div>
+                                    <div class="col-2">{{res_obj['fin_year']}}</div> -->
+                                    <div class="col-2 text-left">
+                                        <h6>From :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="obj['from_dt']">{{mainService.dateFormatChange(obj['from_dt'])}}</div>
+                                    <div class="col-2 text-left">
+                                        <h6>To :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="obj['to_dt']">{{mainService.dateFormatChange(obj['to_dt'])}}</div>
+
+                                </div>
+                                <br>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>GSTIN</th>
+                                            <!-- <th>Account Code</th> -->
+                                            <th>Party Name</th>
+                                            <th>Rate of GST</th>
+                                            <th>Taxable Amount</th>
+                                            <th>CGST</th>
+                                            <th>SGST</th>
+                                            <th>IGST</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of reportdata; let i= index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{item['gstin_no']}}</td>
+                                            
+                                            <!-- <td>{{obj['c_acc']}}</td> -->
+                                            <td>{{item['party_name']}}</td>
+                                            <td>{{item['gst_rate']}}</td>
+                                            <td>{{item['amount']}}</td>
+                                            <td style="text-align:right">{{item['cgst_amount']}}</td>
+                                            <td style="text-align:right">{{item['sgst_amount']}}</td>
+                                            <td style="text-align:right">{{item['igst_amount']}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                       
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

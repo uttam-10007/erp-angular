@@ -1,0 +1,301 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">DEDUCTION MAPPING</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Deduction Mapping List</a>
+                        </li>
+
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create Deduction Mapping </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Deduction Mapping
+                            </a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="Sr_n">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Sr. No.
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ i+1 }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="ded_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Deduction Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.ded_code}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="ded_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Deduction Type
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.ded_type}}
+                                        </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Amount
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.amount}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="ded_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Date
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.ded_date}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="gov_rule">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Rule
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.gov_rule}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-primary" (click)="open_update(element)">Update</button>
+
+                                            <button class="btn btn-danger" style="margin-left: 2px;" (click)="delete(element)">Delete</button>
+
+
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="list"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: list;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                            <br>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Deduction Name :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0057']" placeholder="Select Deduction Name" bindLabel="value" bindValue="code" [multiple]="false" [(ngModel)]="Obj['ded_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Deduction Type:
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="ded_type" placeholder="Select Deduction Type" bindLabel="value" bindValue="code" [multiple]="false" [(ngModel)]="Obj['ded_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Amount:
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" placeholder="Amount" [(ngModel)]="Obj['amount']">
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Deduction Date:
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" placeholder="Deduction Date" [(ngModel)]="Obj['ded_date']">
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" *ngIf="Obj['ded_code']=='IT'">
+                                <div class="col-3 text-right">
+                                    Gov. Rule:
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" placeholder="Rule Name" [(ngModel)]="Obj['gov_rule']">
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br *ngIf="Obj['ded_code']=='IT'">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Deduction Name :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0057']" placeholder="Select Deduction Name" bindLabel="value" bindValue="code" [multiple]="false" [(ngModel)]="Obj['ded_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Deduction Type:
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="ded_type" placeholder="Select Deduction Type" bindLabel="value" bindValue="code" [multiple]="false" [(ngModel)]="Obj['ded_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Amount:
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" placeholder="Amount" [(ngModel)]="Obj['amount']">
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Deduction Date:
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" placeholder="Deduction Date" [(ngModel)]="Obj['ded_date']">
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" *ngIf="Obj['ded_code']=='IT'">
+                                <div class="col-3 text-right">
+                                    Gov. Rule:
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" placeholder="Rule Name" [(ngModel)]="Obj['gov_rule']">
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br *ngIf="Obj['ded_code']=='IT'">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

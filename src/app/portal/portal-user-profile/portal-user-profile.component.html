@@ -1,0 +1,457 @@
+<div class="page-content fade-in-up">
+    <br>
+
+    <div class="row">
+        <button style="margin-left:1%;" class="btn btn-link" (click)="back()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</button>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <br>
+                <div class="ibox-head">
+                    <div class="ibox-title">Profile</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i> Overview</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-5" data-toggle="tab"><i class="fa fa-users"></i> Establishment Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i> Update Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-announcement"></i> Change Password</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab"><i class="ti-announcement"></i> Update Image</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <img [src]="imgURL" class="img-circle" width="53px" />
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h5 class="font-strong m-b-10 m-t-10">{{empObj['first_name']}} {{empObj['last_name']}}</h5>
+                                    <div class="m-b-20 text-muted">{{designation}}</div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>Primary Email:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <label>{{empObj['email']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>Primary Contact Number:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{empObj['work_phone_no_country_cd']}} - {{empObj['work_phone_no']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>Country:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{empObj['country']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>City:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{empObj['city']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>State:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{empObj['state']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>Postal Code:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{empObj['postal_code']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>Address Line 1:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{empObj['address1']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-3">
+                                    <h6>Address Line 2:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <label>{{empObj['address2']}}</label>
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">FIRST NAME :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['first_name']">
+                                </div>
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">LAST NAME :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['last_name']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">PRIMARY EMAIL :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['email']">
+                                </div>
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">PRIMARY CONTACT NO COUNTRY CODE. :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['work_phone_no_country_cd']">
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">PRIMARY CONTACT NO. :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['work_phone_no']">
+                                </div>
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">COUNTRY :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['country']">
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">CITY :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['city']">
+                                </div>
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">STATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['state']">
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">POSTAL CODE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['postal_code']">
+                                </div>
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">ADDRESS LINE 1 :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['address1']">
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <h6 style="margin-left:2% ;">ADDRESS LINE 2 :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="updateObj['address2']">
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" type="button" (click)="updateEmpInfo()">Submit</button>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left:2% ;">Current Password:</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="password" placeholder="enter current password" class="form-control" [(ngModel)]="pass.password">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left:2% ;">New Password:</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="password" placeholder="enter new password" class="form-control" [(ngModel)]="pass.new_password">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 ">
+                                    <h6 style="margin-left:2% ;">Confirm New Password:</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="password" placeholder="confirm new password" class="form-control" [(ngModel)]="pass.confirm_new_password">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updatePassword()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-4">
+                            <br>
+                            <div class="row">
+                                <div class="col-12  text-center">
+                                    <img [src]="imgURL" class="img-circle" width="150" height="150">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-6" style="margin-left: 20%">
+                                    <input #file type="file" name="pimage" ng2FileSelect [uploader]="uploader" class="form-control" style="border-color: black" (change)="onFileUpload($event,file.files)">
+                                </div>
+                                <div class="col-3">
+                                    <button type="button" [disabled]="!uploader.getNotUploadedItems().length" class="btn btn-info" (click)='Upload()'><i class="fa fa-upload" aria-hidden="true">&nbsp;</i>Upload</button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-5">
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="print1()">PRINT</button>
+                                </div>
+                            </div>
+
+                            <div id="p">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Legal Name :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['emp_name']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Employee ID</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        VDA{{getNumberFormat(personalInfoObj['emp_id'])}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Bank Account No:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['acct_no']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Adhar No:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['emp_adhar_no']}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">DOB:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['emp_dob']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Email:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['emp_email']}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Father/Husband Name:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['emp_father_name']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Identification Mark:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['identification_mark']}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Joining Date:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['joining_date']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;"> Joining Of Service Date:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['joining_service_date']}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">Marital Status:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['marital_status']}}
+                                    </div>
+                                    <div class="col-3">
+                                        <h6 style="margin-left:2%;">PF Account No:</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        {{personalInfoObj['pf_status_no']}}
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <table class="table" style="border: black;">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>DESIGNATION</th>
+
+                                            <th>CLASS
+                                            </th>
+                                            <th>GRADE PAY
+                                            </th>
+                                            <th>PAY BAND
+                                            </th>
+                                            <th>LEVEL
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ob of estabInfo">
+                                            <td>
+                                                <h6>{{ob['designation_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['class_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['grade_pay_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['pay_scale_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['level_code']}}</h6>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+        .profile-social a {
+            font-size: 16px;
+            margin: 0 10px;
+            color: #999;
+        }
+        
+        .profile-social a:hover {
+            color: #485b6f;
+        }
+        
+        .profile-stat-count {
+            font-size: 22px
+        }
+    </style>
+</div>

@@ -1,0 +1,171 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Field Code-Value Manage</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All Fields Code-Value List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create Field Code-Value</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update Field
+                                Code-Value</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+                            <ng-select [items]="allFields" bindLabel="field_business_name" (change)="changeField()" bindValue="field_code" [multiple]="false" placeholder="Select Fields" [(ngModel)]="selectField" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                name="field_name">
+                            </ng-select>
+
+
+                            <hr>
+                            <br>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Value
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.value }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-primary" (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-danger" (click)="delete(element)">Delete</button>
+
+                                            <!-- <button class="btn btn-outline-danger" (click)="delete(element)">Delete</button> -->
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+
+
+                            <ng-select [items]="allFields" bindLabel="field_business_name" bindValue="field_code" [multiple]="false" placeholder="Select Fields" [(ngModel)]="selectField" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                            </ng-select>
+
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Field Code:
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['code']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Field Value:
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['value']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+
+                            <ng-select [items]="allFields" bindLabel="field_business_name" bindValue="field_code" [multiple]="false" placeholder="Select Fields" [(ngModel)]="selectField" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                            </ng-select>
+
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Field Code:
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['code']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Field Value:
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['value']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

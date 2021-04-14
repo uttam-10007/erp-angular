@@ -1,0 +1,370 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">MANAGE Business Event</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" (click)="refressadd()" data-toggle="tab"><i
+                                    class="ti-bar-chart"></i> All
+                                Business Event List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refressadd()"><i
+                                    class="fa fa-plus-circle"></i> Create
+                                Business Event</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refressadd()"><i
+                                    class="ti-settings"></i> Update
+                                Business Event</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    <h6>Select Project:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="allProject" bindLabel="desc" (change)="changeProject()" bindValue="code"
+                                    [multiple]="false" placeholder="Select Project" [(ngModel)]="selectObj['proj_cd']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="proj_cd">
+                                </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>Select Product:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="allProduct" bindLabel="desc" (change)="changeProduct()" bindValue="code"
+                                    [multiple]="false" placeholder="Select Product" [(ngModel)]="selectObj['prod_cd']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="prod_cd">
+                                </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    <h6>Select Activity:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="allActivity" bindLabel="desc" (change)="changeActivity()" bindValue="code"
+                                    [multiple]="false" placeholder="Select Activity" [(ngModel)]="selectObj['act_cd']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="act_cd">
+                                </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>Select Budget:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="allBudget" bindLabel="desc" (change)="changeBudget()" bindValue="code"
+                                    [multiple]="false" placeholder="Select Budget" [(ngModel)]="selectObj['bud_cd']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="bud_cd">
+                                </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-11 text-center">
+                                    <button type="button" class="btn btn-primary" (click)="getevents()">Submit</button>
+
+                                </div>
+                                
+                            </div>
+                            <div class=" table-container ">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)"
+                                                placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="example-container">
+                                    <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                        <ng-container matColumnDef="event_code">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Event Code</b>
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.event_code}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="event_desc">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                <b>Event Description</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.event_desc }} </td>
+                                        </ng-container>
+
+
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                                <button class="btn btn-outline-primary"
+                                                    (click)="edit(element,i)">Update</button>
+                                                <button class="btn btn-outline-danger"
+                                                    (click)="deleteevent(element,i)">Delete</button>
+
+                                            </td>
+
+                                        </ng-container>
+
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <!-- <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Record :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="data" bindLabel="record_business_name" bindValue="record_code" [multiple]="false" placeholder="" [(ngModel)]="obj['event_record_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+        
+                                </div>
+        
+                            </div>
+                            <br> -->
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Budget :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allBudgetHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['bud_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_cd">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Project :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allProjectHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['proj_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Product :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allProductHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['prod_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_cd">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Activity :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allActivityHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['act_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="act_cd">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Event Code :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['event_code']"
+                                        name="event_code" placeholder="Event Code">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Event Description :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <textarea class="form-control" name="scheme_name" [(ngModel)]="obj['event_desc']"
+                                        placeholder="Event Desc">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="addNewRow()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+
+                            <!-- <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Select Record :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="data" bindLabel="record_business_name" bindValue="record_code" [multiple]="false" placeholder="" [(ngModel)]="obj['event_record_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br> -->
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Budget :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allBudgetHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['bud_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_cd">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Project :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allProjectHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['proj_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Product :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allProductHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['prod_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_cd">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Activity :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allActivityHier" bindLabel="leaf_value" bindValue="leaf_cd"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['act_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="act_cd">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Event Code :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['event_code']"
+                                        name="event_code" placeholder="Event Code">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Event Description :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <textarea class="form-control" name="scheme_name" [(ngModel)]="obj['event_desc']"
+                                        placeholder="Event Desc">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

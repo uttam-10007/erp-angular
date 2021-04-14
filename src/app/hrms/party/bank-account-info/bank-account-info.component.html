@@ -1,0 +1,456 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Employee Bank Info </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="chamgeTab()"><i class="ti-bar-chart"></i> Employee Bank Detail</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="chamgeTab()"><i class="ti-settings"></i> Add Employee Bank Detail</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="chamgeTab()"><i class="ti-announcement"></i> Update Employee Bank Detail</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee * :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" (change)="changeEmployee()" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Bank :
+                                </div>
+                                <div class="col-3 ">
+                                    {{ mainService.codeValueShowObj['HR0001'][bankaccObj['bank_code']]}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    Branch :
+                                </div>
+                                <div class="col-3">
+                                    {{ mainService.codeValueShowObj['HR0002'][bankaccObj['branch_code']]}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    IFSC Code :
+                                </div>
+                                <div class="col-3 ">
+                                    {{ mainService.codeValueShowObj['HR0003'][bankaccObj['ifsc_code']]}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    Account No :
+                                </div>
+                                <div class="col-3">
+                                    {{ bankaccObj['acct_no']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    PF Account No :
+                                </div>
+                                <div class="col-3 ">
+                                    {{ bankaccObj['pf_acct_no']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    GIS No :
+                                </div>
+                                <div class="col-3">
+                                    {{ bankaccObj['gis_no']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    PF Type :
+                                </div>
+                                <div class="col-3 ">
+                                    {{ bankaccObj['pf_type']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    PF IFSC Code :
+                                </div>
+                                <div class="col-3">
+                                    {{ bankaccObj['pf_ifsc_code']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    NPS No :
+                                </div>
+                                <div class="col-3 ">
+                                    {{ bankaccObj['nps_no']}}
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="openUpdate()">Update</button>
+                                </div>
+                            </div>
+
+                            <!-- <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="bank_code">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Bank
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ mainService.codeValueShowObj['HR0001'][element.bank_code]}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="branch_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Branch
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0002'][element.branch_code]}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ifsc_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>IFSC Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0003'][element.ifsc_code]}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="acct_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Account Number
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.acct_no}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="pf_acct_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>PF Account Number
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pf_acct_no}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="openUpdate(element)">Update</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div> -->
+
+
+
+                        </div>
+                        <!-- <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row" *ngIf="errorMsg!=''" style="color: red;">
+                                <div class="col-12 text-center">
+                                    {{errorMsg}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmployees" bindLabel="emp_name" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Employee ID :
+                                </div>
+                                <div class="col-4">
+                                    <h6>{{selectEmpObj['emp_id']}}</h6>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Bank Name * :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0001']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="bankaccObj['bank_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Branch Name * :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0002']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="bankaccObj['branch_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    IFSC Code * :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0003']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="bankaccObj['ifsc_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Account Number * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="bankaccObj['acct_no']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    PF Account Number * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="bankaccObj['pf_acct_no']">
+
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    GIS No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="bankaccObj['gis_no']">
+
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    NPS No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="bankaccObj['nps_no']">
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="addBankAcctInfo()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row"   *ngIf="errorMsg!=''" style="color: red;">
+                                <div class="col-12 text-center">
+                                    {{errorMsg}}
+                                </div>
+                            </div>
+                        
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" (change)="changeEmployee()" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Employee ID :
+                                </div>
+                                <div class="col-4">
+                                    <h6>{{this.mainService.accInfo['account_short_name']}}{{getNumberFormat(emp_id)}}</h6>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Bank Name    :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0001']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="bankaccObj['bank_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+                        
+                        
+                                </div>
+                        
+                        
+                        
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Branch Name    :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0002']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="bankaccObj['branch_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    IFSC Code    :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0003']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="bankaccObj['ifsc_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+                        
+                                </div>
+                            </div>
+                        
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Account Number    :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="bankaccObj['acct_no']">
+                        
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    PF Account Number    :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="bankaccObj['pf_acct_no']">
+                        
+                                </div>
+                            </div>
+                        
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    GIS No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="bankaccObj['gis_no']">
+                        
+                                </div>
+                            </div>
+                        
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    PF Type :
+                                </div>
+                                <div class="col-4 ">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0048']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="bankaccObj['pf_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+                                </div>
+                        
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    PF IFSC Code :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0049']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="bankaccObj['pf_ifsc_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    NPS No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="bankaccObj['nps_no']">
+                        
+                                </div>
+                            </div>
+                        
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updateBankAcctInfo()">Update</button>
+                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

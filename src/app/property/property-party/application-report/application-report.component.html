@@ -1,0 +1,167 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Lottery Report</div>
+                </div>
+                <div class="ibox-body">
+
+                    <br>
+                    <div class="row ">
+                        <div class="col-2 text-left">
+                            <h6>Select Scheme:</h6>
+                        </div>
+                        <div class="col-2">
+                            <!-- <select class="form-control" name="selectedSchemeCode" [(ngModel)]="selectedSchemeCode" (change)="getAllSubschemes()" placeholder="Scheme">
+                                <option ngValue="">----Select----</option>
+                                
+                                <option *ngFor="let schemeArr of schemeArr" ngValue="{{schemeArr.scheme_code}}">
+                                    {{schemeArr.scheme_name}}
+
+                                </option>
+                            </select> -->
+                            <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="getAllSubschemes()" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="selectedSchemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                        </div>
+                        <div class="col-2 text-left">
+                            <h6>Select Subscheme:</h6>
+                        </div>
+                        <div class="col-2">
+
+                            <!-- <select class="form-control" name="selectedSubschemeCode" [(ngModel)]="selectedSubschemeCode" placeholder="Scheme">
+                                <option ngValue="">----Select----</option>
+                               
+                                <option *ngFor="let subschemeArr of subschemeArr" ngValue="{{subschemeArr.sub_scheme_code}}">
+                                    {{subschemeArr.sub_scheme_name}}
+
+                                </option>
+                            </select> -->
+                            <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="subselectedSchemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="field_name">
+                        </ng-select>
+                        </div>
+                        <div class="col-2 text-left">
+                            <h6>Select Status:</h6>
+                        </div>
+                        <div class="col-2">
+                            <select class="form-control" name="statusType" [(ngModel)]="statusType">
+                                <option value="" >----Select----</option>
+
+                                <option value="APPLICATION_APPROVED"> APPLICATION APPROVED</option>
+                                <option value="APPLICATION_APPROVAL_PENDING">APPLICATION APPROVAL PENDING</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="fetch()">Fetch</button>
+                    </div>
+
+                    <div class=" table-container ">
+                        <div class="row">
+                            <div class="col-4">
+                                <mat-form-field style="margin-left: 2%">
+                                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-4 text-center">
+
+                            </div>
+
+                        </div>
+
+                        <div class="example-container">
+                            <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                <ng-container matColumnDef="arr_id">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Arrangement ID</b>
+                                    </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ element.arr_id}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="party_name">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                        <b>Party Name</b> </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ partyObj[element.party_id] }} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="father_name">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                        <b>Father's Name</b> </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{partyFatherObj[element.party_id] }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="mob_no">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                        <b>Mobile Number</b> </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ partyMob[element.party_id] }} </td>
+                                </ng-container>
+
+
+
+
+
+                                <ng-container matColumnDef="txn_amt">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                        <b>Amount</b> </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ element.txn_amt }} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="eff_date">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                        <b>Effictive Date</b> </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ element.arr_effective_date }} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="property_type_code">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                        <b>Subsidised/Non-Subsidised</b> </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ element.property_type_code }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="flat_type_code">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                        <b>Property Type</b> </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ element.house_type_code }} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="area">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                        <b>Size</b> </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ element.size }} </td>
+                                </ng-container>
+
+
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                </tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                </tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

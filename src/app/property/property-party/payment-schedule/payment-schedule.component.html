@@ -1,0 +1,169 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">PAYMENT SCHEDULE</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i
+                                    class="ti-bar-chart"></i> All
+                                Payment Schedule List</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i
+                                    class="ti-announcement"></i> Schedule Payment</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+                            <div class="row ">
+                                <div class="col-2 text-right">
+                                    <h6>Select Scheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+
+
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="changeScheme()" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="getObj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>Select Subscheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+
+                                    <ng-select [items]="currSubSchemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="getObj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-primary" (click)="getPaymentSchedule()">Fetch</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+
+                            </div>
+
+                            <div class="example-container">
+                                <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant ID</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Installment Amount</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.amount }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Status</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_status }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-danger" (click)="deletePaymentSchedule(element)">DELETE</button>
+
+                                        </td>
+
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row ">
+                                <div class="col-2 text-right">
+                                    <h6>Select Scheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+
+
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="changeScheme()" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="getObj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>Select Subscheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+
+                                    <ng-select [items]="currSubSchemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="getObj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-primary" (click)="getAllAllotments()">Fetch</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Applicant ID :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allAllotment" bindLabel="party_id" bindValue="party_id" (change)="changeApplicant()" [multiple]="false" placeholder="Select Applicant ID" [(ngModel)]="getObj['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select No Of Installments :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="availableCost" bindLabel="code" bindValue="value" [multiple]="false" placeholder="Select No Of Installments" [(ngModel)]="getObj['payment_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="schedulePayment()">SUBMIT</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

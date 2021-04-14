@@ -1,0 +1,323 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">MANAGE Restore</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1"  data-toggle="tab"><i
+                                    class="ti-bar-chart"></i> All
+                                 Cancelled List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" ><i
+                                    class="ti-settings"></i> Restore</a>
+                        </li>
+                      
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+
+                            <div class="row ">
+                                <div class="col-2 text-right">
+                                    <h6>Select Scheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+                                   <!--  <select class="form-control" name="generateSchemeCode" [(ngModel)]="selectedSchemeCode" (change)="getAllSubschemes()" placeholder="Scheme">
+                                        <option *ngFor="let schemeArr of schemeArr" ngValue="{{schemeArr.scheme_code}}">{{schemeArr.scheme_name}}
+                            
+                                        </option>
+                                    </select> -->
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="getAllSubschemes()" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="selectedSchemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>Select Subscheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+                                    <!-- <select class="form-control" name="subselectedSchemeCode" [(ngModel)]="subselectedSchemeCode" placeholder="Scheme">
+                                        <option *ngFor="let subschemeArr of subschemeArr" ngValue="{{subschemeArr.sub_scheme_code}}">{{subschemeArr.sub_scheme_name}}
+                            
+                                        </option>
+                                    </select> -->
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="subselectedSchemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-primary" (click)="getAllcancelled()">Fetch</button>
+                                </div>
+                            </div>
+
+
+
+                            <div class="example-container">
+                                <div class=" table-container ">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <mat-form-field style="margin-left: 2%">
+                                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4 text-center">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="example-container">
+                                        <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                            <ng-container matColumnDef="party_id">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant
+                                                        ID</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.party_id}} </td>
+                                            </ng-container>
+
+                                           
+                                            <ng-container matColumnDef="party_name">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant
+                                                        Name</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element['party_name']}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="party_phone_no">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Phone
+                                                        No</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element['party_phone_no']}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="property_type_code">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Property Type</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.property_type_code }} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="property_no">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Property No</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.property_no }} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="arr_effective_date">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Effective Date</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ mainService.dateFormatChange(element.arr_effective_date)}} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Action</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    <button class="btn btn-outline-primary" (click)="openUpdate(element,i)">Restore</button>
+
+                                                 </td>
+                                            </ng-container>
+
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                            </tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                            </tr>
+                                        </table>
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                                        </mat-paginator>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Applicant ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="party_id" [(ngModel)]="obj['party_id']" placeholder="Applicant ID" disabled>
+                                </div>
+                                
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Applicant Name :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="scheme_code" [(ngModel)]="obj['party_name']" placeholder="Applicant Name" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Property Type :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="property_code" [(ngModel)]="obj['property_type_code']" placeholder="Property Type" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Property Number :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="property_no" [(ngModel)]="obj['property_no']" placeholder="Property Number" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Restore At :</h6>
+                                </div>
+                                <div class="col-4">
+                               
+                                    <ng-select [items]="restoreAt" (change)="changeRate()" bindLabel="value" bindValue="value" [multiple]="false" placeholder="Select" [(ngModel)]="obj['rate']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div *ngIf="obj['rate']=='NEW RATE'">
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        <h6> Select No Of Installments :</h6>
+                                    </div>
+                                    <div class="col-4">
+                                   
+                                        <ng-select [items]="paymentTypeArr"  bindLabel="payment_type" bindValue="payment_type" [multiple]="false" placeholder="Select" [(ngModel)]="obj['payment_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                    </div>
+    
+                                </div>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="restore()">Restore</button>
+                                   
+                                </div>
+                                
+
+                            </div>
+                            <br>
+                        </div>
+                        <!-- <div class="tab-pane fade" id="tab-2">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Applicant ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="party_id" [(ngModel)]="party_id" placeholder="Applicant ID">
+                                </div>
+                                <div class="col-4 text-left">
+                                    <button class="btn btn-primary" (click)="fetch()">Fetch</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Applicant Name :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="scheme_code" [(ngModel)]="obj['party_name']" placeholder="Applicant Name" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Scheme Code :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="scheme_code" [(ngModel)]="obj['scheme_code']" placeholder="Scheme Code" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Subscheme Code :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="sub_scheme_code" [(ngModel)]="obj['sub_scheme_code']" placeholder="Subscheme Code" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Property Type :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="property_code" [(ngModel)]="obj['property_type_code']" placeholder="Property Type" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Property Number :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="property_no" [(ngModel)]="obj['property_no']" placeholder="Property Number" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Effictive Date :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" name="arr_effective_date" [(ngModel)]="obj['arr_effective_date']" placeholder="Effictive Date">
+                                </div>
+
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="addNew()">Register</button>
+
+                                </div>
+                            </div>
+
+
+
+                        </div> -->
+                  
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

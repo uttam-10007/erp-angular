@@ -1,0 +1,171 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">BANK REPORT</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Bank Report</a>
+                        </li>
+
+
+
+
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create Relation </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" (click)="refresh()" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Relation
+                            </a>
+                        </li> -->
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+
+                            <div class="row" style="margin-left: 2%;margin-right: 2;" >
+                                <div class="col-3 text-left">
+                                    <h6> Chart Of Account :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="s2" bindLabel="desc" bindValue="chart_of_account"
+                                        [multiple]="false" placeholder="Select chart of account"
+                                        (change)="changeDetails()" [(ngModel)]="obj['chart_of_account']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <h6> Select Financial Year :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="fin_year" bindLabel="fin_year" bindValue="fin_year"
+                                        [multiple]="false" placeholder="Select financial year"
+                                        [(ngModel)]="obj['fin_year']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-3 text-left">
+                                    <h6>From Date :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" [(ngModel)]="obj['from_accounting_dt']" class="form-control">
+                                </div>
+                                <div class="col-3 text-left">
+                                    <h6>To Date :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" [(ngModel)]="obj['to_accounting_dt']" class="form-control">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-3 text-left">
+                                    <h6>Bank Name :</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{ mainService.codeValueShowObj['ACC0006'][objData2['bank_code']]}}
+
+                                </div>
+                                <div class="col-3 text-left ">
+                                    <h6>Bank Branch :</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{ mainService.codeValueShowObj['ACC0007'][objData2['branch_code']]}}
+                                    <!-- {{objData2['branch_code']}} -->
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-3 text-left ">
+                                    <h6>Account Number :</h6>
+                                </div>
+                                <div class="col-3">{{objData2['bank_acct_no']}}</div>
+                                <div class="col-3 text-left"><h6>Balancing Period :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="balance" bindLabel="id" bindValue="id"
+                                    [multiple]="false" placeholder="Select balancing period"
+                                    (change)="changeDetails()" [(ngModel)]="obj['balancing']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" >
+                                <div class="col-12 text-center">
+                                    <button (click)="submit()" class="btn btn-primary">Submit</button>
+                                   
+
+                                </div>
+                            </div>
+                            <br>
+                            <hr><div class="text-right"> <button (click)="print()" class="btn btn-primary" style="margin-left: 5%;">Print</button>&nbsp;&nbsp;
+                                <button class="btn btn-success" (click)="export()">Export</button> &nbsp;&nbsp;
+                                </div>
+                                <br>
+
+                            <div class=" example-container">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <!-- <th>Account Code</th> -->
+                                            <th>Particulars</th>
+                                            <th>Voucher Type</th>
+                                            <th>Voucher Number</th>
+                                            <th style="text-align: right;">Debit(Dr)</th>
+                                            <th style="text-align: right;">Credit(Cr)</th>
+                                            <th style="text-align: right;">Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of final_res">
+
+                                            <td *ngIf="item['acct_dt']">{{mainService.dateFormatChange(item['acct_dt'])}}</td>
+                                            <td *ngIf="!item['acct_dt']"></td>
+                                            <!-- <td>{{obj['c_acc']}}</td> -->
+                                            <td>{{item['jrnl_desc']}}</td>
+                                            <td>{{item['jrnl_type']}}</td>
+                                            <td>{{item['jrnl_id']}}</td>
+                                            <td style="text-align:right">{{item['db']}}</td>
+                                            <td style="text-align:right">{{item['cr']}}</td>
+                                            <td style="text-align: right;">{{item['bal']}} <span *ngIf="item['bal'] >=0">({{item['ind']}})</span></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>                  
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

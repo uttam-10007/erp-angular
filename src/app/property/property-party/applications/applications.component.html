@@ -1,0 +1,680 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Application</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i> All
+                                Application</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i>
+                                Application Status</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="fa fa-eye"></i>
+                                View Documents</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab"><i class="fa fa-eye"></i>
+                                View Co-Applicants</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Scheme :
+                                </div>
+
+                                <div class="col-4">
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="changeScheme()"
+                                        bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme"
+                                        [(ngModel)]="obj['scheme_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Sub-Scheme :
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="allSubSchemes" bindLabel="sub_scheme_name"
+                                        bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme"
+                                        [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-outline-primary" (click)="getApplications()">Submit</button>
+                                </div>
+
+                            </div>
+
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+
+                            </div>
+
+                            <div class="example-container">
+                                <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant Id</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="party_name">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant Name</b>
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="applied_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Applied
+                                                Date
+                                            </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{mainService.dateFormatChange(element.applied_date)}} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="application_challan_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Challan
+                                                ID</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.application_challan_no }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="application_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            <b>Application Amount</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.application_amount }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="arr_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Status
+                                            </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.arr_status_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-info" type="button"
+                                                (click)="viewDocuments(element,i)">View Documents</button>
+                                            <button class="btn btn-outline-info" type="button"
+                                                (click)="viewCoApplicants(element,i)">View Co-Applicants</button>
+
+                                            <button *ngIf="element.arr_status_code==='APPLICATION_APPROVAL_PENDING'"
+                                                class="btn btn-outline-primary" type="button"
+                                                (click)="approve(element,i)">Approve</button>
+                                                <button *ngIf="element.arr_status_code==='APPLICATION_APPROVAL_PENDING'"
+                                                class="btn btn-outline-warning" type="button"
+                                                (click)="refill(element,i)">Refill</button>
+                                            <button *ngIf="element.arr_status_code==='APPLICATION_APPROVAL_PENDING'"
+                                                class="btn btn-outline-danger" type="button"
+                                                (click)="reject(element,i)">Reject</button>
+
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Scheme :
+                                </div>
+
+                                <div class="col-4">
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="changeScheme1()"
+                                        bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme"
+                                        [(ngModel)]="obj1['scheme_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Sub-Scheme :
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="allSubSchemes1" bindLabel="sub_scheme_name"
+                                        bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme"
+                                        [(ngModel)]="obj1['sub_scheme_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Status :
+                                </div>
+
+                                <div class="col-4">
+                                    <ng-select [items]="statusArr" bindLabel="code" bindValue="value" [multiple]="false"
+                                        placeholder="Select Status" [(ngModel)]="obj1['status']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-outline-primary"
+                                        (click)="getStatusApplications()">Submit</button>
+                                </div>
+
+                            </div>
+
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter1($event.target.value)"
+                                            placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-6">
+                                </div>
+
+                                <div class="col-2">
+                                    <button class="btn btn-outline-info" (click)="print2()">Print</button>
+
+                                </div>
+
+                            </div>
+                            <div id="p" [hidden]="true">
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <img [src]="mainService.accountImageUrl" class="img-circle" width="90px" />
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h4>{{mainService.accInfo['account_name']}}
+                                            ({{mainService.accInfo['account_short_name']}})
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>Applicant List for {{subSchemeObj[obj1['sub_scheme_code']]}},
+                                            {{schemeObj[obj1['scheme_code']]}} </h6>
+                                    </div>
+                                </div>
+                                <table class="table" style="border: black;">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>APPLICANT ID</th>
+                                            <th>APPLICANT NAME
+                                            </th>
+                                            <th>APPLICATION DATE
+                                            </th>
+                                            <th>CHALLAN NO
+                                            </th>
+                                            <th>APPLICATION AMOUNT
+                                            </th>
+                                            <th>PROPERTY NO
+                                            </th>
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ob of statusDataArr">
+                                            <td>
+                                                <h6>{{ob['party_id']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['party_name']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6 *ngIf="obj.applied_date">
+                                                    {{mainService.dateFormatChange(obj.applied_date)}} 
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['application_challan_no']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['application_amount']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6></h6>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="example-container">
+                                <table mat-table [dataSource]="dataSource1" matSort #sortCol2="matSort" style="width: 100%">
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant Id</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="party_name">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant Name</b>
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="applied_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Applied
+                                                Date
+                                            </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{mainService.dateFormatChange(element.applied_date)}}  </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="application_challan_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Challan
+                                                ID</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.application_challan_no }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="application_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            <b>Application Amount</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.application_amount }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="arr_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Status
+                                            </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.arr_status_code }} </td>
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1;sticky: true">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-5 text-right">
+                                    <h5>Applicant Photo :</h5>
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_photo_file_name']!=null">
+
+                                    <button class="btn btn-outline-info" type="button"
+                                        (click)="view('party_photo_file_name')">View</button>
+
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_photo_file_name']==null">
+                                    <h6 style="color: red;">
+                                        File Not Uploaded!
+                                    </h6>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-5 text-right">
+                                    <h5>Applicant Signature :</h5>
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_signature_file_name']!=null">
+
+                                    <button class="btn btn-outline-info" type="button"
+                                        (click)="view('party_signature_file_name')">View</button>
+
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_signature_file_name']==null">
+                                    <h6 style="color: red;">
+                                        File Not Uploaded!
+                                    </h6>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-5 text-right">
+                                    <h5>Applicant Affidavit :</h5>
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_affidavit_file_name']!=null">
+
+                                    <button class="btn btn-outline-info" type="button"
+                                        (click)="view('party_affidavit_file_name')">View</button>
+
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_affidavit_file_name']==null">
+                                    <h6 style="color: red;">
+                                        File Not Uploaded!
+                                    </h6>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-5 text-right">
+                                    <h5>Applicant Adhar :</h5>
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_adhar_file_name']!=null">
+
+                                    <button class="btn btn-outline-info" type="button"
+                                        (click)="view('party_adhar_file_name')">View</button>
+
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_adhar_file_name']==null">
+                                    <h6 style="color: red;">
+                                        File Not Uploaded!
+                                    </h6>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-5 text-right">
+                                    <h5>Applicant Pan :</h5>
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_pan_file_name']!=null">
+
+                                    <button class="btn btn-outline-info" type="button"
+                                        (click)="view('party_pan_file_name')">View</button>
+
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_pan_file_name']==null">
+                                    <h6 style="color: red;">
+                                        File Not Uploaded!
+                                    </h6>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-5 text-right">
+                                    <h5>Applicant Quota :</h5>
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_quota_file_name']!=null">
+
+                                    <button class="btn btn-outline-info" type="button"
+                                        (click)="view('party_quota_file_name')">View</button>
+
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_quota_file_name']==null">
+                                    <h6 style="color: red;">
+                                        File Not Uploaded!
+                                    </h6>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-5 text-right">
+                                    <h5>Applicant Sub Quota :</h5>
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_sub_quota_file_name']!=null">
+
+                                    <button class="btn btn-outline-info" type="button"
+                                        (click)="view('party_sub_quota_file_name')">View</button>
+
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_sub_quota_file_name']==null">
+                                    <h6 style="color: red;">
+                                        File Not Uploaded!
+                                    </h6>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-5 text-right">
+                                    <h5>Applicant Income :</h5>
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_income_proof_file_name']!=null">
+
+                                    <button class="btn btn-outline-info" type="button"
+                                        (click)="view('party_income_proof_file_name')">View</button>
+
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_income_proof_file_name']==null">
+                                    <h6 style="color: red;">
+                                        File Not Uploaded!
+                                    </h6>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-5 text-right">
+                                    <h5>Applicant Booklet :</h5>
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_booklet_file_name']!=null">
+
+                                    <button class="btn btn-outline-info" type="button"
+                                        (click)="view('party_booklet_file_name')">View</button>
+
+                                </div>
+
+                                <div class="col-4" *ngIf="viewDocumentObj['party_booklet_file_name']==null">
+                                    <h6 style="color: red;">
+                                        File Not Uploaded!
+                                    </h6>
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="col-12 text-center">
+                                <img [src]="fileURL" />
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-4">
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter2($event.target.value)"
+                                            placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+
+                            </div>
+
+                            <div class="example-container">
+                                <table mat-table [dataSource]="dataSource2" matSort #sortCol3="matSort" style="width: 100%">
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant Id</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="co_applicant_name">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Co-Applicant Name</b>
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.co_applicant_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="co_applicant_father_or_husband_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            <b>Father/Husband Name
+                                            </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.co_applicant_father_or_husband_name }} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="co_applicant_email">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                Email</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.co_applicant_email }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="co_applicant_phone_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Phone
+                                                No.</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.co_applicant_phone_no }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="co_applicant_adhar_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Adhar No
+                                            </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.co_applicant_adhar_no }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="co_applicant_annual_income">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Annual
+                                                Income
+                                            </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.co_applicant_annual_income }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="co_applicant_religion">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Religion
+                                            </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.co_applicant_religion }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="co_applicant_photo_file_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Photo
+                                            </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button *ngIf="element.co_applicant_photo_file_name!=null"
+                                                class="btn btn-outline-primary" type="button"
+                                                (click)="viewCoApplicantFile(element,element.co_applicant_photo_file_name)">View</button>
+
+                                            <p style='color: red;' *ngIf=" element.co_applicant_photo_file_name==null">
+                                                File Not Uploaded!</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="co_applicant_sig_file_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            <b>Signature
+                                            </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button *ngIf="element.co_applicant_sig_file_name!=null"
+                                                class="btn btn-outline-primary" type="button"
+                                                (click)="viewCoApplicantFile(element,element.co_applicant_sig_file_name)">View</button>
+
+                                            <p style='color: red;' *ngIf=" element.co_applicant_sig_file_name==null">
+                                                File Not Uploaded!</p>
+
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns2;sticky: true">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator2 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                            <br>
+                            <div class="col-12 text-center">
+                                <img [src]="coApplicantFileURL" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>
+
+

@@ -1,0 +1,226 @@
+<div class="page-content fade-in-up">
+    <br>
+
+    <div class="row">
+        <button style="margin-left:0.5%;" class="btn btn-link" (click)="back()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</button>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <br>
+
+                <div class="ibox-head">
+                    <div class="ibox-title">Leave</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i class="fa fa-line-chart"></i>All Leaves</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" data-toggle="tab"><i class="fa fa-heartbeat"></i>  Leave Application</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+
+                            <br>
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+
+
+                                    <ng-container matColumnDef="leave_code">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Leave Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ mainService.codeValueShowObj['HR0026'][element.leave_code] }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="num_of_leaves">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Number of Leaves
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.num_of_leaves }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="leave_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Leave Status
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.leave_status_code}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="from_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>From Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.from_date}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="leave_reason">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Reason
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-primary" (click)="view_reason(element)" data-toggle="modal" data-target="#view-reason" data-backdrop="false">Reason</button>
+                                        </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button *ngIf="element.document_id!=null" class="btn btn-info" (click)="view(element)">VIEW</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <img [src]="imgURL" />
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-7-2">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Leave :
+                                </div>
+                                <div class="col-4">
+
+
+                                    <ng-select [items]="allLeaveRuleInfo" bindLabel="leave_value" bindValue="leave_code" [multiple]="false" placeholder="" [(ngModel)]="applyLeaveObj['leave_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                           <!--  <div class="row">
+                                <div class="col-4 text-right">
+                                    Number of Leaves :
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" class="form-control" [(ngModel)]="applyLeaveObj['num_of_leaves']">
+
+                                </div>
+                            </div>
+                            <br> -->
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    From Date:
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="applyLeaveObj['from_date']">
+
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    To Date:
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="applyLeaveObj['to_date']">
+
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Upload File:
+                                </div>
+                                <div class="col-4">
+                                    <input #file type="file" name="pimage" ng2FileSelect [uploader]="uploader" class="form-control" style="border-color: black" (change)="onFileUpload($event,file.files)">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Reason :
+                                </div>
+                                <div class="col-4">
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="applyLeaveObj['leave_reason']"></textarea>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="applyLeave()">Submit</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<div class="modal" id="view-reason">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Leave Reason</h4>
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="row">
+                    <label class="col-lg-4 control-label" style="font-size: 15px ;"><b>Reason:</b></label>
+                    <div class="col-lg-8">
+                        {{leave_reason}}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

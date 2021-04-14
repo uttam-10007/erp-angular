@@ -1,0 +1,154 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">MANAGE Scheme</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" (click)="refressadd()" data-toggle="tab"><i class="ti-bar-chart"></i> All
+                                Scheme List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refressadd()"><i class="fa fa-plus-circle"></i> Create
+                                Scheme</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refressadd()"><i class="ti-settings"></i> Update
+                                Scheme</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+
+                            <div class=" table-container ">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="example-container">
+                                    <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                        <ng-container matColumnDef="scheme_code">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Scheme Code</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.scheme_code}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="scheme_name">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Scheme Name</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.scheme_name }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="scheme_status">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Scheme Status</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.scheme_status }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                                <button class="btn btn-outline-primary" (click)="edit(element,i)">Update</button>
+
+                                            </td>
+
+                                        </ng-container>
+
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Scheme Code :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['scheme_code']" name="scheme_code" placeholder="Scheme Code">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Scheme Name :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="scheme_name" [(ngModel)]="obj['scheme_name']" placeholder="Scheme Name">
+
+                                </div>
+                            </div>
+                            <br>
+                         
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="addNewRow()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Scheme Code :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['scheme_code']" name="scheme_code" placeholder="Scheme Code" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Scheme Name :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="scheme_name" [(ngModel)]="obj['scheme_name']" placeholder="Scheme Name">
+
+                                </div>
+                            </div>
+                           <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

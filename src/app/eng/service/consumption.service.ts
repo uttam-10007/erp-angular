@@ -1,0 +1,38 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpEventType } from '@angular/common/http';
+import {MainService} from './main.service';
+@Injectable({
+  providedIn: 'root'
+})
+export class ConsumptionService {
+  httpUrl;
+
+  constructor(private http: HttpClient, private main: MainService) {
+    this.httpUrl = this.main.httpUrl + '/eng/consumptionAnalysis';
+   }
+  
+   async getConsumption(b_acct_id){
+    const resp = await this.http.get<any>(this.httpUrl + '/getConsumptionAnalysis'+b_acct_id).toPromise().then(res => {
+      return res;
+    });
+    return resp;
+  }
+   async createConsumption(obj){
+    const resp = await this.http.post<any>(this.httpUrl + '/createConsumptionAnalysis',obj).toPromise().then(res => {
+      return res;
+    });
+    return resp;
+  }
+
+  async updatConsumption(obj){
+    const resp = await this.http.put<any>(this.httpUrl + '/updateConsumptionAnalysis',obj).toPromise().then(res => {
+      return res;
+    });
+    return resp;
+  }
+  async deleteConsumption(obj){
+    const resp = await this.http.delete<any>(this.httpUrl + '/deleteConsumptionAnalysis'+obj).toPromise().then(res => {
+      return res;
+    });
+    return resp;
+  }}

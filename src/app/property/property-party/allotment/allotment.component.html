@@ -1,0 +1,283 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">ALLOTMENTS</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i> All
+                                Allotments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Offline Allotment
+                                Allotments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Allotments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab"><i class="fa fa-plus-circle"></i> Online Allotment</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+                            <div class="row ">
+                                <div class="col-2 text-right">
+                                    <h6>Select Scheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+
+
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="getAllSubschemes()" bindValue="scheme_code"
+                                     [multiple]="false" placeholder="Select Scheme" [(ngModel)]="selectedSchemeCode" 
+                                     [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>Select Subscheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="subselectedSchemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-primary" (click)="getAllAllotment()">Fetch</button>
+
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-8 text-right">
+                                    <button class="btn btn-success" (click)="export1()">Export</button>
+                                    <button class="btn btn-primary" (click)="print1()">Download</button>
+                                </div>
+
+
+                            </div>
+
+                            <div class="example-container">
+                                <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant ID</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_id}} </td>
+                                    </ng-container>
+
+                                   
+
+                                    <ng-container matColumnDef="arr_effective_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Effective Date</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{mainService.dateFormatChange(element.arr_effective_date)}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="property_type_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Subsidised/Non-Subsidised</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.subsidised_or_non_subsidised }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="property_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Property Type</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.property_type_code }} </td> 
+                                    </ng-container>
+                                    <ng-container matColumnDef="length">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Length</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.length }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="measurement_unit">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>measurement unit</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.measurement_unit }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="property_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Property No.</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.property_no }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="quota_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Quota Code</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.quota_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="residential_or_commercial">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Residential/Commercial</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.residential_or_commercial }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="scheme_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Scheme Code</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.scheme_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="sub_scheme_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Sub Scheme Code</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.sub_scheme_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="width">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Width</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.width }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="final_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Final Amount</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.final_amount }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Status</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.arr_status_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-primary" *ngIf="element['arr_status_code']=='ALLOTMENT_PENDING'" (click)="approve(element,i)">Approve</button>
+                                            <button class="btn btn-info" (click)="openUpdate(element,i)">Update</button>
+                                            <button class="btn btn-danger" (click)="cancel(element,i)">Cancel</button>
+                                            <button class="btn btn-primary" (click)="print(element)">Print</button>
+                                        </td>
+
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Scheme :
+                                </div>
+                                <div class="col-4">
+                                    <!-- <input class="form-control" type="text" [(ngModel)]="allotmentObj['arr_id']"> -->
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="getSubSchemesAllforAllotment()" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="obj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Sub Scheme :
+                                </div>
+                                <div class="col-4">
+                                    <!-- <input class="form-control" type="text" [(ngModel)]="allotmentObj['arr_id']"> -->
+                                    <ng-select [items]="subschemeArr1" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select Sub Scheme" [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="fetchDteaildFprAllotment()">Submit</button>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Applicant:
+                                </div>
+                                <div class="col-4">
+                                    <!-- <input class="form-control" type="text" [(ngModel)]="allotmentObj['arr_id']"> -->
+                                    <ng-select [items]="arrArr" bindLabel="party_name" bindValue="id" [multiple]="false" (change)="setProperty()" placeholder="Select Applicatnt" [(ngModel)]="allotmentObj['id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Property no :
+                                </div>
+                                <div class="col-4">
+                                    <!-- <input class="form-control" type="text" [(ngModel)]="allotmentObj['property_code']"> -->
+                                    <ng-select [items]="propertyArr2" bindLabel="property_no" bindValue="property_id" [multiple]="false" placeholder="Select Property" [(ngModel)]="allotmentObj['property_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="addAllotment()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enter Applicant ID :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="allotmentObj['id']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Property no :
+                                </div>
+                                <div class="col-4">
+                                    <!-- <input class="form-control" type="text" [(ngModel)]="allotmentObj['property_code']"> -->
+                                    <ng-select [items]="propertyArr" bindLabel="property_no" bindValue="property_id" [multiple]="false" placeholder="Select Property" [(ngModel)]="allotmentObj['property_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="updateAllotment()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

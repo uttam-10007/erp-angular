@@ -1,0 +1,202 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Field Unit-Conversion Manage</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All Unit-Conversion List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"></i> Create Unit-Conversion</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Unit-Conversion</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+<br>
+<div class="row">
+    <div class="col-4 text-right">
+        From Unit:
+    </div>
+    <div class="col-4">
+                            <ng-select [items]="mainService.codeValueTechObj['EN009']" bindLabel="value" (change)="changeField()" bindValue="code" [multiple]="false" placeholder="Select From Unit" [(ngModel)]="selectedfrom" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                name="field_name">
+                            </ng-select></div></div>
+
+
+                            <hr>
+                            <br>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="from_unit">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> From Unit
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.from_unit }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="to_unit">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>To Unit
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.to_unit }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.amount }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-outline-danger" (click)="delete(element)">Delete</button> 
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    From Unit:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN009'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select From Unit" [(ngModel)]="selectedfrom" [selectableGroup]="true" (change)="changeField()" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="From Unit">
+                                </ng-select></div></div>
+                               
+                               
+                            
+                            <hr>
+                            <br>
+
+                           
+                            
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    To Unit:
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['to_unit']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Amount :
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['amount']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    From Unit:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN009'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select From Unit" [(ngModel)]="selectedfrom" [selectableGroup]="true" (change)="changeField()" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="From Unit">
+                                </ng-select> </div> </div>
+                               
+                               
+                            
+                            <hr>
+                            <br>
+
+                           
+                            
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    To Unit:
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['to_unit']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Amount :
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['amount']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

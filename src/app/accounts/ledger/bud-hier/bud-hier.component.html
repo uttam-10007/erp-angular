@@ -1,0 +1,801 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Budget Hierarchy </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                  All Budget Hierarchy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i>  Create Budget Hierarchy</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i>   Update
+                                Budget Hierarchy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab"><i class="fa fa-upload"></i>   Upload
+                                Budget File</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="lvl1_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 1 Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl1_cd }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl1_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 1 Value
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl1_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl2_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 2 Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl2_cd }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl2_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 2 Value
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl2_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl3_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 3 Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl3_cd }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl3_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 3 Value
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl3_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl4_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 4 Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl4_cd }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl4_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 4 Value
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl4_value }} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="lvl5_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 5 Code
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl5_cd }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl5_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 5 Value
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl5_value }} </td>
+                                    </ng-container>
+
+
+
+
+                                    <ng-container matColumnDef="lvl6_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 6 Code
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl6_cd }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl6_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 6 Value
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl6_value }} </td>
+                                    </ng-container>
+
+
+
+
+                                    <ng-container matColumnDef="lvl7_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 7 Code
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl7_cd }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lvl7_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level 7 Value
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lvl7_value }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="leaf_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Leaf Code
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.leaf_cd }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="leaf_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Leaf Value
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.leaf_value }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-outline-danger" (click)="delete(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-center">
+
+
+                                </div>
+                                <div class="col-3 text-center" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <h6><b>Code</b></h6>
+
+
+                                </div>
+                                <div class="col-3 text-center" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <h6><b> Value</b></h6>
+
+
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Level 1:
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']!='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl1_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl1_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']!='text'">
+                                    <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd" (change)="onChangeLvl1()" [multiple]="false" placeholder="Select Level 1 " [(ngModel)]="obj['lvl1_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl1_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl1_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('1')" *ngIf="obj['lvl1_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl1_type']=='text'" (click)="addNew('1')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Level 2 :
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']!='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl2_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl2_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']!='text'">
+                                    <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd" (change)="onChangeLvl2()" [multiple]="false" placeholder="Select Level 2" [(ngModel)]="obj['lvl2_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl2_value">
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl2_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl2_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('2')" *ngIf="obj['lvl2_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl2_type']=='text'" (click)="addNew('2')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Level 3 :</h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl3_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl3_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']!='text'">
+                                    <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd" (change)="onChangeLvl3()" [multiple]="false" placeholder="Select Level 3" [(ngModel)]="obj['lvl3_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl3_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl3_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('3')" *ngIf="obj['lvl3_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl3_type']=='text'" (click)="addNew('3')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Level 4 :</h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl4_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl4_cd']">
+
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl4_type']!='text'">
+                                    <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd" (change)="onChangeLvl4()" [multiple]="false" placeholder="Select Level 4" [(ngModel)]="obj['lvl4_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl4_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl4_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('4')" *ngIf="obj['lvl4_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl4_type']=='text'" (click)="addNew('4')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Level 5 :</h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl5_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl5_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']!='text'">
+
+                                    <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd" (change)="onChangeLvl5()" [multiple]="false" placeholder="Select Level 5" [(ngModel)]="obj['lvl5_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl5_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl5_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('5')" *ngIf="obj['lvl5_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl5_type']=='text'" (click)="addNew('5')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Level 6 :</h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl6_cd']" disabled>
+
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl6_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl6_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']!='text'">
+
+                                    <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd" (change)="onChangeLvl6()" [multiple]="false" placeholder="Select Level 6" [(ngModel)]="obj['lvl6_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl6_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl6_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('6')" *ngIf="obj['lvl6_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl6_type']=='text'" (click)="addNew('6')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Level 7 :</h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl7_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl7_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']!='text'">
+
+                                    <ng-select [items]="level7" bindLabel="lvl7_value" bindValue="lvl7_cd" [multiple]="false" placeholder="Select Level 7" [(ngModel)]="obj['lvl7_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" (change)="onChangeLvl7()"
+                                        name="lvl7_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl7_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('7')" *ngIf="obj['lvl7_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl7_type']=='text'" (click)="addNew('7')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Leaf :</h6>
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['leaf_cd']">
+
+                                </div>
+
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['leaf_value']">
+
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-center">
+
+
+                                </div>
+                                <div class="col-3 text-center" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <h6><b>Code</b></h6>
+
+
+                                </div>
+                                <div class="col-3 text-center" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <h6><b> Value</b></h6>
+
+
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Level 1:
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']!='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl1_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl1_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']!='text'">
+                                    <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd" (change)="onChangeLvl1()" [multiple]="false" placeholder="Select Level 1 " [(ngModel)]="obj['lvl1_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl1_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl1_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl1_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('1')" *ngIf="obj['lvl1_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl1_type']=='text'" (click)="addNew('1')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Level 2 :
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']!='text'">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl2_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl2_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl2_type']!='text'">
+                                    <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd" (change)="onChangeLvl2()" [multiple]="false" placeholder="Select Level 2" [(ngModel)]="obj['lvl2_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl2_value">
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl2_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl2_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('2')" *ngIf="obj['lvl2_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl2_type']=='text'" (click)="addNew('2')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Level 3 :</h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl3_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl3_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']!='text'">
+                                    <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd" (change)="onChangeLvl3()" [multiple]="false" placeholder="Select Level 3" [(ngModel)]="obj['lvl3_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl3_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl3_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl3_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('3')" *ngIf="obj['lvl3_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl3_type']=='text'" (click)="addNew('3')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Level 4 :</h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl4_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl4_cd']">
+
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl4_type']!='text'">
+                                    <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd" (change)="onChangeLvl4()" [multiple]="false" placeholder="Select Level 4" [(ngModel)]="obj['lvl4_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl4_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl4_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl4_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('4')" *ngIf="obj['lvl4_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl4_type']=='text'" (click)="addNew('4')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Level 5 :</h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl5_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl5_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']!='text'">
+
+                                    <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd" (change)="onChangeLvl5()" [multiple]="false" placeholder="Select Level 5" [(ngModel)]="obj['lvl5_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl5_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl5_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl5_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('5')" *ngIf="obj['lvl5_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl5_type']=='text'" (click)="addNew('5')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Level 6 :</h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl6_cd']" disabled>
+
+                                </div>
+
+                                <div class="col-3" *ngIf="obj['lvl6_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl6_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']!='text'">
+
+                                    <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd" (change)="onChangeLvl6()" [multiple]="false" placeholder="Select Level 6" [(ngModel)]="obj['lvl6_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl6_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl6_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl6_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('6')" *ngIf="obj['lvl6_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl6_type']=='text'" (click)="addNew('6')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Level 7 :</h6>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']!='text'">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['lvl7_cd']" disabled>
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']=='text'">
+
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl7_cd']">
+
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']!='text'">
+
+                                    <ng-select [items]="level7" bindLabel="lvl7_value" bindValue="lvl7_cd" [multiple]="false" placeholder="Select Level 7" [(ngModel)]="obj['lvl7_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" (change)="onChangeLvl7()"
+                                        name="lvl7_value">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3" *ngIf="obj['lvl7_type']=='text'">
+                                    <input type="text" class="form-control" (change)="makingLeafValues()" [(ngModel)]="obj['lvl7_value']">
+
+                                </div>
+                                <div id="text" class="col-3" (click)="addNew('7')" *ngIf="obj['lvl7_type']!='text'" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Add New </u></b></h6>
+                                </div>
+                                <div id="text" class="col-3" *ngIf="obj['lvl7_type']=='text'" (click)="addNew('7')" style="color: rgb(37, 130, 236);">
+                                    <h6><b><u>Select </u></b></h6>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6> Leaf :</h6>
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['leaf_cd']">
+
+                                </div>
+
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['leaf_value']">
+
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-4">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Download Template:
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-success" (click)="exportTemplate()">Download</button>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+
+                                <div class="col-4 text-right">
+                                    Upload File:
+                                </div>
+                                <div class="col-4 text-center">
+                                    <input #file type="file" name="pimage" ng2FileSelect [uploader]="uploader" class="form-control" style="border-color: black" (change)="onFileUpload($event,file.files)">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="button" [disabled]="!uploader.getNotUploadedItems().length" class="btn btn-info" (click)='upload()'><i class="fa fa-upload"
+                                            aria-hidden="true">&nbsp;</i>Upload</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

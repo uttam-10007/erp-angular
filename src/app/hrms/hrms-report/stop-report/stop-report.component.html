@@ -1,0 +1,214 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Salary Hold Report </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                               Salary Hold Report</a>
+                        </li>
+
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Status :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="status" bindLabel="id" bindValue="id" (change)="getAllStopSalary()"
+                                        [multiple]="false" placeholder="" [(ngModel)]="status_s" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+    
+                            </div>
+
+                            <br>
+
+                            <!-- <div class="row">
+                                <div class="col-12  text-center">
+                                    <button class="btn btn-primary" (click)="getAllStopSalary()">SUBMIT</button> &nbsp;&nbsp;
+
+                                </div>
+                            </div> -->
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12  text-right">
+                                    <button class="btn btn-primary" (click)="print()">Download PDF</button> &nbsp;&nbsp;
+                                    <button class="btn btn-primary" (click)="export()">Download Excel</button> &nbsp;&nbsp;
+
+                                </div>
+                            </div>
+                            <div class=" example-container">
+                                <mat-form-field style="margin-left: 2%">
+                                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                </mat-form-field>
+
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="s_no">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>S No.
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{i+1}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{mainService.accInfo['account_short_name']}}{{getNumberFormat(element.emp_id)}}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="designation">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Designation
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.designation_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="stop_month">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Stop Month
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            {{element.stop_month}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="stop_fin_year">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Stop Financial Year
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            {{element.stop_fin_year}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="start_month">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Start Month
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            {{element.start_month}}
+
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="start_fin_year">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Start Financial Year
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            {{element.start_fin_year}}
+
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-primary"
+                                            (click)="viewPaidStatus(element)">View Paid Details</button>                                        </td>
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal" id="myModal2">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Paid Salary Details :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-3 text-right"><h6>Employee ID :</h6></div>
+                    <div class="col-3"> {{view_data_header['emp_id']}}</div>
+                    <div class="col-3 text-right"><h6>Employee Name :</h6></div>
+                    <div class="col-3">{{view_data_header['emp_name']}}</div>
+                </div>
+                <br>
+              
+                <div class="">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>S No.</th>
+                                <th>Month</th>
+                                <th>Year</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr  *ngFor="let item of view_data;let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{this.mainService.codeValueShowObj['HR0024'][item['month']]}}</td>
+                                <!-- <td>{{item['fin_year']}}</td> -->
+                                <td>{{this.mainService.codeValueShowObj['HR0023'][item['fin_year']]}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

@@ -1,0 +1,685 @@
+
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Budget Manage</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All Budget List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create Budget</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-bar-chart" (click)="refresh()"></i> Allocation
+                                List
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab"><i class="fa fa-plus-circle"></i> Create
+                                Allocation
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-5" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Allocation
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Budget Status:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="status" bindLabel="value" bindValue="code" [multiple]="false"
+                                        placeholder="" [(ngModel)]="budgetlistObject['status']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_lvl">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Financial Year:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allFinYear" bindLabel="fin_year" bindValue="fin_year" [multiple]="false"
+                                        placeholder="" [(ngModel)]="budgetlistObject['fin_year']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="fin_year">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="budgetList()">Submit</button>
+
+                                </div>
+                            </div>
+
+                            <hr>
+                            <br>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.budget_id }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="bud_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Budget
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ hierCodeValue['budget'][element.bud_cd] }}-{{element.bud_cd}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="act_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Activity
+
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ hierCodeValue['act'][element.act_cd] }}-{{element.act_cd}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="proj_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Project
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ hierCodeValue['project'][element.proj_cd] }}--{{element.proj_cd}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="prod_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Product
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ hierCodeValue['product'][element.prod_cd] }}-{{element.prod_cd}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Amount
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.amount }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }} </td>
+                                    </ng-container>
+
+
+
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+
+
+                            <br>
+                           
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Budget :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allBudgetHierCodeValue" bindLabel="desc" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="budgetObject['bud_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_cd">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Project :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allProjectHierCodeValue" bindLabel="desc" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="budgetObject['proj_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <br>
+                          
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Product :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allProductHierCodeValue" bindLabel="desc" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="budgetObject['prod_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_cd">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                           
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Activity :
+                                </div>
+                                <div class="col-4" >
+                                    <ng-select [items]="allActivityHierCodeValue" bindLabel="desc" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="budgetObject['act_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="act_cd">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+
+
+                          <!--   <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Select Budget Hierarchy :
+                                </div>
+                                <div class="col-8">
+                                    <ng-select [items]="allBudgetHier" bindLabel="desc" bindValue="id"
+                                        [multiple]="false" placeholder="Selcet Budget Hierarchy"
+                                        (change)="ChangeBudgetHierarchy()" [(ngModel)]="budgetObject['bud_hier_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="budget_hier_id">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Select Budget Level:
+                                </div>
+                                <div class="col-8">
+                                    <ng-select [items]="budgetArrayObj['budget']" bindLabel="value" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="budgetObject['bud_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_cd">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Select Project Hierarchy :
+                                </div>
+                                <div class="col-8">
+                                    <ng-select [items]="allProjectHier" bindLabel="desc" bindValue="id"
+                                        [multiple]="false" placeholder="Selcet Project Hierarchy"
+                                        (change)="ChangeProjectHierarchy()" [(ngModel)]="budgetObject['proj_hier_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_hier_id">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Select Project Level:
+                                </div>
+                                <div class="col-8">
+                                    <ng-select [items]="budgetArrayObj['project']" bindLabel="value" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="budgetObject['proj_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Select Product Hierarchy :
+                                </div>
+                                <div class="col-8">
+                                    <ng-select [items]="allProductHier" bindLabel="desc" bindValue="id"
+                                        [multiple]="false" placeholder="Selcet Product Hierarchy"
+                                        (change)="ChangeProductHierarchy()" [(ngModel)]="budgetObject['prod_hier_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_hier_id">
+                                    </ng-select>
+                                </div>
+
+                            
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Select Product Level:
+                                </div>
+                                <div class="col-8">
+                                    <ng-select [items]="budgetArrayObj['product']" bindLabel="value" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="budgetObject['prod_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_cd">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Select Activity Hierarchy :
+                                </div>
+                                <div class="col-8">
+                                    <ng-select [items]="allActivityHier" bindLabel="desc" bindValue="id"
+                                        [multiple]="false" placeholder="Selcet Activity Hierarchy"
+                                        (change)="ChangeActivityHierarchy()" [(ngModel)]="budgetObject['act_hier_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="act_hier_id">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Select Activity Level:
+                                </div>
+                                <div class="col-8">
+                                    <ng-select [items]="budgetArrayObj['act']" bindLabel="value" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="budgetObject['act_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="act_cd">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br> -->
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Amount:
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" [(ngModel)]="budgetObject['amount']" class="form-control" />
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="saveBudget()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Allocation Status:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="status" bindLabel="value" bindValue="code" [multiple]="false"
+                                        placeholder="" [(ngModel)]="allocatlistObject['status']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_lvl">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Financial Year:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allFinYear" bindLabel="fin_year" bindValue="fin_year" [multiple]="false"
+                                        placeholder="" [(ngModel)]="allocatlistObject['fin_year']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="fin_year">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="allocationList()">Submit</button>
+
+                                </div>
+                            </div>
+
+                            <hr>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource1" #sortCol2="matSort" matSort>
+
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.allocation_id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="bud_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Budget
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ hierCodeValue['budget'][element.bud_cd] }}-{{element.bud_cd}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="act_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Activity
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ hierCodeValue['act'][element.act_cd] }}-{{element.act_cd}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="proj_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Project
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ hierCodeValue['project'][element.proj_cd] }}-{{element.proj_cd}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="prod_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Product
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ hierCodeValue['product'][element.prod_cd] }}-{{element.prod_cd}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Amount
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.amount }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="budget_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Budget ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.budget_id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-primary"
+                                                *ngIf="(element.parent_allocation_id != null) && (element.status=='ACTIVE')"
+                                                (click)="open_update(element, i)">Update</button>&nbsp;
+                                            <button class="btn btn-outline-primary" *ngIf="(element.parent_allocation_id != null) && (element.status=='ACTIVE')"
+                                                (click)="inactive(element, i)">INACTIVE</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator1 [pageSizeOptions]="[10, 20]" showFirstLastButtons>
+                                </mat-paginator>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-4">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h5>Select Budget :</h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12">
+                                    <ng-select [items]="allActiveAllocation" bindLabel="desc" bindValue="allocation_id"
+                                        [multiple]="false" placeholder="Selcet Budget"
+                                        (change)="ChangeBudgetOnAllocate()" [(ngModel)]="allocatObject['allocation_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="allocation_id">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    Maximum Allocated Amount-:{{allocated_amount}}
+                                </div>
+                            </div>
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Allocation Budget :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allocationArrayObj['budget']" bindLabel="desc" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="allocatObject['bud_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="bud_lvl">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Allocation Project :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allocationArrayObj['project']" bindLabel="desc"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="allocatObject['proj_cd']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="proj_lvl">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Allocation Product :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allocationArrayObj['product']" bindLabel="desc"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="allocatObject['prod_cd']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="prod_lvl">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Allocation Activity :
+                                </div>
+                                <div class="col-4" >
+                                    <ng-select [items]="allocationArrayObj['act']" bindLabel="desc" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="allocatObject['act_cd']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="act_lvl">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Allocation Amount:
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" [(ngModel)]="allocatObject['amount']" class="form-control" />
+                                </div>
+
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="saveAllocate()">Submit</button>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-5">
+
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Allocation Budget :
+                                </div>
+                                <div class="col-4">
+                                    {{hierCodeValue['budget'][allocatUpdateObject['bud_cd']]}}-{{allocatUpdateObject['bud_cd']}}
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Allocation Project :
+                                </div>
+                                <div class="col-4">
+                                    {{hierCodeValue['project'][allocatUpdateObject['proj_cd']]}}-{{allocatUpdateObject['proj_cd']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Allocation Product :
+                                </div>
+                                <div class="col-4">
+                                    {{hierCodeValue['product'][allocatUpdateObject['prod_cd']]}}-{{allocatUpdateObject['prod_cd']}}
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Allocation Activity :
+                                </div>
+                                <div class="col-4">
+                                    {{hierCodeValue['act'][allocatUpdateObject['act_cd']]}}-{{allocatUpdateObject['act_cd']}}
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Allocation Amount:
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" [(ngModel)]="allocatUpdateObject['amount']"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-4"><b>(Minimum Allocation
+                                    Amount={{allocation_child_amount}} And Maximum Allocation Amount={{total}})</b></div>
+
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updateAllocate()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- <style>
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+    white-space: normal !important;
+}
+</style> -->
+
+
+<ngx-spinner>Loading....</ngx-spinner>

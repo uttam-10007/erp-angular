@@ -1,0 +1,848 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Deduction Reports </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                               PF Deduction Report</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-bar-chart"></i>
+                               TDS Deduction Report</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-bar-chart"></i>
+                               Allowances/Deductions Report</a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Financial Year :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0023']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="pfObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Month :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="pfObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select PF Type :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0048']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="pfObj['pf_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="getPfDed()">SUBMIT</button> &nbsp;&nbsp;
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                 
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-center">
+                                    <h6>Total PF : {{totalPf}}</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <h6>Total PFADV1 : {{totalAdv1}}</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <h6>Total PFADV2 : {{totalAdv2}}</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <h6>Total PFADV3 : {{totalAdv3}}</h6>
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h6>Total : {{total}}</h6>
+                                </div>
+
+                            </div>
+                            <div id="p" [hidden]="true">
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <img [src]="mainService.accountImageUrl" class="img-circle" width="90px" />
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h4>{{mainService.accInfo['account_name']}} ({{mainService.accInfo['account_short_name']}})
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>
+                                            PF Report for {{mainService.codeValueShowObj['HR0024'][pfObj['month']]}} / {{mainService.codeValueShowObj['HR0023'][pfObj['fin_year']]}}
+                                        </h6>
+                                    </div>
+                                </div>
+                                <table class="table" style="border: black;">
+                                    <thead class="thead-light">
+                                        <tr><th>Serial No.</th>
+                                            <th>Employee ID</th>
+                                            <th>Employee Name
+                                            </th>
+                                            <th>Designation
+                                            </th>
+                                            <th>PF Account No.
+                                            </th>
+                                            <th *ngIf="pfObj['pf_type'] == 'CENTRALISED'">IFSC Code
+                                            </th>
+                                            <th> PF
+                                            </th>
+                                            <th>PFADV1
+                                            </th>
+                                            <th>PFADV2
+                                            </th>
+                                            <th>PFADV3
+                                            </th>
+                                            <th>TOTAL
+                                            </th>
+
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ob of result;let i = index">
+                                            <td><h6>{{i+1}}</h6></td>
+                                            <td>
+                                                <h6>{{ob['emp_id']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['emp_name']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['designation_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['pf_acct_no']}}</h6>
+                                            </td>
+                                            <td *ngIf="pfObj['pf_type'] == 'CENTRALISED'">
+                                                <h6>{{ob['pf_ifsc_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['pf_amount']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['pfadv_amount']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['pfadv1_amount']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['pfadv2_amount']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['total_amount']}}</h6>
+                                            </td>
+
+
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-10 text-right">
+                                        <h4>Total Number of Records: <b>{{pfnumber}}</b>
+                                        </h4>
+                                        <h4>Total PF Amount: <b>{{totalPf}}</b>
+                                        </h4>
+                                        <h4>Total PFADV1 Amount: <b>{{totalAdv1}}</b>
+                                        </h4>
+                                        <h4>Total PFADV2 Amount: <b>{{totalAdv2}}</b>
+                                        </h4>
+                                        <h4>Total PFADV3 Amount: <b>{{totalAdv3}}</b>
+                                        </h4>
+                                        <h4>Total Amount: <b>{{total}}</b>
+                                        </h4>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <br>
+
+
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <button class="btn btn-primary" (click)="print()">Print</button>
+                                </div>
+
+                                <div class="col-3 text-right">
+                                    <button class="btn btn-primary" (click)="export()">Export</button>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="s_no">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>S No.
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{i+1}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                           {{element.emp_id}}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="designation_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Designation
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.designation_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pf_acct_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>PF Account No.
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pf_acct_no }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="pf_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>PF Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pf_amount }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pfadv_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>PFADV Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pfadv_amount }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pfadv1_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>PFADV1 Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pfadv1_amount }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pfadv2_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>PFADV2 Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pfadv2_amount }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="total_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Total Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.total_amount }} </td>
+                                    </ng-container>
+
+                                    <!--  <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-warning" (click)="openUpdate(element)">UPDATE</button>
+                                        </td>
+                                    </ng-container> -->
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Financial Year :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0023']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="tdsObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Month :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="tdsObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <!-- <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Bill Date :
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="salaryObj['end_dt']">
+
+                                </div>
+                            </div> -->
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="getTdsDed()">SUBMIT</button> &nbsp;&nbsp;
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Total Gross Amount :
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="totalGross" disabled>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Total TDS Amount :
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="totalTds" disabled>
+
+                                </div>
+                                <div class="col-4 text-right">
+
+                                </div>
+                            </div>
+                            <div id="a" [hidden]="true">
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <img [src]="mainService.accountImageUrl" class="img-circle" width="90px" />
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h4>{{mainService.accInfo['account_name']}} ({{mainService.accInfo['account_short_name']}})
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>
+                                            TDS/IT Report for {{mainService.codeValueShowObj['HR0024'][tdsObj['month']]}} / {{mainService.codeValueShowObj['HR0023'][tdsObj['fin_year']]}}
+                                        </h6>
+                                    </div>
+                                </div>
+                                <table class="table" style="border: black;">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Employee ID</th>
+                                            <th>Employee Name
+                                            </th>
+                                            <th>Designation
+                                            </th>
+                                            <th>PAN No.
+                                            </th>
+                                            <th>Gross Amount
+                                            </th>
+                                            <th>TDS Amount
+                                            </th>
+
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ob of result1">
+                                            <td>
+                                                <h6>{{ob['emp_id']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['emp_name']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['designation_code']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['emp_pan_no']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['gross_amount']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['tds_amount']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6></h6>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-11 text-right">
+                                        <h4>Total Number of Records: <b>{{tdsnumber}}</b>
+                                        </h4>
+                                        <br>
+                                        <h4>Total Gross Amount: <b>{{totalGross}}</b>
+                                        </h4>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-11 text-right">
+                                        <h4>Total TDS Amount: <b>{{totalTds}}</b>
+                                        </h4>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <br>
+                            <!-- <div class="row">
+                                <div class="col-3 text-center" *ngFor="let fixedpays of fixedpay; let i= index">
+
+
+                                    <div>
+                                        <b>Total {{fixedpay[i]}} : </b> {{obj[fixedpay[i]]}}
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br> -->
+
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <button class="btn btn-primary" (click)="printtds()">Print</button>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <button class="btn btn-primary" (click)="export1()">Export</button> 
+                                </div>
+
+
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource1" matSort #sortCol2="matSort">
+                                    <ng-container matColumnDef="s_no">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>S No.
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{i+1}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{element.emp_id}}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="designation_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Designation
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.designation_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_pan_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>PAN No.
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_pan_no }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="gross_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Gross Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.gross_amount }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="tds_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>TDS Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.tds_amount }} </td>
+                                    </ng-container>
+                                    <!--  <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-warning" (click)="openUpdate(element)">UPDATE</button>
+                                        </td>
+                                    </ng-container> -->
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator1 [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Financial Year :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0023']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="dedObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Month :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="dedObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Component :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0021']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="dedObj['pay_component_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <!-- <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Bill Date :
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="salaryObj['end_dt']">
+
+                                </div>
+                            </div> -->
+                            <br>
+                            <div class="row text-center">
+                                <div class="col-5">
+
+                                </div>
+                                <button class="btn btn-primary" (click)="getDed()">SUBMIT</button> &nbsp;&nbsp;
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Total {{dedObj['pay_component_code']}} Amount :
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="totalded" disabled>
+
+                                </div>
+                                <div class="col-4 text-right">
+
+                                </div>
+                            </div>
+                            <!--  <div class="row text-center">
+                                <div class="col-5">
+
+                                </div>
+                                <button class="btn btn-primary" (click)="printded()">Print</button> &nbsp;&nbsp;
+                            </div> -->
+                            <div id="c" [hidden]="true">
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <img [src]="mainService.accountImageUrl" class="img-circle" width="90px" />
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h4>{{mainService.accInfo['account_name']}} ({{mainService.accInfo['account_short_name']}})
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>
+                                            Report for {{dedObj['pay_component_code']}} for {{mainService.codeValueShowObj['HR0024'][dedObj['month']]}} / {{mainService.codeValueShowObj['HR0023'][dedObj['fin_year']]}}
+                                        </h6>
+                                    </div>
+                                </div>
+                                <table class="table" style="border: black;">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Employee ID</th>
+                                            <th>Employee Name
+                                            </th>
+                                            <th>Designation
+                                            </th>
+                                            <th>Amount
+                                            </th>
+
+
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ob of result2">
+                                            <td>
+                                                <h6>{{ob['emp_id']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['emp_name']}}</h6>
+                                            </td>
+                                            <td>
+                                                <h6>{{ob['designation_code']}}</h6>
+                                            </td>
+
+                                            <td>
+                                                <h6>{{ob.pay_component_amt}}</h6>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-10 text-right">
+                                        <h4>Total Number of Records: <b>{{dednumber}}</b>
+                                        </h4>
+                                        <h4>Total {{dedObj['pay_component_code']}} Amount: <b>{{totalded}}</b>
+                                        </h4>
+
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <br>
+                            <!-- <div class="row">
+                                <div class="col-3 text-center" *ngFor="let fixedpays of fixedpay; let i= index">
+
+
+                                    <div>
+                                        <b>Total {{fixedpay[i]}} : </b> {{obj[fixedpay[i]]}}
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br> -->
+
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter2($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <button class="btn btn-primary" (click)="printded()">Print</button> 
+                                </div>
+                                <div class="col-3 text-right">
+                                    <button class="btn btn-primary" (click)="export2()">Export</button> 
+                                </div>
+
+
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource2" matSort #sortCol3="matSort">
+                                    <ng-container matColumnDef="s_no">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>S No.
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{i+1}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{element.emp_id}}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="designation_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Designation
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.designation_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="pay_component_amt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_component_amt }} </td>
+                                    </ng-container>
+
+
+                                    <!--  <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-warning" (click)="openUpdate(element)">UPDATE</button>
+                                        </td>
+                                    </ng-container> -->
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator2 [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

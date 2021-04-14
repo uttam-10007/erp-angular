@@ -1,0 +1,283 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Employee Probation </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Employee Probation Detail List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Add Employee
+                                Probation Detail</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update Employee
+                                Probation Detail</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="newallEmplyees" bindLabel="emp_name" (change)="getAllProbation()" bindValue="emp_id" [multiple]="false" placeholder="" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <br>
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Probation ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Party Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{empIdToName[element.emp_id]}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="probation_days">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Probation Days
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.probation_days}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="probation_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Probation Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.probation_status_code}} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="openUpdate(element)">Update</button>
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="newallEmplyees" bindLabel="emp_name" bindValue="emp_id" [multiple]="false" placeholder="" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Probation Days :
+                                </div>
+                                <div class="col-4">
+
+
+                                    <input class="form-control" [(ngModel)]="probationObj['probation_days']">
+
+                                </div>
+
+
+
+                            </div>
+
+
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Effective Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="probationObj['effective_dt']">
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submitProbation()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+
+                                    {{empIdToName[update_probationObj['emp_id']]}}
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Probation Days :
+                                </div>
+                                <div class="col-4">
+
+
+                                    <input class="form-control" [(ngModel)]="update_probationObj['probation_days']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Assessment Feedback :
+                                </div>
+                                <div class="col-4">
+
+                                    <textarea id="t1" name="t1" [(ngModel)]="update_probationObj['assessment_feedback']">
+
+                                    </textarea>
+
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Action :
+                                </div>
+                                <div class="col-4">
+
+
+                                    <select class="form-control" [(ngModel)]="update_probationObj['probation_status_code']">
+                                        <option
+                                            
+                                            ngValue="ACTIVE">EXTEND
+                                        </option>
+                                        <option
+                                            
+                                            ngValue="INACTIVE">COMPLETE
+                                        </option>
+                                    </select>
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Effective Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="update_probationObj['effective_dt']">
+
+
+
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updateProbation()">Update</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

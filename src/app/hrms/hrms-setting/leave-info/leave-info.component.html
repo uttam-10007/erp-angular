@@ -1,0 +1,252 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Leave Rule Info</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All Leave Rule  List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create Leave Rule</a>
+                        </li>
+
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Leave Rule</a>
+                        </li> -->
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Leave ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="leave_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Leave Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.leave_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="leave_rate">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Leave Rate
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.leave_rate }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="is_leave_carry_fwd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Leave Carry Forword Indicator
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.is_leave_carry_fwd }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="renew_ind_on_year_change">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Leave collapse on Year Change
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.renew_ind_on_year_change }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="num_of_leaves">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Number Of Leaves
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.num_of_leaves }} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <!-- <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button> -->
+
+                                            <button class="btn btn-outline-danger" (click)="delete(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Leave Type:
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0026']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['leave_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="leave_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Leave Rate:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0027']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['leave_rate']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="rate">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Leave Carry Forword:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0028']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['is_leave_carry_fwd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="carry">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Leave collapse on Year Change:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0029']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['renew_ind_on_year_change']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="renew_ind_on_year_change">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Number Of Leaves:
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['num_of_leaves']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="tab-pane fade" id="tab-3">
+
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Leave Type:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0026']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['leave_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="leave_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Leave Rate:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0027']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['leave_rate']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="rate">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Leave Carry Forword:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0028']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['is_leave_carry_fwd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="carry">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Leave Renew on Year Change:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0029']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['renew_ind_on_year_change']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="renew_ind_on_year_change">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Number Of Leaves:
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['num_of_leaves']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

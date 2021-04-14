@@ -1,0 +1,297 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Arrangement </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Arrangement  Detail</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-announcement"></i> Add
+                                    Arrangement </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-announcement"></i> Update
+                                Arrangement  Detail</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="{{col}}" *ngFor="let col of displayedColumns_temp; let i = index">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>
+                                            {{techToBusNameObj[col]}}
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element[col] }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-warning" (click)="openUpdate(element)">UPDATE</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Party :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allParty" bindLabel="party_name" bindValue="id" [multiple]="false" placeholder="" [(ngModel)]="seletedparty" [selectableGroup]="true" (change)="changeparty()" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Party ID:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <input class="form-control" [(ngModel)]="salObj['party_id']" disabled>
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Party Name:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <input class="form-control" [(ngModel)]="salObj['party_name']" disabled>
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Arrangement Type:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <ng-select [items]="mainService.codeValueTechObj['ACC0108']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salObj['arr_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Source:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <ng-select [items]="mainService.codeValueTechObj['ACC0037']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salObj['evt_grp_src_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Arrangement Description:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <input class="form-control" [(ngModel)]="salObj['arr_desc']">
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Arrangement Effective Date:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <input class="form-control" type="date" [(ngModel)]="salObj['arr_eff_dt']">
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">SUBMIT</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Select Party :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allParty" bindLabel="party_name" bindValue="id" [multiple]="false" placeholder="" [(ngModel)]="seletedparty" [selectableGroup]="true" (change)="changeparty()" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Party ID:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <input class="form-control" [(ngModel)]="salObj['party_id']" disabled>
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Party Name:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <input class="form-control" [(ngModel)]="salObj['party_name']" disabled>
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Arrangement Type:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <ng-select [items]="mainService.codeValueTechObj['ACC0108']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salObj['arr_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Source:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <ng-select [items]="mainService.codeValueTechObj['ACC0037']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salObj['evt_grp_src_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Arrangement Description:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <input class="form-control" [(ngModel)]="salObj['arr_desc']">
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-top: 10px;">
+                                <br>
+                                <div class="col-4 text-right">
+                                    <b>Arrangement Effective Date:</b>
+                                </div>
+                                <div class="col-4 ">
+
+                                    <div>
+                                        <input class="form-control" type="date" [(ngModel)]="salObj['arr_eff_dt']">
+
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">UPDATE</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

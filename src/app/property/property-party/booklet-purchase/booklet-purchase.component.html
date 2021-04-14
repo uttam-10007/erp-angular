@@ -1,0 +1,330 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">BOOKLET PURCHASE</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i> All
+                                Booklet Purchses</a>
+                        </li>
+                        <!--  <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i> Purchase
+                                Booklet</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-announcement"></i> Update
+                                Booklet Purchase</a>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Scheme :
+                                </div>
+
+                                <div class="col-4">
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="changeScheme()" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="bookletPurchaseObj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Sub-Scheme :
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="allSubSchemes" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="bookletPurchaseObj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-outline-primary" (click)="getBookletPusrchase()">Submit</button>
+                                </div>
+
+                            </div>
+
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+
+                            </div>
+
+                            <div class="example-container">
+                                <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant Id</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="party_name">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant Name</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="booklet_purchase_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Booklet Purchase Date
+                                                </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.dateFormatChange(element.booklet_purchase_date) }} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="booklet_challan_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Challan
+                                                ID</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.booklet_challan_no }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="booklet_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Booklet Purchase Amount</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.booklet_amount }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="arr_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Status
+                                               </b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.arr_status_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-danger" *ngIf="element.arr_status_code=='BOOKLET_PURCHASE_PENDING'" (click)="reject(element,i)">Reject</button> &nbsp;&nbsp;
+                                            <button class="btn btn-outline-primary" *ngIf="element.arr_status_code=='BOOKLET_PURCHASE_PENDING'" (click)="approve(element,i)">Approve</button>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                        <!-- <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Scheme :
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="changeScheme()"
+                                        bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme"
+                                        [(ngModel)]="selectedSchemeCode" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Sub-Scheme :
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="allSubSchemes" bindLabel="sub_scheme_name"
+                                        (change)="getAllBookletPurchase()" bindValue="sub_scheme_code"
+                                        [multiple]="false" placeholder="Select subScheme"
+                                        [(ngModel)]="bookletPurchaseObj['sub_scheme_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enter Party Id :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text"
+                                        [(ngModel)]="bookletPurchaseObj['party_id']">
+                                </div>
+                                <div class="col-1 text-left">
+                                    <button class="btn btn-outline-primary" (click)="fetchParty()">Fetch</button>
+                                </div>
+                                <div class="col-3 text-left">
+                                    Party Name::{{partyName}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enter Transaction Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date"
+                                        [(ngModel)]="bookletPurchaseObj['txn_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Transaction Desc :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text"
+                                        [(ngModel)]="bookletPurchaseObj['txn_desc']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enter Challan Id :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text"
+                                        [(ngModel)]="bookletPurchaseObj['challan_id']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Amount :
+                                </div>
+                                <div class="col-4">
+                                    {{bookletAmount}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="addBookletPurchase()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Scheme :
+                                </div>
+                                <div class="col-4">
+                                    <select class="form-control" [(ngModel)]="bookletPurchaseObj['scheme_code']"
+                                        (change)="changeScheme()" disabled>
+                                        <option *ngFor="let ob of allSchemes" [(ngValue)]="ob['scheme_code']">
+                                            {{ob['scheme_name']}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Sub-Scheme :
+                                </div>
+                                <div class="col-4">
+                                    <select class="form-control" [(ngModel)]="bookletPurchaseObj['sub_scheme_code']"
+                                        (change)="changeSubScheme()" disabled>
+                                        <option *ngFor="let ob of allSubSchemes" [(ngValue)]="ob['sub_scheme_code']">
+                                            {{ob['sub_scheme_name']}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enter Party Id :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="bookletPurchaseObj['party_id']"
+                                        disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enter Transaction Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date"
+                                        [(ngModel)]="bookletPurchaseObj['txn_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Transaction Desc :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text"
+                                        [(ngModel)]="bookletPurchaseObj['txn_desc']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enter Challan Id :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text"
+                                        [(ngModel)]="bookletPurchaseObj['challan_id']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Amount :
+                                </div>
+                                <div class="col-4">
+                                    {{bookletPurchaseObj['txn_amt']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="updateBookletPurchase()">Update</button>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

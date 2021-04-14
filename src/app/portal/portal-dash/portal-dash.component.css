@@ -1,0 +1,25 @@
+tr:nth-child(even) {
+    background-color: rgb(204, 204, 221);
+}
+
+th {
+    text-align: center;
+}
+
+.row1:nth-child(odd) {
+    margin-top: 10px;
+}
+
+.row1:nth-child(even) {
+    margin-top: 10px;
+}
+
+h6 {
+    margin-top: 10px;
+}
+
+img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
+}

@@ -1,0 +1,226 @@
+<div id="sidebar-collapse">
+    <div class="admin-block d-flex">
+        <div>
+            <img [src]="imgURL" class="img-circle" width="45px" />
+        </div>
+        <div class="admin-info">
+            <div class="font-strong">{{userInfo["first_name"]}}</div><small>{{userInfo["designation"]}}</small></div>
+    </div>
+    <ul class="side-menu metismenu">
+        <li>
+            <a routerLinkActive="active" routerLink="/hrms/index"><i class="sidebar-item-icon fa fa-th-large"></i>
+                <span class="nav-label">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a routerLinkActive="active" routerLink="/hrms/notice"><i class="sidebar-item-icon fa fa-bell-o rel"></i>
+                <span class="nav-label">Notice</span>
+            </a>
+        </li>
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-bar-chart"></i>
+                <span class="nav-label">Report</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/hrms/hrms-report/emp-report" routerLinkActive="active">Employee</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/hrms-report/payroll-report" routerLinkActive="active">Salary Component</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/hrms-report/bill-report" routerLinkActive="active">Bill</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/hrms-report/lpc" routerLinkActive="active">LPC</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/hrms-report/lic-report" routerLinkActive="active">LIC</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/hrms-report/pay-slip" routerLinkActive="active">Pay Slip</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/hrms-report/pention-contribution" routerLinkActive="active">Pension Cont.</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/hrms-report/deduction-report" routerLinkActive="active">PF/IT</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/hrms-report/hold" routerLinkActive="active">Salary Hold</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/hrms-report/annl" routerLinkActive="active">Annual Stmt.</a>
+                </li>
+
+            </ul>
+        </li>
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-users"></i>
+                <span class="nav-label">Employee</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/hrms/party/allemp" routerLinkActive="active">All Employee</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/party/joining" routerLinkActive="active">Joining</a>
+                </li>
+                <!-- <li>
+                    <a routerLink="/hrms/party/personal-info" routerLinkActive="active">Personal Info</a>
+                </li> -->
+                <li>
+                    <a routerLink="/hrms/party/edu-info" routerLinkActive="active">Education Info</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/party/nom-info" routerLinkActive="active">Nominee Info</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/party/bank-dtl-info" routerLinkActive="active">Bank Detail</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/party/lic" routerLinkActive="active">LIC</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/party/dependent-info" routerLinkActive="active">Dependent Info</a>
+                </li>
+
+
+
+
+            </ul>
+        </li>
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-gear"></i>
+                <span class="nav-label">Establishment</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/hrms/arr/establish" routerLinkActive="active">Establish</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/attendance" routerLinkActive="active">Attendance</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/posting" routerLinkActive="active">Posting</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/promotion" routerLinkActive="active">Promotion</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/probation" routerLinkActive="active">Probation</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/complaint" routerLinkActive="active">Complaint</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/enquiry" routerLinkActive="active">Enquiry</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/suspension" routerLinkActive="active">Suspension</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/leaves" routerLinkActive="active">Leaves</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/leaves-apply" routerLinkActive="active">Leave Application</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/termination" routerLinkActive="active">Termination</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/retirement" routerLinkActive="active">Retirement</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/death" routerLinkActive="active">Death</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/reappointment" routerLinkActive="active">Reappointment</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/resign" routerLinkActive="active">Resign</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/arr/transfer" routerLinkActive="active">Transfer</a>
+                </li>
+
+
+
+
+
+            </ul>
+        </li>
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class=" sidebar-item-icon fa fa-usd"></i>
+                <span class="nav-label">Payroll</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/hrms/payroll/fixed-pay" routerLinkActive="active">Fix Pay</a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <span class="nav-label">Arear</span><i class="fa fa-angle-left arrow"></i></a>
+                    <ul class="nav-3-level collapse" routerLinkActive="in">
+                        <li>
+                            <a routerLink="/hrms/payroll/variable-pay/leaveel-arrear" routerLinkActive="active">Encashment Arrear</a>
+                        </li>
+                        <li>
+                            <a routerLink="/hrms/payroll/variable-pay/da-arrear" routerLinkActive="active">DA Arrear</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a routerLink="/hrms/payroll/sal-bill" routerLinkActive="active">Salary Bill</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/payroll/sal-start-stop" routerLinkActive="active">Salary Start/Stop</a>
+                </li>
+                <!-- <li>
+                    <a routerLink="/hrms/payroll/pay-slip" routerLinkActive="active">Pay Slip</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/payroll/other-bill" routerLinkActive="active">Other Bill</a>
+                </li> -->
+                <li>
+                    <a routerLink="/hrms/payroll/ann_inc" routerLinkActive="active">Annual Increment</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/payroll/loan" routerLinkActive="active">Advances</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/payroll/el-encash" routerLinkActive="active">Leave Encashment</a>
+                </li>
+
+
+
+
+
+
+            </ul>
+        </li>
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class=" sidebar-item-icon fa fa-cogs"></i>
+                <span class="nav-label">Setting</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/hrms/setting/fields" routerLinkActive="active">Fields</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/setting/code-value" routerLinkActive="active">Code Value</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/setting/leave-def" routerLinkActive="active">Leave Rule</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/setting/pension-contribution" routerLinkActive="active">Pension Contribution</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/setting/matrix" routerLinkActive="active">Pay Matrix</a>
+                </li>
+                <li>
+                    <a routerLink="/hrms/setting/salary-rules" routerLinkActive="active">Pay Rule</a>
+                </li>
+                <!-- <li>
+                    <a routerLink="/hrms/setting/appr" routerLinkActive="active">Document Tracking</a>
+                </li> -->
+            </ul>
+        </li>
+    </ul>
+</div>

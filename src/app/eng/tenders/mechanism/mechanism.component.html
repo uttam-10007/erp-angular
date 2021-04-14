@@ -1,0 +1,1992 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Tender Mechanism</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i> Tender Mechanism List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle" aria-hidden="true"></i> Create
+                                Tender Mechanism
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"> </i> Update
+                                Tender Mechanism
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-4" data-toggle="tab"><i class="fa fa-upload"
+                                    aria-hidden="true"></i> Upload
+                                File
+                            </a>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+
+                            <br>
+                           
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-4">
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class=" example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="est_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>ESTIMATE ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.est_id }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="svayam_tender_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>INTERNAL ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.svayam_tender_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="name_of_tender">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>TENDER NAME
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{tender_name[element.svayam_tender_id]}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="nic_tender_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>NIC TENDER ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.nic_tender_id}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="verification_status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>VERIFICATION STATUS
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.verification_status}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>STATUS
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status}} </td>
+                                    </ng-container>
+
+                                  
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-primary"
+                                                (click)="open_update(element)">Update</button>&nbsp;
+                                             <button class="btn btn-danger"
+                                                (click)="delete(element)">Delete</button>&nbsp;
+                                                <button class="btn btn-info"
+                                                (click)="complete(element)" *ngIf="element.status == 'VERIFYING'">COMPLETE</button> &nbsp;
+                                                <button class="btn btn-danger"
+                                                (click)="terminate(element)" *ngIf="element.status == 'VERIFYING'">TERMINATE</button> 
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-7-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Estimate ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEstimate" (change)="changeestimate()" bindLabel="id"
+                                        bindValue="id" [multiple]="false" placeholder="" [(ngModel)]="Obj['est_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Internal ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="selectedEstimateTenders" bindLabel="svayam_tender_id"
+                                        (change)="changeTender()" bindValue="svayam_tender_id" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['svayam_tender_id']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> PRELIMNARY DETAILS </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>WORK TITLE/ TENDER NAME :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_name']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>WORK DESCRIPTION :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_desc']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>ESTIMATE BUDGET :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['est_bud']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>NO. OF FIRM APPLICANTS :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['no_of_applicants']"
+                                        disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PERIOD OF WORK :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['work_period']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>DEPARTMENT :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="Obj['tender_inviting_auth_department']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>BID VALIDITY :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['bid_validity']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TENDER SELECTION METHOD :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['method_of_selection']"
+                                        disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>NIC TENDER ID :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['nic_tender_id']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TENDER REFERENCE NO :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_ref_no']" disabled>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>TECHNICAL OPENING DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['tech_opening_date']"
+                                        >
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TYPE OF FIRM (L1) :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <!-- <input type="text" class="form-control" [(ngModel)]="Obj['tender_ref_no']"> -->
+                                    <ng-select [items]="typeOfFirmArr" bindLabel="code" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['type_of_firm']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>L1 FIRM :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l1_firm_name']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+
+                                    <h6>L1 EMAIL :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l1_email']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>L1 MOBILE NO. :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l1_mob_no']">
+                                </div>
+                                <div class="col-3 text-right">
+
+                                    <h6>L1 ADDRESS :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <textarea type="text" class="form-control"
+                                        [(ngModel)]="Obj['l1_address']"></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>L2 FIRM :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l2_firm_name']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+
+                                    <h6>L2 EMAIL :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l2_email']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>L2 MOBILE NO. :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l2_mob_no']">
+                                </div>
+                                <div class="col-3 text-right">
+
+                                    <h6>L2 ADDRESS :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <textarea type="text" class="form-control"
+                                        [(ngModel)]="Obj['l2_address']"></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div *ngIf="Obj['type_of_firm']=='JV'">
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>NO. OF FIRMS :</h6>
+
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="number" class="form-control" [(ngModel)]="Obj['no_of_firms']"
+                                            (change)="changeNoOfFirms()">
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div *ngFor="let ln of Obj['firm_data']; let i = index;">
+                                    <div class="row">
+                                        <div class="col-4 text-right">
+                                            <h6>FIRM NO. {{i+1}} :</h6>
+
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" [(ngModel)]="ln['firm'+i+'name']">
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>RATIO OF THE DISTRIBUION :</h6>
+
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control"
+                                            [(ngModel)]="Obj['ratio_of_distribution']">
+                                    </div>
+
+                                </div>
+                                <hr>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>VERIFICATION :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="verficationArr" bindLabel="code" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['verification_status']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                           
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> LOA, PG & AGREEMENT</b></h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>LOA :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['loa_document_id'])"
+                                        *ngIf="Obj['loa_document_id']!=null" style="margin-right: 10px;">ANNEXURE</button>
+                                        <button class="btn btn-info" (click)="generateLoa()"
+                                        *ngIf="Obj['loa_document_id']!=null" style="margin-right: 10px;">GENERATE</button>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>ISSUE DATE :</h6>
+                                </div>
+                                <div class="col-3">
+                                    
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['loa_generate_date']" disabled>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 16%;text-align: center;">
+                                    <b>PERIOD OF SUBMISSION
+                                    </b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>START DATE
+                                    </b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>END DATE
+                                    </b>
+                                </div>
+                                <div style="width: 13%;text-align: center;">
+                                    <b>STATUS
+
+                                    </b>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <b>EXTENSION GRANTED
+
+                                    </b>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <b>PENALTY DUE
+
+                                    </b>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <b>PENALTY VALUE
+
+                                    </b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>ACTION
+                                    </b>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>1.</b>
+                                </div>
+                                <div style="width: 10%;">
+                                    <input type="number" class="form-control"
+                                        [(ngModel)]="Obj['loa_award_obj']['period_of_submission']">
+                                </div>
+                                <div style="width: 6%;text-align: center;">
+                                    <h6><b>(Days)</b></h6>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['loa_award_obj']['start_date']">
+
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['loa_award_obj']['end_date']">
+
+                                </div>
+                                <div style="width: 13%;text-align: center;">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN032']" bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['loa_status']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <ng-select [items]="extGrantedArr" bindLabel="code" bindValue="code"
+                                        [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['loa_award_obj']['ext_granted']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="Obj['loa_award_obj']['penality_due']">
+
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="Obj['loa_award_obj']['penality_value']">
+
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <ng-select [items]="loaActionArr" bindLabel="code" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['loa_award_obj']['action']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>AGREEMENT :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['agreement_doc_id'])"
+                                        *ngIf="Obj['agreement_doc_id']!=null" style="margin-right: 10px;">ANNEXURE</button>
+
+                                        <button class="btn btn-info" (click)="generateAgreement()"
+                                        *ngIf="Obj['agreement_doc_id']!=null" style="margin-right: 10px;">GENERATE</button>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>ISSUE DATE :</h6>
+                                </div>
+                                <div class="col-3">
+                                    
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['agreement_generate_date']" disabled >
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>TENDER AWARDED FIRM :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_award_firm']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> PAYMENT DETAILS</b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>OFFER VALUE :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['offer_value']">
+                                </div>
+                                <div class="col-4 text-right">
+                                    <!-- <button class="btn btn-primary" (click)="addPaymentLine()"><i
+                                        class="fa fa-plus" aria-hidden="true"></button> -->
+                                    <button class="btn btn-primary" (click)="addPaymentLine()"
+                                        style="align-content: right;"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 10%;text-align: center;">
+                                    <b>STAGES</b>
+                                </div>
+                                <div style="width: 16%;text-align: center;">
+                                    <b>ACTIVITIES
+                                    </b>
+                                </div>
+                                <div style="width: 13%;text-align: center;">
+                                    <b>STATUS
+                                    </b>
+                                </div>
+                                <div style="width: 14%;text-align: center;">
+                                    <b>AMOUNT PAYABLE </b>
+                                </div>
+                                <div style="width: 13%;text-align: center;">
+                                    <b>PAYMENT STATUS
+
+                                    </b>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <b>DATE OF PAYMENT
+                                    </b>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <b>INVOICE NO. </b>
+                                </div>
+
+                                <div style="width: 10%;text-align: center;">
+                                    <b>ACTION
+                                    </b>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div *ngFor="let pln of Obj['payment_data']; let j = index;">
+                                <div class="row">
+                                    <div style="width: 10%;">
+
+                                        <input type="text" class="form-control" [(ngModel)]="pln['stages']">
+                                    </div>
+                                    <div style="width: 16%;">
+                                        <input type="text" class="form-control" [(ngModel)]="pln['activites']">
+                                    </div>
+                                    <div style="width: 13%;">
+                                        <input type="text" class="form-control" [(ngModel)]="pln['status']">
+                                    </div>
+                                    <div style="width: 14%;">
+                                        <input type="text" class="form-control" [(ngModel)]="pln['amount_payable']">
+                                    </div>
+                                    <div style="width: 13%;">
+                                        <input type="text" class="form-control" [(ngModel)]="pln['payment_status']">
+                                    </div>
+                                    <div style="width: 12%;">
+                                        <input type="date" class="form-control" [(ngModel)]="pln['date_of_payment']">
+                                    </div>
+                                    <div style="width: 12%;">
+                                        <input type="text" class="form-control" [(ngModel)]="pln['invoice_no']">
+                                    </div>
+
+                                    <div style="width: 10%;text-align: center;">
+                                        <!-- <button class="btn btn-danger" (click)="deletePaymentLine(j)"><i
+                                        class="fa fa-delete" aria-hidden="true"></button> -->
+                                        <button class="btn btn-danger" (click)="deletePaymentLine(j)"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+                                    </div>
+
+
+
+                                </div>
+                                <br>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> PERIOD OF WORK</b></h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <b>WORK START DATE
+                                    </b>
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <b>WORK END DATE
+                                    </b>
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <b>DATE OF EXTENSION , IF GRANTED</b>
+                                </div>
+                                <div style="width: 15%;text-align: center;">
+                                    <b>NEW END DATE </b>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div style="width: 5%;text-align: center;">
+                                    1.
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['work_period_obj']['work_start_date']">
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['work_period_obj']['work_end_date']">
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['work_period_obj']['date_of_extension']">
+                                </div>
+                                <div style="width: 15%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['work_period_obj']['new_end_date']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> BLACKLISTING</b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>BLACKLISTING :</h6>
+
+                                </div>
+                                <div class="col-3">
+
+                                    <button class="btn btn-success" (click)="view(Obj['blacklist_doc_id'])"
+                                    *ngIf="Obj['blacklist_doc_id']!=null" style="margin-right: 10px;">RULES ANNEXURE </button>
+                                </div>
+                                <div class="col-3 text-right">
+
+                                </div>
+                                <div class="col-3">
+
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>BLACKLIST FIRM :</h6>
+
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['blacklist_firm']">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TIME PERIOD :</h6>
+
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['blacklist_time_period']">
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>REMARK :</h6>
+
+                                </div>
+                                <div class="col-9">
+
+                                    <textarea type="text" class="form-control"
+                                        [(ngModel)]="Obj['blanklist_remark']"></textarea>
+
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 55%;border-color: black;">
+                                        <b style="margin-left:10% ;"> EXTENSION</b></h5>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <button class="btn btn-primary" (click)="addExtensionLine()"
+                                        style="align-content: right;"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 45%;text-align: center;">
+                                    <b>ACTIVITIES PENDING</b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>EXTENSION GRANT START DATE
+
+                                    </b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>EXTENSION GRANT STOP DATE</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>ACTION </b>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div *ngFor="let eln of Obj['extension_data']; let k = index;">
+                                <div class="row">
+                                    <div style="width: 5%;text-align: center;">
+                                        <b>{{k+1}}.</b>
+                                    </div>
+                                    <div style="width: 45%;text-align: center;">
+                                        <input type="text" class="form-control" [(ngModel)]="eln['activity_pending']">
+
+                                    </div>
+                                    <div style="width: 20%;text-align: center;">
+                                        <input type="date" class="form-control" [(ngModel)]="eln['grant_start_date']">
+
+                                    </div>
+                                    <div style="width: 20%;text-align: center;">
+                                        <input type="date" class="form-control" [(ngModel)]="eln['grant_end_date']">
+                                    </div>
+                                    <div style="width: 10%;text-align: center;">
+                                        <button class="btn btn-danger" (click)="deleteextensionLine(k)"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                            </div>
+
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 55%;border-color: black;">
+                                        <b style="margin-left:10% ;"> ESCALATION</b></h5>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <button class="btn btn-primary" (click)="addEscalationLine()"
+                                        style="align-content: right;"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 45%;text-align: center;">
+                                    <b>DESCRIPTION/ REASON FOR ESCALATION
+                                    </b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>ESCALATED %
+
+
+                                    </b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>AMOUNT</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>ACTION </b>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div *ngFor="let esln of Obj['escalation_data']; let l = index;">
+                                <div class="row">
+                                    <div style="width: 5%;text-align: center;">
+                                        <b>{{l+1}}.</b>
+                                    </div>
+                                    <div style="width: 45%;text-align: center;">
+                                        <input type="text" class="form-control" [(ngModel)]="esln['escalation_reason']">
+
+                                    </div>
+                                    <div style="width: 20%;text-align: center;">
+                                        <input type="number" class="form-control" [(ngModel)]="esln['escalation_percentage']">
+
+                                    </div>
+                                    <div style="width: 20%;text-align: center;">
+                                        <input type="number" class="form-control" [(ngModel)]="esln['escalation_amount']">
+                                    </div>
+                                    <div style="width: 10%;text-align: center;">
+                                        <button class="btn btn-danger" (click)="deleteEscalationLine(l)"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 55%;border-color: black;">
+                                        <b style="margin-left:10% ;"> DEVIATION</b></h5>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <button class="btn btn-primary" (click)="addDeviationLine()"
+                                        style="align-content: right;"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 35%;text-align: center;">
+                                    <b>DESCRIPTION
+                                    </b>
+                                </div>
+                                <div style="width: 15%;text-align: center;">
+                                    <b>DEVIATION AMOUNT
+
+
+                                    </b>
+                                </div>
+                                <div style="width: 35%;text-align: center;">
+                                    <b>REMARK</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>ACTION </b>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div *ngFor="let dln of Obj['deviation_data']; let m = index;">
+                                <div class="row">
+                                    <div style="width: 5%;text-align: center;">
+                                        <b>{{m+1}}.</b>
+                                    </div>
+                                    <div style="width: 35%;text-align: center;">
+                                        <input type="text" class="form-control" [(ngModel)]="dln['deviation_desc']">
+
+                                    </div>
+                                    <div style="width: 15%;text-align: center;">
+                                        <input type="number" class="form-control" [(ngModel)]="dln['deviation_amount']">
+
+                                    </div>
+                                    <div style="width: 35%;text-align: center;">
+                                        <input type="text" class="form-control" [(ngModel)]="dln['deviation_remark']">
+                                    </div>
+                                    <div style="width: 10%;text-align: center;">
+                                        <button class="btn btn-danger" (click)="deleteDeviationLine(m)"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                            </div>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 78%;border-color: black;">
+                                        <b style="margin-left:5% ;"> COMPLETION CERTIFICATE
+                                        </b></h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>COMPLETION CERTIFICATE :
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['completion_cert_document_id'])"
+                                    *ngIf="Obj['completion_cert_document_id']!=null" style="margin-right: 10px;">ANNEXURE</button>
+                                    <button class="btn btn-info" (click)="generateCC()"
+                                    *ngIf="Obj['completion_cert_document_id']!=null" style="margin-right: 10px;">GENERATE</button>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>ISSUE DATE :</h6>
+                                </div>
+                                <div class="col-3">
+                                    
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['completion_cert_generate_date']" disabled >
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>REMARK :
+                                    </h6>
+                                </div>
+                                <div class="col-9">
+                                    <textarea type="text" class="form-control"
+                                        [(ngModel)]="Obj['completion_remark']"></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <!-- <button class="btn btn-success" (click)="complete()">Complete</button> -->
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                      
+
+
+
+                        <div class="tab-pane fade" id="tab-7-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6> Estimate ID :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['est_id']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6> Internal ID :</h6>
+                                </div>
+                                <div class="col-3">
+                                   
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['svayam_tender_id']" disabled>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> PRELIMNARY DETAILS </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>WORK TITLE/ TENDER NAME :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_name']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>WORK DESCRIPTION :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_desc']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>ESTIMATE BUDGET :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['est_bud']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>NO. OF FIRM APPLICANTS :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['no_of_applicants']"
+                                        disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PERIOD OF WORK :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['work_period']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>DEPARTMENT :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="Obj['tender_inviting_auth_department']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>BID VALIDITY :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['bid_validity']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TENDER SELECTION METHOD :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['method_of_selection']"
+                                        disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>NIC TENDER ID :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['nic_tender_id']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TENDER REFERENCE NO :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_ref_no']" disabled>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>TECHNICAL OPENING DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['tech_opening_date']"
+                                        >
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TYPE OF FIRM (L1) :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <!-- <input type="text" class="form-control" [(ngModel)]="Obj['tender_ref_no']"> -->
+                                    <ng-select [items]="typeOfFirmArr" bindLabel="code" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['type_of_firm']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>L1 FIRM :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l1_firm_name']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+
+                                    <h6>L1 EMAIL :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l1_email']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>L1 MOBILE NO. :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l1_mob_no']">
+                                </div>
+                                <div class="col-3 text-right">
+
+                                    <h6>L1 ADDRESS :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <textarea type="text" class="form-control"
+                                        [(ngModel)]="Obj['l1_address']"></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>L2 FIRM :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l2_firm_name']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+
+                                    <h6>L2 EMAIL :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l2_email']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>L2 MOBILE NO. :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['l2_mob_no']">
+                                </div>
+                                <div class="col-3 text-right">
+
+                                    <h6>L2 ADDRESS :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <textarea type="text" class="form-control"
+                                        [(ngModel)]="Obj['l2_address']"></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <div *ngIf="Obj['type_of_firm']=='JV'">
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>NO. OF FIRMS :</h6>
+
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="number" class="form-control" [(ngModel)]="Obj['no_of_firms']"
+                                            (change)="changeNoOfFirms()">
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div *ngFor="let ln of Obj['firm_data']; let i = index;">
+                                    <div class="row">
+                                        <div class="col-4 text-right">
+                                            <h6>FIRM NO. {{i+1}} :</h6>
+
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" [(ngModel)]="ln['firm'+i+'name']">
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>RATIO OF THE DISTRIBUION :</h6>
+
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control"
+                                            [(ngModel)]="Obj['ratio_of_distribution']">
+                                    </div>
+
+                                </div>
+                                <hr>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>VERIFICATION :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="verficationArr" bindLabel="code" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['verification_status']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                              <button class="btn btn-primary" (click)="save()">Save</button>
+
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> LOA, PG & AGREEMENT</b></h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>LOA :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['loa_document_id'])"
+                                        *ngIf="Obj['loa_document_id']!=null" style="margin-right: 10px;">ANNEXURE</button>
+                                        <button class="btn btn-info" (click)="generateLoa()"
+                                        *ngIf="Obj['loa_document_id']!=null" style="margin-right: 10px;">GENERATE</button>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>ISSUE DATE :</h6>
+                                </div>
+                                <div class="col-3">
+                                    
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['loa_generate_date']" disabled>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 16%;text-align: center;">
+                                    <b>PERIOD OF SUBMISSION
+                                    </b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>START DATE
+                                    </b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>END DATE
+                                    </b>
+                                </div>
+                                <div style="width: 13%;text-align: center;">
+                                    <b>STATUS
+
+                                    </b>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <b>EXTENSION GRANTED
+
+                                    </b>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <b>PENALTY DUE
+
+                                    </b>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <b>PENALTY VALUE
+
+                                    </b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>ACTION
+                                    </b>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>1.</b>
+                                </div>
+                                <div style="width: 10%;">
+                                    <input type="number" class="form-control"
+                                        [(ngModel)]="Obj['loa_award_obj']['period_of_submission']">
+                                </div>
+                                <div style="width: 6%;text-align: center;">
+                                    <h6><b>(Days)</b></h6>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['loa_award_obj']['start_date']">
+
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['loa_award_obj']['end_date']">
+
+                                </div>
+                                <div style="width: 13%;text-align: center;">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN032']" bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['loa_status']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <ng-select [items]="extGrantedArr" bindLabel="code" bindValue="code"
+                                        [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['loa_award_obj']['ext_granted']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="Obj['loa_award_obj']['penality_due']">
+
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="Obj['loa_award_obj']['penality_value']">
+
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <ng-select [items]="loaActionArr" bindLabel="code" bindValue="code"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['loa_award_obj']['action']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>AGREEMENT :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['agreement_doc_id'])"
+                                        *ngIf="Obj['agreement_doc_id']!=null" style="margin-right: 10px;">ANNEXURE</button>
+
+                                        <button class="btn btn-info" (click)="generateAgreement()"
+                                        *ngIf="Obj['agreement_doc_id']!=null" style="margin-right: 10px;">GENERATE</button>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>ISSUE DATE :</h6>
+                                </div>
+                                <div class="col-3">
+                                    
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['agreement_generate_date']" disabled >
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>TENDER AWARDED FIRM :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_award_firm']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                              <button class="btn btn-primary" (click)="save()">Save</button>
+
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> PAYMENT DETAILS</b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>OFFER VALUE :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['offer_value']">
+                                </div>
+                                <div class="col-4 text-right">
+                                    <!-- <button class="btn btn-primary" (click)="addPaymentLine()"><i
+                                        class="fa fa-plus" aria-hidden="true"></button> -->
+                                    <button class="btn btn-primary" (click)="addPaymentLine()"
+                                        style="align-content: right;"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 10%;text-align: center;">
+                                    <b>STAGES</b>
+                                </div>
+                                <div style="width: 16%;text-align: center;">
+                                    <b>ACTIVITIES
+                                    </b>
+                                </div>
+                                <div style="width: 13%;text-align: center;">
+                                    <b>STATUS
+                                    </b>
+                                </div>
+                                <div style="width: 14%;text-align: center;">
+                                    <b>AMOUNT PAYABLE </b>
+                                </div>
+                                <div style="width: 13%;text-align: center;">
+                                    <b>PAYMENT STATUS
+
+                                    </b>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <b>DATE OF PAYMENT
+                                    </b>
+                                </div>
+                                <div style="width: 12%;text-align: center;">
+                                    <b>INVOICE NO. </b>
+                                </div>
+
+                                <div style="width: 10%;text-align: center;">
+                                    <b>ACTION
+                                    </b>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div *ngFor="let pln of Obj['payment_data']; let j = index;">
+                                <div class="row">
+                                    <div style="width: 10%;">
+
+                                        <input type="text" class="form-control" [(ngModel)]="pln['stages']">
+                                    </div>
+                                    <div style="width: 16%;">
+                                        <input type="text" class="form-control" [(ngModel)]="pln['activites']">
+                                    </div>
+                                    <div style="width: 13%;">
+                                        <input type="text" class="form-control" [(ngModel)]="pln['status']">
+                                    </div>
+                                    <div style="width: 14%;">
+                                        <input type="text" class="form-control" [(ngModel)]="pln['amount_payable']">
+                                    </div>
+                                    <div style="width: 13%;">
+                                        <input type="text" class="form-control" [(ngModel)]="pln['payment_status']">
+                                    </div>
+                                    <div style="width: 12%;">
+                                        <input type="date" class="form-control" [(ngModel)]="pln['date_of_payment']">
+                                    </div>
+                                    <div style="width: 12%;">
+                                        <input type="text" class="form-control" [(ngModel)]="pln['invoice_no']">
+                                    </div>
+
+                                    <div style="width: 10%;text-align: center;">
+                                        <!-- <button class="btn btn-danger" (click)="deletePaymentLine(j)"><i
+                                        class="fa fa-delete" aria-hidden="true"></button> -->
+                                        <button class="btn btn-danger" (click)="deletePaymentLine(j)"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+                                    </div>
+
+
+
+                                </div>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                              <button class="btn btn-primary" (click)="save()">Save</button>
+
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> PERIOD OF WORK</b></h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <b>WORK START DATE
+                                    </b>
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <b>WORK END DATE
+                                    </b>
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <b>DATE OF EXTENSION , IF GRANTED</b>
+                                </div>
+                                <div style="width: 15%;text-align: center;">
+                                    <b>NEW END DATE </b>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div style="width: 5%;text-align: center;">
+                                    1.
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['work_period_obj']['work_start_date']">
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['work_period_obj']['work_end_date']">
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['work_period_obj']['date_of_extension']">
+                                </div>
+                                <div style="width: 15%;text-align: center;">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['work_period_obj']['new_end_date']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                              <button class="btn btn-primary" (click)="save()">Save</button>
+
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> BLACKLISTING</b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>BLACKLISTING :</h6>
+
+                                </div>
+                                <div class="col-3">
+
+                                    <button class="btn btn-success" (click)="view(Obj['blacklist_doc_id'])"
+                                    *ngIf="Obj['blacklist_doc_id']!=null" style="margin-right: 10px;">RULES ANNEXURE </button>
+                                </div>
+                                <div class="col-3 text-right">
+
+                                </div>
+                                <div class="col-3">
+
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>BLACKLIST FIRM :</h6>
+
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['blacklist_firm']">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TIME PERIOD :</h6>
+
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['blacklist_time_period']">
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>REMARK :</h6>
+
+                                </div>
+                                <div class="col-9">
+
+                                    <textarea type="text" class="form-control"
+                                        [(ngModel)]="Obj['blanklist_remark']"></textarea>
+
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                              <button class="btn btn-primary" (click)="save()">Save</button>
+
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 55%;border-color: black;">
+                                        <b style="margin-left:10% ;"> EXTENSION</b></h5>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <button class="btn btn-primary" (click)="addExtensionLine()"
+                                        style="align-content: right;"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 45%;text-align: center;">
+                                    <b>ACTIVITIES PENDING</b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>EXTENSION GRANT START DATE
+
+                                    </b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>EXTENSION GRANT STOP DATE</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>ACTION </b>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div *ngFor="let eln of Obj['extension_data']; let k = index;">
+                                <div class="row">
+                                    <div style="width: 5%;text-align: center;">
+                                        <b>{{k+1}}.</b>
+                                    </div>
+                                    <div style="width: 45%;text-align: center;">
+                                        <input type="text" class="form-control" [(ngModel)]="eln['activity_pending']">
+
+                                    </div>
+                                    <div style="width: 20%;text-align: center;">
+                                        <input type="date" class="form-control" [(ngModel)]="eln['grant_start_date']">
+
+                                    </div>
+                                    <div style="width: 20%;text-align: center;">
+                                        <input type="date" class="form-control" [(ngModel)]="eln['grant_end_date']">
+                                    </div>
+                                    <div style="width: 10%;text-align: center;">
+                                        <button class="btn btn-danger" (click)="deleteextensionLine(k)"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                              <button class="btn btn-primary" (click)="save()">Save</button>
+
+                                </div>
+                                
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 55%;border-color: black;">
+                                        <b style="margin-left:10% ;"> ESCALATION</b></h5>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <button class="btn btn-primary" (click)="addEscalationLine()"
+                                        style="align-content: right;"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 45%;text-align: center;">
+                                    <b>DESCRIPTION/ REASON FOR ESCALATION
+                                    </b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>ESCALATED %
+
+
+                                    </b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>AMOUNT</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>ACTION </b>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div *ngFor="let esln of Obj['escalation_data']; let l = index;">
+                                <div class="row">
+                                    <div style="width: 5%;text-align: center;">
+                                        <b>{{l+1}}.</b>
+                                    </div>
+                                    <div style="width: 45%;text-align: center;">
+                                        <input type="text" class="form-control" [(ngModel)]="esln['escalation_reason']">
+
+                                    </div>
+                                    <div style="width: 20%;text-align: center;">
+                                        <input type="number" class="form-control" [(ngModel)]="esln['escalation_percentage']">
+
+                                    </div>
+                                    <div style="width: 20%;text-align: center;">
+                                        <input type="number" class="form-control" [(ngModel)]="esln['escalation_amount']">
+                                    </div>
+                                    <div style="width: 10%;text-align: center;">
+                                        <button class="btn btn-danger" (click)="deleteEscalationLine(l)"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                              <button class="btn btn-primary" (click)="save()">Save</button>
+
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 55%;border-color: black;">
+                                        <b style="margin-left:10% ;"> DEVIATION</b></h5>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <button class="btn btn-primary" (click)="addDeviationLine()"
+                                        style="align-content: right;"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 35%;text-align: center;">
+                                    <b>DESCRIPTION
+                                    </b>
+                                </div>
+                                <div style="width: 15%;text-align: center;">
+                                    <b>DEVIATION AMOUNT
+
+
+                                    </b>
+                                </div>
+                                <div style="width: 35%;text-align: center;">
+                                    <b>REMARK</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>ACTION </b>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div *ngFor="let dln of Obj['deviation_data']; let m = index;">
+                                <div class="row">
+                                    <div style="width: 5%;text-align: center;">
+                                        <b>{{m+1}}.</b>
+                                    </div>
+                                    <div style="width: 35%;text-align: center;">
+                                        <input type="text" class="form-control" [(ngModel)]="dln['deviation_desc']">
+
+                                    </div>
+                                    <div style="width: 15%;text-align: center;">
+                                        <input type="number" class="form-control" [(ngModel)]="dln['deviation_amount']">
+
+                                    </div>
+                                    <div style="width: 35%;text-align: center;">
+                                        <input type="text" class="form-control" [(ngModel)]="dln['deviation_remark']">
+                                    </div>
+                                    <div style="width: 10%;text-align: center;">
+                                        <button class="btn btn-danger" (click)="deleteDeviationLine(m)"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                              <button class="btn btn-primary" (click)="save()">Save</button>
+
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 78%;border-color: black;">
+                                        <b style="margin-left:5% ;"> COMPLETION CERTIFICATE
+                                        </b></h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>COMPLETION CERTIFICATE :
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['completion_cert_document_id'])"
+                                    *ngIf="Obj['completion_cert_document_id']!=null" style="margin-right: 10px;">ANNEXURE</button>
+                                    <button class="btn btn-info" (click)="generateCC()"
+                                    *ngIf="Obj['completion_cert_document_id']!=null" style="margin-right: 10px;">GENERATE</button>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>ISSUE DATE :</h6>
+                                </div>
+                                <div class="col-3">
+                                    
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['completion_cert_generate_date']" disabled >
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>REMARK :
+                                    </h6>
+                                </div>
+                                <div class="col-9">
+                                    <textarea type="text" class="form-control"
+                                        [(ngModel)]="Obj['completion_remark']"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                              <button class="btn btn-primary" (click)="save()">Save</button>
+
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <hr>
+                            
+                        </div>
+
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

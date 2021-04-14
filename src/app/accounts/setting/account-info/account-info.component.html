@@ -1,0 +1,203 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Account Info Manage</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All Account Type List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"></i> Create Account Type</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Account Type</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Account Type:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allAccountType" bindLabel="account_type"
+                                        (change)="changeAccountType()" bindValue="account_type" [multiple]="false"
+                                        placeholder="Select Account Type" [(ngModel)]="selectAccountType"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="account_type">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <hr>
+                            <br>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "class="right">
+                                            {{ element.id }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="account_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Account
+                                            Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.account_type }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="account_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Account
+                                            Desc
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.account_desc }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="account_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Account
+                                            Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.account_code }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary"
+                                                (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-outline-danger"
+                                                (click)="delete(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Account Type:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allAccountType" bindLabel="account_type"
+                                        bindValue="account_type" [multiple]="false" placeholder="Select Account Type"
+                                        [(ngModel)]="selectAccountType" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_type">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Account Desc:
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['account_desc']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Account Code:
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['account_code']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Account Type:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allAccountType" bindLabel="account_type"
+                                        bindValue="account_type" [multiple]="false" placeholder="Select Account Type"
+                                        [(ngModel)]="selectAccountType" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_type">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Account Desc:
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" class="form-control" [(ngModel)]="obj['account_desc']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Account Code:
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="obj['account_code']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

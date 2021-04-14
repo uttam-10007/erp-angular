@@ -1,0 +1,327 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Saved Report</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                Report</a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Chart Of Account:
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="allChartOfAccount" bindLabel="lvl5_value" bindValue="lvl5_code"
+                                        [multiple]="false" placeholder="Select Chart Of Account"
+                                        [(ngModel)]="obj['acct_num']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Accounting Start Date :
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" type="date" [(ngModel)]="obj['accounting_dt_start']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Accounting End Date :
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" type="date" [(ngModel)]="obj['accounting_dt_end']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Financial Year :
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="allFinYear" bindLabel="fin_year" bindValue="fin_year"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['fin_year']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="fin_year">
+                                    </ng-select>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <!-- <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Fields :
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="journalFields" bindLabel="bus_name" bindValue="tech_name"
+                                        [multiple]="true" placeholder="" [(ngModel)]="obj['fields']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="false" name="fields">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br> -->
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="jrnl_line_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Journal Line
+                                            ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.jrnl_line_id }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="jrnl_detail_line_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Journal
+                                            Detail Line ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.jrnl_detail_line_id }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="jrnl_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Journal
+                                            Description
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.jrnl_desc }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="fin_year">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Financial
+                                            Year
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.fin_year }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="debit_credit_ind">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> DB
+                                            Indicater
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.debit_credit_ind }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="acct_num">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Account
+                                            Number
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.acct_num }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="event_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Account Head
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.event_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="accounting_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Accounting
+                                            Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.accounting_dt }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="processing_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>processing
+                                            Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.processing_dt }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Party
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ AllPartyObj[element.party_id ]}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Amount
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.amount }} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+
+                                            <button class="btn btn-outline-danger"
+                                                (click)="delete(element)">Delete</button>
+                                            <button class="btn btn-outline-primary"
+                                                (click)="post(element)">Post</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <!-- <div class="tab-pane fade" id="tab-2">
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Journal Description :
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['jrnl_desc']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Party :
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="allParty" bindLabel="party_legal_name" bindValue="id"
+                                        [multiple]="false" placeholder="Select Party" [(ngModel)]="obj['party_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Accounting Date:
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" type="date" [(ngModel)]="obj['accounting_dt']">
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-8 text-right">
+                                </div>
+                                <div class="col-3 text-center">
+                                    <button class="btn btn-primary" (click)="addRow()">Add</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div>
+                                <table>
+
+                                    <tr>
+                                        <th *ngFor="let data1 of headerJournal" style="min-width:200px"
+                                            class="text-center">
+                                            {{data1.full_name}}
+                                        </th>
+                                    </tr>
+                                    <br>
+                                    <tr *ngFor="let ln of AllJournalRow; let i = index;">
+
+                                        <td>
+                                            <ng-select [items]="allChartOfAccount" bindLabel="lvl5_value"
+                                                bindValue="lvl5_code" [multiple]="false"
+                                                placeholder="Select Chart Of Account" [(ngModel)]="ln['acct_num']"
+                                                [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                                [closeOnSelect]="true" name="field_name">
+                                            </ng-select>
+                                        </td>
+
+                                        <td>
+                                            <ng-select [items]="allDBIND" bindLabel="value" bindValue="code"
+                                                [multiple]="false" placeholder="Select Debit Credit Indicater"
+                                                [(ngModel)]="ln['debit_credit_ind']" [selectableGroup]="true"
+                                                [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                name="field_name">
+                                            </ng-select>
+                                        </td>
+
+                                        <td>
+
+                                            <ng-select [items]="allAccountInfo" bindLabel="account_desc"
+                                                bindValue="account_code" [multiple]="false"
+                                                placeholder="Select Account Type" [(ngModel)]="ln['account_code']"
+                                                [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                                [closeOnSelect]="true" name="account_type">
+                                            </ng-select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Enter Amount"
+                                                [(ngModel)]="ln['amount']">
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-danger " (click)="deleteRow(i)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">Submit</button>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

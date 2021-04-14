@@ -1,0 +1,309 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Other Payment </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Employee All Other Payment Detail List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i> Add Employee
+                                Other Payment Detail</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-update"></i> Update Employee
+                                Other Payment Detail</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="other_pay_component_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Pay Component Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['FLD137'][element.other_pay_component_code] }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="other_pay_component_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Pay Component Amount
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.other_pay_component_amount}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pay_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_status_code}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-danger" (click)="open_update(element)">Update</button>
+                                        </td>
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Party Name :
+                                </div>
+                                <div class="col-4">
+
+                                    <input class="form-control" [(ngModel)]="otherpayObj['party_name']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Pay Component:
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['FLD137']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="otherpayObj['other_pay_component_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Pay Component Amount :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" type="number" [(ngModel)]="otherpayObj['other_pay_component_amount']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Fincial Year:
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['FLD1011']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="otherpayObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-3 text-right">
+                                    Month:
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['FLD140']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="otherpayObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="month">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Party Bank Account Number:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="otherpayObj['party_bank_account_no']">
+
+                                </div>
+
+                                <div class="col-3 text-right">
+                                    Party Bank Name:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="otherpayObj['party_bank_name']">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Party Bank Ifsc Code:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="otherpayObj['party_bank_ifsc_code']">
+
+                                </div>
+
+                                <div class="col-3 text-right">
+                                    Party Bank Branch Name:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="otherpayObj['party_bank_branch_name']">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submitotherPay()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Party Name :
+                                </div>
+                                <div class="col-4">
+
+                                    <input class="form-control" [(ngModel)]="otherpayObj['party_name']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Pay Component:
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['FLD137']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="otherpayObj['other_pay_component_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Pay Component Amount :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" type="number" [(ngModel)]="otherpayObj['other_pay_component_amount']">
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Fincial Year:
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['FLD1011']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="otherpayObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="fin_year1">
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-3 text-right">
+                                    Month:
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['FLD140']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="otherpayObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="month1">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Party Bank Account Number:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="otherpayObj['party_bank_account_no']">
+
+                                </div>
+
+                                <div class="col-3 text-right">
+                                    Party Bank Name:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="otherpayObj['party_bank_name']">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Party Bank Ifsc Code:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="otherpayObj['party_bank_ifsc_code']">
+
+                                </div>
+
+                                <div class="col-3 text-right">
+                                    Party Bank Branch Name:
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="otherpayObj['party_bank_branch_name']">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updateotherPay()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

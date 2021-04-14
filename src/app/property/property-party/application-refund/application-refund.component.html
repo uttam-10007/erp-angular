@@ -1,0 +1,346 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">MANAGE Refund</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" (click)="refressadd()" data-toggle="tab"><i class="ti-bar-chart"></i> All
+                                Refund List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refressadd()"><i class="fa fa-plus-circle"></i> Generate
+                                Refund</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refressadd()"><i class="ti-announcement"></i> Update
+                                Refund</a>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+<br>
+
+                            <div class="row ">
+                                <div class="col-2 text-right">
+                                    <h6>Select Scheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="getAllSubschemesselected()" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="selectedSchemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>Select Subscheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="subselectedSchemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-primary" (click)="changeScheme()">Fetch</button>
+                                </div>
+                            </div>
+                            <div class=" table-container ">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-8 text-right">
+                                        <button class="btn btn-success" (click)="export1()">Export</button>
+                                        <button class="btn btn-primary" (click)="print1()">Download</button>
+    
+                                    </div>
+
+                                </div>
+
+                                <div class="example-container">
+                                    <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                        <ng-container matColumnDef="party_id">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant ID</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.party_id}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="party_name">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Applicant Name</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.party_name }} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="party_phone_no">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Phone No.</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.party_phone_no }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="party_acct_no">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Account No.</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{element.party_acct_no }} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="party_bank_name">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Bank Name</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{element.party_bank_name }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="party_branch_name">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Branch Name</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{element.party_branch_name }} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="party_ifsc_code">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>IFSC Code</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{element.party_ifsc_code }} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="application_amount">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Amount</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{element.application_amount }} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Action</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                               
+                                            <button (click)="print(element)" class="btn btn-primary">Print</button>
+                                            </td>
+                                        </ng-container>
+
+
+
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+<br>
+
+                            <div class="row ">
+                                <div class="col-2 text-right">
+                                    <h6>Select Scheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="getAllSubschemes()" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="generateSchemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <h6>Select Subscheme:</h6>
+                                </div>
+                                <div class="col-3" style="margin-left: 1%;">
+
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="generateSubschemeCode" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="generateSubschemeCode">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-primary" (click)="gettoGenerateRefunds()">FETCH</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="generateRefunds()">GENERATE REFUND</button>
+
+                                </div>
+                            </div>
+
+                            <div class="example-container">
+                                <table mat-table [dataSource]="dataSource1" matSort style="width: 100%">
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant ID</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="party_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Applicant Name</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_phone_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Phone No.</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_phone_no }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="party_acct_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Account No.</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_acct_no }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_bank_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Bank Name</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_bank_name }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="party_branch_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Branch Name</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_branch_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_ifsc_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>IFSC Code</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.party_ifsc_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="application_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Amount</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.application_amount }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-info" type="button" (click)="done(element,i)">Done</button>
+
+                                        </td>
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1;sticky: true">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+                        <!-- <div class="tab-pane fade" id="tab-3">
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Arrangement ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="arr_id" [(ngModel)]="obj['arr_id']" placeholder="Arrangement ID" disabled>
+                                </div>
+                                <div class="col-4 text-left">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Party Name :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="party_name" [(ngModel)]="obj['party_name']" placeholder="Party Name" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Scheme Name :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="scheme_name" [(ngModel)]="obj['scheme_name']" placeholder="Scheme Name" disabled>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Transition Date :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" name="txn_date" [(ngModel)]="obj['txn_date']" placeholder="Transition Date" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Transition Amount :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="txn_amt" [(ngModel)]="obj['txn_amt']" placeholder="Transition Amount">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Account Number :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="party_account_no" [(ngModel)]="obj['party_account_no']" placeholder="Account Number">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Bank Name :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="party_bank_name" [(ngModel)]="obj['party_bank_name']" placeholder="Bank Name">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Branch Name :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="party_branch_name" [(ngModel)]="obj['party_branch_name']" placeholder="Branch Name">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> IFSC Code :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="party_ifsc_code" [(ngModel)]="obj['party_ifsc_code']" placeholder="IFSC Code">
+
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

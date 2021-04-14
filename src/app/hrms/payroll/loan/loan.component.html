@@ -1,0 +1,269 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Advance </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                All Advance List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Apply For
+                                Advance </a>
+                        </li>
+
+                         <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-pencil-alt"></i>  
+                                Approve Advance </a>
+                        </li>
+
+                      <!--  <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab"><i class="ti-settings"></i>See 
+                                 EMI Details </a>
+                        </li>  -->
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <!-- <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <select class="form-control" [(ngModel)]="selectEmpObj['party_id']"
+                                        (change)="changeEmployee()">
+                                        <option *ngFor="let obj of allEmplyees" [(ngValue)]="obj.party_id">
+                                            {{obj.party_name}}</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <hr> -->
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{element.tempid}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ emp_id[element.emp_id] }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="loan_type_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Advance Type Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0025'][element.loan_type_code] }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="loan_amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Advance Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.loan_amount}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="loan_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Advance Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.loan_status_code}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="application_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Application Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{mainService.dateformatchange(element.application_date.split(' ')[0])}} </td>
+                                    </ng-container>
+
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                          <div *ngIf="element.loan_status_code=='APPROVED'"> {{element.loan_status_code}}</div> 
+
+
+                                            <button class="btn btn-success" *ngIf="element.loan_status_code=='APPLIED'" (click)="approveLoan(element,'APPROVED')">APPROVE</button>
+                                            <button class="btn btn-danger" *ngIf="element.loan_status_code=='APPLIED'" (click)="delete(element)">DELETE</button>
+
+                                           
+
+
+                                            <button class="btn btn-primary" *ngIf="element.loan_status_code=='SCHEDULED'" (click)="emi(element)">Schedule EMI</button>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Advance Type :
+                                </div>
+                                <div class="col-4">
+
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0025']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="loanObj['loan_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Advance Amount :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="loanObj['loan_amount']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submitLoan()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Employee ID :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control"  [(ngModel)]="selected_loan_detail['tempid']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                   Employee Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control"  [(ngModel)]="selected_loan_detail['emp_name']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Advance Amount :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="selected_loan_detail['loan_amount']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    EMI Amount :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="selected_loan_detail['Emi_amount']" >
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    No Of EMI :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="selected_loan_detail['no_of_emi']" >
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Start Month :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="selected_loan_detail['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Start Year :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0030']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="selected_loan_detail['year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                           
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submitLoanDisburse()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                       
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

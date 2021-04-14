@@ -1,0 +1,267 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">MANAGE Installment</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" (click)="refressadd()" data-toggle="tab"><i
+                                    class="ti-bar-chart"></i> All
+                                Installment List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refressadd()"><i
+                                    class="ti-settings"></i> Create Payment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refressadd()"><i
+                                    class="ti-announcement"></i> Modify
+                                Payment </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Arrangement ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="nominee_name" [(ngModel)]="arr_id" placeholder="Arrangement ID">
+                                </div>
+                                <div class="col-4 text-left">
+                                    <button class="btn btn-primary" (click)="fetch()">Fetch</button>
+                                </div>
+                            </div>
+
+
+
+                            <div class="example-container">
+                                <div class=" table-container ">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <mat-form-field style="margin-left: 2%">
+                                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4 text-center">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="example-container">
+                                        <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                            <ng-container matColumnDef="arr_id">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Arrangment
+                                                        ID</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.arr_id}} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="txn_amt">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Amount</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.txn_amt }} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="txn_date">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Date</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.txn_date }} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="txn_desc">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                        Description</b> </th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                    {{ element.txn_desc }} </td>
+                                            </ng-container>
+
+
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                    Action</th>
+                                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                                    <button class="btn btn-outline-primary" (click)="edit(element,i)">Update</button>
+
+
+                                                </td>
+
+                                            </ng-container>
+
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                            </tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                            </tr>
+                                        </table>
+                                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                                        </mat-paginator>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Arrangement ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="arr_id" [(ngModel)]="arr_id_create" placeholder="Arrangement ID">
+                                </div>
+                                <div class="col-4 text-left">
+                                    <button class="btn btn-primary" (click)="fetchInfo()">Fetch</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> EMI's Left :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <select class="form-control" name="emi_code" [(ngModel)]="obj['emi_code']" (change)="selectEmi()" placeholder="Cost Code">
+                                        <option *ngFor="let emiArr of emiArr" ngValue="{{emiArr.emi_code}}">
+                                            {{emiArr.emi_code}}
+
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Transition Amount :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="txn_amt" [(ngModel)]="obj['txn_amt']" placeholder="Transition Amount" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Challan ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="challan_id" [(ngModel)]="obj['challan_id']" placeholder="Challan ID">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Transition Date :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" name="txn_date" [(ngModel)]="obj['txn_date']" placeholder="Transition Date">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Transition Description :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" name="txn_desc" [(ngModel)]="obj['txn_desc']" placeholder="Transition Description">
+
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="addNew()">Save</button>
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Arrangement ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="arr_id" [(ngModel)]="obj['arr_id']" placeholder="Arrangement ID" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Transition Amount :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="txn_amt" [(ngModel)]="obj['txn_amt']" placeholder="Transition Amount">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Challan ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="challan_id" [(ngModel)]="obj['challan_id']" placeholder="Challan ID">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Transition Date :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" name="txn_date" [(ngModel)]="obj['txn_date']" placeholder="Transition Date">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Transition Description :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" name="txn_desc" [(ngModel)]="obj['txn_desc']" placeholder="Transition Description">
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

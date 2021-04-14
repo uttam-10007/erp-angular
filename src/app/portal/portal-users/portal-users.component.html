@@ -1,0 +1,154 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">USER MANAGEMENT</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i class="fa fa-line-chart"></i> All Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" data-toggle="tab"><i class="fa fa-users"></i> Add User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab"><i class="fa fa-cogs"></i> Update User</a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataSource" matSort>
+
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element">
+                                        {{ element.first_name}} {{ element.last_name}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="phone_no">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Phone No </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ element.work_phone_no }} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="products">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Products</th>
+                                    <td mat-cell flex-stretch *matCellDef="let element">
+                                        {{ element.prod_cd}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Action </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element; let i = index">
+                                        <button class="btn btn-primary" (click)="openUpdate(element,i)">Update</button>
+                                        <button class="btn btn-danger" (click)="deleteUsers(element,i)">Delete</button>
+                                    </td>
+                                </ng-container>
+
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                </tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </div>
+                        <div class="tab-pane" id="tab-7-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    User Phone No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="addUser['work_phone_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enter Password :
+                                </div>
+                                <div class="col-4">
+                                    <input type="password" class="form-control" [(ngModel)]="addUser['password']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Products :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="availableProd" bindLabel="product_name" bindValue="prod_cd" [multiple]="true" placeholder="Select Products" [(ngModel)]="addUser['assigned_products']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="org">
+
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="addUsers()">ADD</button>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="tab-pane" id="tab-7-3">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    User Phone No. :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="updateUser['email']" disabled>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4">
+                                    Select Products :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="availableProd" bindLabel="product_name" bindValue="prod_cd" [multiple]="true" placeholder="Select Products" [(ngModel)]="updateUser['assigned_products']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="org">
+
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="updateUsers()">UPDATE</button>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

@@ -1,0 +1,185 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Adhoc Report</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Report</a>
+                        </li>
+                        <!--  <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"></i> Create Journal </a>
+                        </li> -->
+
+                        <!--  <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> View
+                                Journal </a>
+                        </li> -->
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Level 1:
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="level1Arr" bindLabel="value" bindValue="code" [multiple]="false"
+                                        placeholder="Select Level 1" [(ngModel)]="obj['lvl1_code']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl1_code">
+                                    </ng-select>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Level 2:
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="level2Arr" bindLabel="value" bindValue="code" [multiple]="false"
+                                        placeholder="Select Level 2" [(ngModel)]="obj['lvl2_code']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl2_code">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Level 3:
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="level3Arr" bindLabel="value" bindValue="code" [multiple]="false"
+                                        placeholder="Select Level 3" [(ngModel)]="obj['lvl3_code']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl3_code">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Level 4:
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="level4Arr" bindLabel="value" bindValue="code" [multiple]="false"
+                                        placeholder="Select Level 4" [(ngModel)]="obj['lvl4_code']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl4_code">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Level 5:
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="level5Arr" bindLabel="value" bindValue="code" [multiple]="false"
+                                        placeholder="Select Level 5" [(ngModel)]="obj['lvl5_code']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl5_code">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Accounting Date :
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" type="date" [(ngModel)]="obj['accounting_dt']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Financial Year :
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="allFinYear" bindLabel="fin_year" bindValue="fin_year"
+                                        [multiple]="false" placeholder="" [(ngModel)]="obj['fin_year']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="fin_year">
+                                    </ng-select>
+
+                                   
+
+
+                                   <!--  <ng-select [items]="mainService.codeValueTechObj['ACC0009']" bindLabel="value"
+                                    bindValue="code" [multiple]="false" placeholder=""
+                                    [(ngModel)]="obj['fin_year']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                </ng-select> -->
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Fields :
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="fields" bindLabel="bus_name" bindValue="tech_name"
+                                        [multiple]="true" placeholder="" [(ngModel)]="obj['fields']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="false" name="fields">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+
+
+<link href="https://cdn.webdatarocks.com/latest/webdatarocks.min.css" rel="stylesheet" />
+<script src="https://cdn.webdatarocks.com/latest/webdatarocks.toolbar.min.js"></script>
+<script src="https://cdn.webdatarocks.com/latest/webdatarocks.js"></script>
+
+<div id="wdr-component"></div>
+
+
+<!-- 
+<button (click)="collapseAll()">Collapse All</button><button (click)="expandAll()">Expand All</button>
+<db-ngtreegrid  #angularGrid [data]="tabledata" [configs]="configs"></db-ngtreegrid>
+ -->

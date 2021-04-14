@@ -1,0 +1,617 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Batch Item</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i>Item List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle" aria-hidden="true"></i> Create
+                                Item
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"> </i> Update
+                                Item
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-4" data-toggle="tab"><i class="fa fa-upload"
+                                    aria-hidden="true"></i> Upload
+                                File
+                            </a>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-4">
+
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button class="btn btn-outline-danger" (click)="deleteAll()">Delete All</button>
+                                </div>
+
+                            </div>
+
+
+                            <div class=" example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="batch_item_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Item ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.batch_item_id }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="batch_item_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Item Descreption
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.batch_item_desc}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="batch_item_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Item Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.batch_item_code}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="activity_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Activity Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.activity_code}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="output_capacity_unit">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Output Capacity Unit
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.output_capacity_unit}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="output_capacity_quantity">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Output Capacity Quantity
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.output_capacity_quantity}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="costing_rate_unit">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Costing Rate Unit
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.costing_rate_unit}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="costing_rate_at_site">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Costing Rate at Site
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.costing_rate_at_site}} </td>
+                                    </ng-container>
+
+
+
+
+
+                                    <ng-container matColumnDef="create_user_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Create UserID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.create_user_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="create_timestamp">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Create TS
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.create_timestamp}} </td>
+                                    </ng-container>
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button>&nbsp;&nbsp;
+                                            <button class="btn btn-outline-danger" (click)="delete(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-7-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="open()">Add</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Engineering Item Identifier :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['batch_item_id']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Engineering Item Category Code *:
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN004'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['batch_item_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="batch_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Engineering Item Description:
+                                </div>
+                                <div class="col-3">
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="Obj['batch_item_desc']"></textarea>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Activity Code :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN006'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['activity_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="activity_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Output Capacity Unit :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN007'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['output_capacity_unit']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="output_capacity_unit">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Output Capacity Quantity :
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['output_capacity_quantity']" (change)="save_popUp()">
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Costing Rate Unit *:
+                                </div>
+
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN009'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['costing_rate_unit']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="costing_rate_unit">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Overhead :
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['overhead']" (change)="save_popUp()">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Contractor Profit :
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['contractor_prof']" (change)="save_popUp()">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Remark :
+                                </div>
+                                <div class="col-3">
+
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="Obj['remark']"></textarea>
+
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Total Item Cost :
+                                </div>
+                                <div class="col-3">
+                                    {{total_item_cost}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    Costing Rate at Site ^:
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['costing_rate_at_site']" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <hr>
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <!-- <button class="btn btn-primary" (click)="check()">Check</button>&nbsp;&nbsp; -->
+
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:blue;">NOTE - </h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:brown;">* Required Fields</h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color: brown;">^ One of these is required</h6>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-7-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="open()">Add</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Engineering Item Identifier :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['batch_item_id']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Engineering Item Category Code *:
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN004'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['batch_item_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="batch_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Engineering Item Description:
+                                </div>
+                                <div class="col-3">
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="Obj['batch_item_desc']"></textarea>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Activity Code :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN006'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['activity_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="activity_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Output Capacity Unit :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN007'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['output_capacity_unit']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="output_capacity_unit">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Output Capacity Quantity :
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['output_capacity_quantity']" (change)="save_popUp()">
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Costing Rate Unit *:
+                                </div>
+
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN009'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['costing_rate_unit']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="costing_rate_unit">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Overhead :
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['overhead']" (change)="save_popUp()">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Contractor Profit :
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['contractor_prof']" (change)="save_popUp()">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Remark :
+                                </div>
+                                <div class="col-3">
+
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="Obj['remark']"></textarea>
+
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Total Item Cost :
+                                </div>
+                                <div class="col-3">
+                                    {{total_item_cost}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    Costing Rate at Site ^:
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['costing_rate_at_site']" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <hr>
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <!-- <button class="btn btn-primary" (click)="check()">Check</button>&nbsp;&nbsp; -->
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:blue;">NOTE - </h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:brown;">* Required Fields</h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color: brown;">^ One of these is required</h6>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="tab-pane fade" id="tab-7-4">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Download Template:
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-success" (click)="exportTemplate()">Download</button>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+
+                                <div class="col-4 text-right">
+                                    Upload File:
+                                </div>
+                                <div class="col-4 text-center">
+                                    <input #file type="file" name="pimage" ng2FileSelect [uploader]="uploader" class="form-control" style="border-color: black" (change)="onFileUpload($event,file.files)">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="button" [disabled]="!uploader.getNotUploadedItems().length" class="btn btn-info" (click)='upload()'><i class="fa fa-upload"
+                                            aria-hidden="true">&nbsp;</i>Upload</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="row">&nbsp;&nbsp;&nbsp;
+                    <h4 class="modal-title"> Item</h4>&nbsp;
+
+                    <button class="btn btn-primary" (click)="addline()"><i class="fa fa-plus"
+                            aria-hidden="true"></i></button>
+                </div>
+
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-right">
+
+                    </div>
+                </div>
+
+                <br>
+
+
+
+                <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;margin-left: 4px;margin-right: 4px;">
+                    <div class="col-2 text-center">
+                        <b>Item Id</b>
+                    </div>
+                    <div class="col-2 text-center">
+                        <b>Item Desc</b>
+                    </div>
+                    <div class="col-2 text-center">
+                        <b>Item Rate </b>
+                    </div>
+                    <div class="col-2 text-center">
+                        <b>Item Unit</b>
+                    </div>
+
+                    <div class="col-2 text-center">
+                        <b>Item Qty</b>
+                    </div>
+                    <div class="col-1 text-center">
+                        <b>Item Cost</b>
+                    </div>
+                    <div class="col-1 text-right">
+                        <b>Action</b>
+                    </div>
+                </div>
+                <br>
+
+                <hr>
+                <div class="row" *ngFor="let ln of Obj['dataArr']; let i = index;" style="margin-top: 15px;">
+                    <div class="col-2 text-center">
+                        <ng-select [items]="allBaseItem" bindLabel="base_item_id" bindValue="base_item_id" [multiple]="false" placeholder="" [(ngModel)]="ln['base_item_id']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="base_item_id"
+                            (change)="change(i)">
+                        </ng-select>
+                    </div>
+                    <div class="col-2 text-center">
+                        {{ln['base_item_desc']}}
+                    </div>
+                    <div class="col-2 text-center">
+                        {{ln['costing_rate_at_site']}}
+                    </div>
+                    <div class="col-2 text-center">
+                        {{ln['costing_rate_unit']}}
+                    </div>
+                    <div class="col-2 text-center">
+                        <input class="form-control" type="number" [(ngModel)]="ln['item_qty']" (change)="changeQty(i)">
+                    </div>
+                    <div class="col-1 text-center">
+                        <h6>{{ln['item_cost']}}</h6>
+
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-danger" (click)="deleteline(i)"><i class="fa fa-trash"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="save_popUp()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

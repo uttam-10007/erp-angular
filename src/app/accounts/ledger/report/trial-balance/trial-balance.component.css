@@ -1,0 +1,40 @@
+tr.mat-header-row {
+    height: 40px !important;
+}
+
+tr.mat-row {
+    height: 30px !important;
+    font-size: 12px;
+}
+
+.example-container {
+    max-height: 720px;
+    overflow: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-cell {
+    padding: 5px 10px 5px 0;
+}
+
+.mat-header-cell {
+    padding: 5px 10px 5px 0;
+}
+
+.mat-row:nth-child(even) {
+    background-color: rgb(238, 224, 226);
+}
+
+.mat-row:nth-child(odd) {
+    background-color: white;
+}
+
+.r {
+    border-top: 5px;
+    border-left: 5px;
+    border-right: 5px;
+    border-bottom: 5px;
+}

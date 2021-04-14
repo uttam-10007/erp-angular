@@ -1,0 +1,7 @@
+tr:nth-child(even) {
+    background-color: rgb(204, 204, 221);
+}
+
+th {
+    text-align: center;
+}

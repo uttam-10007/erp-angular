@@ -1,0 +1,78 @@
+<div style="margin-top: 5%;" class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>Welcome ,{{erpUser.User_name}} ({{this.erpUser.Designation}}) </h3>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div *ngFor="let p of pr" class="col-6 text-center">
+            <button class="btn" (click)="route(p)">
+                <img src="./assets/img/dash/{{imgUrl[p]}}">
+            </button>
+            <h6>{{p}}</h6>
+        </div>
+        <!-- <div class="col-6 text-center">
+            <button class="btn" (click)="route(col3[0])">
+                <img src="./assets/img/dash/{{imgUrl[col3[0]]}}">
+            </button>
+            <h6>{{col3[0]}}</h6>
+        </div> -->
+    </div>
+    <!-- <div class="row" *ngIf="account_flag && !(account_flag && hr_flag)">
+        <div class="col-12 text-center">
+            <button class="btn" (click)="route(col1[0])">
+                <img src="./assets/img/dash/{{imgUrl[col1[0]]}}">
+            </button>
+            <h6>{{col1[0]}}</h6>
+        </div>
+
+    </div>
+    <div class="row" *ngIf="hr_flag &&  !(account_flag && hr_flag)">
+        <div class="col-12 text-center">
+            <button class="btn" (click)="route(col3[0])">
+                <img src="./assets/img/dash/{{imgUrl[col3[0]]}}">
+            </button>
+            <h6>{{col3[0]}}</h6>
+        </div>
+
+    </div> -->
+    <br>
+    <br><br>
+    <br>
+    <!-- <hr> -->
+    <div class="row">
+        <div class="col-3 text-center">
+            <button class="btn" (click)="portal('leave')">
+                <img src="./assets/img/dash/leave.png">
+            </button>
+            <h6>LEAVE</h6>
+        </div>
+        <div class="col-3 text-center">
+            <button class="btn" (click)="portal('salary')">
+                <img src="./assets/img/dash/salary.png">
+            </button>
+            <h6>YOUR SALARY</h6>
+
+        </div>
+        <div class="col-2 text-center">
+            <button class="btn" (click)="portal('profile')">
+                <img src="./assets/img/dash/personalinfo.jpg">
+            </button>
+            <h6>YOUR INFO</h6>
+        </div>
+        <div class="col-2 text-center">
+            <button class="btn" (click)="portal('task')">
+                <img src="./assets/img/dash/task.jpeg">
+            </button>
+            <h6>YOUR TASKS</h6>
+        </div>
+        <div class="col-2 text-center" *ngIf="is_admin==1">
+            <button class="btn" (click)="portal('appr')">
+                <img src="./assets/img/dash/doc.jpg">
+            </button>
+            <h6>DOCUMENT TRACKING</h6>
+        </div>
+    </div>
+</div>

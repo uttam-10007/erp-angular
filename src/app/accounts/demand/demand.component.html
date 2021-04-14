@@ -1,0 +1,821 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Demand </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" (click)='refresh()' data-toggle="tab"><i
+                                    class="ti-bar-chart"></i>
+                                All Demand List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)='refresh()'><i
+                                class="fa fa-plus-circle"></i>
+                                Create Demand</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i>
+                                Update
+                                Demand</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Demand ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">{{element.id}}
+                                            <!-- <input class="form-check-input" type="checkbox" id="is_header_present" [(ngModel)]="element['id']"> -->
+                                        </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Party ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.party_id }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_name">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Party Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ partyArrObj[element.party_id ]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="remark">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Remark
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.remark}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="demand_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Demand Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <!-- {{ element.demand_date}}  -->
+                                        <p *ngIf="element.demand_date">{{mainService.dateFormatChange(element.demand_date)}}</p></td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="org_bank">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Organization Bank
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.org_bank_acct_no}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="org_gistn">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Organization GISTN Number
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.org_gstin }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-success" (click)="print(element)">Print</button>&nbsp;&nbsp;
+                                            <button (click)="open_update(element)" class="btn btn-primary">Update</button>
+                                            <button (click)="delete(element)" class="btn btn-danger">Delete</button>
+                                            <button (click)="process(element)" *ngIf="element['status']=='GENERATED'" class="btn btn-info">Process</button>
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Demand ID :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <input class="form-control" [(ngModel)]="demandObj['id']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Demand Date :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <!-- {{demandObj['demand_date']}} -->
+                                    <p *ngIf="demandObj['demand_date']">{{mainService.dateFormatChange(demandObj['demand_date'])}}</p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Section :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0111']" placeholder="Section" bindLabel="value" bindValue="code" [multiple]="false" [(ngModel)]="demandObj['section']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Select Party :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <ng-select [items]="partyArr" bindLabel="party_name" (change)="changeParty()" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="demandObj['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="account_type">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Mobile No.:</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    {{demandObj['party_phone_no']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Email:</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    {{demandObj['party_email']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Party Address :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    {{demandObj['party_address']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Demand Valid Till :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <input type="date" class="form-control" placeholder="" [(ngModel)]="demandObj['demand_valid_date']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Organisation GSTIN NO.</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0103']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="select gstin number" [(ngModel)]="demandObj['org_gstin']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Party GSTIN NO.</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    {{demandObj['party_gstin_no']}}
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Bank Account</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <ng-select [items]="allBankAccounts" bindLabel="desc" bindValue="bank_acct_no" [multiple]="false" placeholder="select bank account" [(ngModel)]="demandObj['org_bank_acct_no']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Remark</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <textarea type="date" class="form-control" placeholder="enter remark" [(ngModel)]="demandObj['remark']"></textarea>
+
+                                </div>
+
+                            </div>
+                            <hr>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addRow()"><i class="fa fa-plus"
+                                        aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div style="overflow: scroll;">
+                                <table style="overflow-x: auto;overflow-y: auto;margin-bottom: 10px;" class="table">
+                                    <tr>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            Sr No.
+                                        </th>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            Event
+                                        </th>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            Measurrement Unit
+                                        </th>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            Unit
+                                        </th>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            Rate
+                                        </th>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            Amount
+                                        </th>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            GST
+                                        </th>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            HSN
+                                        </th>
+
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            IGST
+                                        </th>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            SGST
+                                        </th>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            CGST
+                                        </th>
+                                        <th style="min-width:200px;background-color: #1589FF;color: white;">
+                                            Total Amount
+                                        </th>
+                                        <th style="min-width:50px;text-align:center;background-color: #1589FF;color: white;">
+                                            Action
+                                        </th>
+                                    </tr>
+                                    <tr *ngFor="let ob of demandObj['data'];let i = index">
+                                        <td class="sticky-col">{{i+1}}</td>
+                                        <td class="sticky-col">
+                                            <div id="text" (click)="open_event_popup(i)" style="color:rgb(37, 130, 236);">
+                                                <h6 *ngIf="ob['event']!=undefined">{{ob['event']}} - {{ob['event_desc']}}
+                                                </h6>
+                                                &nbsp;&nbsp;
+                                                <h6>
+                                                    <b><u>Select Event</u></b></h6>
+                                            </div>
+                                        </td>
+                                        <td><input style="border-width: 3px;" class="form-control" [(ngModel)]="demandObj['data'][i]['measurement_unit']"></td>
+                                        <td><input style="border-width: 3px;" type="number" class="form-control" (change)=" calculateAmount(i)" [(ngModel)]="demandObj['data'][i]['unit']"></td>
+                                        <td><input style="border-width: 3px;" type="number" class="form-control" (change)=" calculateAmount(i)" [(ngModel)]="demandObj['data'][i]['rate']"></td>
+                                        <td><input style="border-width: 3px;" type="number" class="form-control" (change)="changeHSN(i)" [(ngModel)]="demandObj['data'][i]['amount']">
+                                        </td>
+                                        <td>
+                                            <!-- <input style="border-width: 3px;" class="form-control" [(ngModel)]="demandObj['data'][i]['gst_type']"> -->
+                                            <ng-select [items]="mainService.codeValueTechObj['ACC0112']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="demandObj['data'][i]['gst_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                name="field_name" appendTo='body' (change)='gstType(i)'>
+                                            </ng-select>
+                                        </td>
+                                        <td>
+                                            <ng-select [items]="allHSNAccounts" *ngIf="demandObj['data'][i]['gst_type']=='CGST-SGST' || demandObj['data'][i]['gst_type']=='IGST'" bindLabel="hsn_desc" (change)="changeHSN(i)" bindValue="hsn_code" [multiple]="false" placeholder="Select HSN" [(ngModel)]="demandObj['data'][i]['hsn']"
+                                                [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="hsn_code">
+                                            </ng-select>
+                                            <!-- <input  style="border-width: 3px;" class="form-control" [(ngModel)]="demandObj['data'][i]['hsn']"> -->
+                                            <p *ngIf="demandObj['data'][i]['gst_type']!='CGST-SGST' && demandObj['data'][i]['gst_type']!='IGST' ">
+                                                NA</p>
+                                        </td>
+                                        <td>
+                                            <input *ngIf="demandObj['data'][i]['gst_type']=='IGST'" style=" border-width: 3px; " type="number " class="form-control " [(ngModel)]="demandObj[ 'data'][i][ 'igst'] ">
+                                            <p *ngIf="demandObj[ 'data'][i][ 'gst_type']!='IGST' ">
+                                                {{demandObj[ 'data'][i][ 'igst']}}</p>
+
+                                        </td>
+                                        <td>
+                                            <input *ngIf="demandObj[ 'data'][i][ 'gst_type']=='CGST-SGST'" style="border-width: 3px;" type="number" class="form-control" [(ngModel)]="demandObj['data'][i]['cgst']">
+                                            <p *ngIf="demandObj['data'][i]['gst_type']!='CGST-SGST' ">
+                                                {{demandObj['data'][i]['cgst']}}</p>
+
+                                        </td>
+                                        <td>
+                                            <input *ngIf="demandObj['data'][i]['gst_type']=='CGST-SGST'" style=" border-width: 3px; " type="number " class="form-control " [(ngModel)]="demandObj[ 'data'][i][ 'sgst'] ">
+                                            <p *ngIf="demandObj[ 'data'][i][ 'gst_type']!='CGST-SGST' ">
+                                                {{demandObj[ 'data'][i][ 'sgst'] }}</p>
+
+                                        </td>
+                                        <td>
+                                            <input style="border-width: 3px; " type="number " class="form-control " [(ngModel)]="demandObj[ 'data'][i][ 'total'] ">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger " (click)="deleteRow(i) "><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </td>
+                                    </tr>
+
+
+
+
+                                </table>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="check()">Check</button>
+                                    &nbsp;&nbsp;
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Demand ID :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <input class="form-control" [(ngModel)]="demandObj['id']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Demand Date :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <p *ngIf="demandObj['demand_date']">{{mainService.dateFormatChange(demandObj['demand_date'])}}</p>
+
+                                    <!-- <input class="form-control" [(ngModel)]="demandObj['demand_date']" disabled> -->
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Section :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0111']" placeholder="Section" bindLabel="value" bindValue="code" [multiple]="false" [(ngModel)]="demandObj['section']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Select Party :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <ng-select [items]="partyArr" bindLabel="party_name" (change)="changeParty()" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="demandObj['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="account_type">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Mobile No.:</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    {{demandObj['party_phone_no']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Email:</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    {{demandObj['party_email']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Party Address :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    {{demandObj['party_address']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Demand Valid Till :</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <input type="date" class="form-control" placeholder="" [(ngModel)]="demandObj['demand_valid_date']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Organisation GSTIN NO.</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0103']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="select gstin number" [(ngModel)]="demandObj['org_gstin']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Party GSTIN NO.</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    {{demandObj['party_gstin_no']}}
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Bank Account</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <ng-select [items]="allBankAccounts" bindLabel="desc" bindValue="bank_acct_no" [multiple]="false" placeholder=" select bank account" [(ngModel)]="demandObj['org_bank_acct_no']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Remark</h6>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <textarea type="date" class="form-control" placeholder="enter remark" [(ngModel)]="demandObj['remark']"></textarea>
+
+                                </div>
+
+                            </div>
+                            <hr>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addRow()"><i class="fa fa-plus"
+                                        aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div style="overflow: scroll;">
+                                <table style="overflow-x: auto;overflow-y: auto;margin-bottom: 10px;" class="table">
+                                    <tr>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            Sr No.
+                                        </th>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            Event
+                                        </th>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            Measurrement Unit
+                                        </th>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            Unit
+                                        </th>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            Rate
+                                        </th>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            Amount
+                                        </th>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            GST
+                                        </th>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            HSN
+                                        </th>
+
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            IGST
+                                        </th>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            SGST
+                                        </th>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            CGST
+                                        </th>
+                                        <th style="min-width:200px;background-color:#1589FF;color: white;">
+                                            Total Amount
+                                        </th>
+                                        <th style="min-width:50px;text-align:center;background-color:#1589FF;color: white;">
+                                            Action
+                                        </th>
+                                    </tr>
+                                    <tr *ngFor="let ob of demandObj['data'];let i = index">
+                                        <td class="sticky-col">{{i+1}}</td>
+                                        <td class="sticky-col">
+                                            <div id="text" (click)="open_event_popup(i)" style="color:rgb(37, 130, 236);">
+                                                <h6 *ngIf="ob['event']!=undefined">{{ob['event']}} - {{ob['event_desc']}}
+                                                </h6>
+                                                &nbsp;&nbsp;
+                                                <h6>
+                                                    <b><u>Select Event</u></b></h6>
+                                            </div>
+                                        </td>
+                                        <td><input style="border-width: 3px;" class="form-control" [(ngModel)]="demandObj['data'][i]['measurement_unit']"></td>
+                                        <td><input style="border-width: 3px;" type="number" class="form-control" (change)=" calculateAmount(i)" [(ngModel)]="demandObj['data'][i]['unit']"></td>
+                                        <td><input style="border-width: 3px;" type="number" class="form-control" (change)=" calculateAmount(i)" [(ngModel)]="demandObj['data'][i]['rate']"></td>
+                                        <td><input style="border-width: 3px;" type="number" class="form-control" (change)="changeHSN(i)" [(ngModel)]="demandObj['data'][i]['amount']">
+                                        </td>
+                                        <td>
+                                            <!-- <input style="border-width: 3px;" class="form-control" [(ngModel)]="demandObj['data'][i]['gst_type']"> -->
+                                            <ng-select [items]="mainService.codeValueTechObj['ACC0112']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="demandObj['data'][i]['gst_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                name="field_name" appendTo='body' (change)='gstType(i)'>
+                                            </ng-select>
+                                        </td>
+                                        <td>
+                                            <ng-select [items]="allHSNAccounts" *ngIf="demandObj['data'][i]['gst_type']=='CGST-SGST' || demandObj['data'][i]['gst_type']=='IGST'" bindLabel="hsn_desc" (change)="changeHSN(i)" bindValue="hsn_code" [multiple]="false" placeholder="Select HSN" [(ngModel)]="demandObj['data'][i]['hsn']"
+                                                [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="hsn_code">
+                                            </ng-select>
+                                            <!-- <input  style="border-width: 3px;" class="form-control" [(ngModel)]="demandObj['data'][i]['hsn']"> -->
+                                            <p *ngIf="demandObj['data'][i]['gst_type']!='CGST-SGST' && demandObj['data'][i]['gst_type']!='IGST' ">
+                                                NA</p>
+                                        </td>
+                                        <td>
+                                            <input *ngIf="demandObj['data'][i]['gst_type']=='IGST'" style=" border-width: 3px; " type="number " class="form-control " [(ngModel)]="demandObj[ 'data'][i][ 'igst'] ">
+                                            <p *ngIf="demandObj[ 'data'][i][ 'gst_type']!='IGST' ">
+                                                {{demandObj[ 'data'][i][ 'igst']}}</p>
+
+                                        </td>
+                                        <td>
+                                            <input *ngIf="demandObj[ 'data'][i][ 'gst_type']=='CGST-SGST'" style="border-width: 3px;" type="number" class="form-control" [(ngModel)]="demandObj['data'][i]['cgst']">
+                                            <p *ngIf="demandObj['data'][i]['gst_type']!='CGST-SGST' ">
+                                                {{demandObj['data'][i]['cgst']}}</p>
+
+                                        </td>
+                                        <td>
+                                            <input *ngIf="demandObj['data'][i]['gst_type']=='CGST-SGST'" style=" border-width: 3px; " type="number " class="form-control " [(ngModel)]="demandObj[ 'data'][i][ 'sgst'] ">
+                                            <p *ngIf="demandObj[ 'data'][i][ 'gst_type']!='CGST-SGST' ">
+                                                {{demandObj[ 'data'][i][ 'sgst'] }}</p>
+
+                                        </td>
+                                        <td>
+                                            <input style="border-width: 3px; " type="number " class="form-control " [(ngModel)]="demandObj[ 'data'][i][ 'total'] ">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger " (click)="deleteRow(i) "><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </td>
+                                    </tr>
+
+
+
+
+                                </table>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="check()">Check</button>
+                                    &nbsp;&nbsp;
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event By Filter :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+                <div class="row" style="background-color: #217dbb;color:white;padding-top:8px;padding-bottom:8px;margin-left:5px;margin-right:5px;">
+                    <div class="col-3">Select Project</div>
+                    <div class="col-3">Select Product</div>
+                    <div class="col-3">Select Activity</div>
+                    <div class="col-3">Select Budget</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allProject" bindLabel="desc" (change)="changeProject()" bindValue="code" [multiple]="false" placeholder="Select Project" [(ngModel)]="selectObj['proj_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="proj_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('project')">Select</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allProduct" bindLabel="desc" (change)="changeProduct()" bindValue="code" [multiple]="false" placeholder="Select Product" [(ngModel)]="selectObj['prod_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="prod_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('product')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allActivity" bindLabel="desc" (change)="changeActivity()" bindValue="code" [multiple]="false" placeholder="Select Activity" [(ngModel)]="selectObj['act_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="act_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('activity')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allBudget" bindLabel="desc" (change)="changeBudget()" bindValue="code" [multiple]="false" placeholder="Select Budget" [(ngModel)]="selectObj['bud_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="bud_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('budget')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="row" style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+                            <div class="col-9">Project</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['proj_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['proj_lvl']}}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row" style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Product</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['prod_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['prod_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row" style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Activity</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['act_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['act_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row" style="background-color:  #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Budget</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['bud_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['bud_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button type="button" class="btn btn-outline-primary" (click)="FilteredEvents()">Submit</button>
+                    </div>
+                </div>
+                <hr>
+                <br>
+                <div class=" table-container ">
+                    <div class="row">
+                        <div class="col-4">
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4 text-center">
+
+                        </div>
+
+                    </div>
+
+                    <div class="example-container">
+                        <table mat-table [dataSource]="dataSource1" matSort #sortCol2="matSort" style="width: 100%">
+
+                            <ng-container matColumnDef="event_code">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Event Code</b> </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                    {{ element.event_code}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="event_desc">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Event
+                                        Description</b> </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                    {{ element.event_desc }} </td>
+                            </ng-container>
+
+
+
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                    <button class="btn btn-outline-primary" (click)="select(element)">Select</button>
+
+                                </td>
+
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns1;sticky: true">
+                            </tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                            </tr>
+                        </table>
+                        <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

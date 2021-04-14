@@ -1,0 +1,201 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Journal Voucher</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i
+                                    class="ti-bar-chart"></i>
+                                Jv List</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refressadd()"><i
+                                    class="ti-settings"></i> Create
+                                Business Event</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refressadd()"><i
+                                    class="ti-announcement"></i> Update
+                                Business Event</a>
+                        </li> -->
+
+                    </ul>
+                    <!-- <span style="color:red">*</span> -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+
+                                <div class="col-4 text-right">
+                                    <h6>Select Financial Year : </h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="fin_year" bindLabel="fin_year" (change)="empty()" bindValue="fin_year" [multiple]="false" placeholder="Select year" [(ngModel)]="obj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class="col-4 text-right">
+                                    <h6>Select Status : </h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="status" bindLabel="id" (change)="empty()" bindValue="id" [multiple]="false" placeholder="Select status" [(ngModel)]="obj['status']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class="col-12 text-center">
+                                    <button (click)="submit()" class="btn btn-primary">Submit</button>
+                                </div>
+
+                            </div>
+
+                            <div class=" table-container ">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="example-container">
+                                    <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                        <ng-container matColumnDef="jrnl_id">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Journal ID</b>
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.jrnl_id}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="jrnl_desc">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                <b>Journal Description</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.jrnl_desc }} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="jrnl_type">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                <b>Journal Type</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.jrnl_type }} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="db">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                <b>Debited Amount</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.db_amt }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="cr">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                <b>Credited Amount</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.cr_amt }} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                <button (click)="view(element)" class="btn btn-info">View</button>
+                                                <button class="btn btn-primary" (click)="approveJV(element)" *ngIf="obj['status']=='UNPOSTED'">Approve</button>
+                                                <button class="btn btn-danger" *ngIf="obj['status']=='UNDER APPROVAL'" (click)="reject(element)">Reject</button>
+                                                <button (click)="show(element)" class="btn btn-success">Print</button>
+                                                <button (click)="delete(element)" *ngIf="obj['status']=='UNPOSTED' || obj['status']=='APPROVED' || obj['status']=='REJECTED'" class="btn btn-danger">Delete</button>
+                                                <!-- <button (click)="schedule(element)" *ngIf="obj['status']=='UNPOSTED'" class="btn btn-info">Schedule</button> -->
+                                            </td>
+                                        </ng-container>
+
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 80%; margin-left:10%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">JV Full Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-3 text-right">
+                        <h6>Ref. Voucher :</h6>
+                    </div>
+                    <div class="col-3"> {{view_header['jrnl_id']}}</div>
+                    <div class="col-3 text-right"> Ref. Voucher Date :</div>
+                    <div class="col-3">{{view_header['ref_dt']}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        <h6>Particulars :</h6>
+                    </div>
+                    <div class="col-3">{{view_header['jrnl_desc']}}</div>
+                    <div class="col-3 text-right">
+                        <h6>Jv Status :</h6>
+                    </div>
+                    <div class="col-3">{{view_header['status']}}</div>
+                </div>
+                <br>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Chart Of Account</th>
+                            <th>Particulars</th>
+                            <th style="text-align: right;">Debit</th>
+                            <th style="text-align: right;">Credit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let i of new_data">
+                            <td>{{i['chart_acct']}}</td>
+                            <td>{{i['jrnl_line_desc']}}</td>
+                            <td style="text-align: right;">{{i['db']}}</td>
+                            <td style="text-align: right;">{{i['cr']}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,737 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title"> Consumption Analysis</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i> <span style="margin-left: 4px;"></span>Consumption
+                                Analysis Item List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" (click)="refresh()" href="#tab-7-2" data-toggle="tab"><i
+                                    class="fa fa-plus-circle" aria-hidden="true"></i> <span
+                                    style="margin-left: 4px;"></span> Create Consumption Analysis Measurement
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab"><i class="ti-settings"> </i> <span
+                                    style="margin-left: 4px;"></span>Update Consumption Analysis Measurement
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+                            <br>
+
+
+                            <br>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="consumption_analysis_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>CONSUMPTION
+                                            ANALYSIS DESCRIPTION
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.analys_desc }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="est_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ESTIMATE ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.est_id }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="est_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>CONSUMPTION
+                                            DESCRIPTION
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.est_desc }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="remark">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>
+                                            REMARK
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.remark }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>ACTION</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary"
+                                                (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-outline-danger"
+                                                (click)="open_delete(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-7-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    CONSUMPTION ANALYSIS DESCRIPTION :
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" [(ngModel)]="Obj['analys_desc']"
+                                        placeholder="Enter Consumption Description" class="form-control">
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    SELECT FIELD ESTIMATE  :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allField_item2" bindLabel="field_measurement_desc"
+                                        (change)="changeEstimate()" bindValue="id" [multiple]="false"
+                                        placeholder="SELECT FIELD ESTIMATE " [(ngModel)]="Obj['field_measurement_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    ESTIMATE ID :
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" disabled [(ngModel)]="Obj['est_id']" class="form-control">
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    REMARK :
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" disabled [(ngModel)]="Obj['remark']" class="form-control">
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    NAME OF PROJECT :
+                                </div>
+                                <div class="col-4">
+
+                                    <h6>{{allprojobj[Obj['proj_cd']]}}</h6>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    NAME OF PRODUCT :
+                                </div>
+                                <div class="col-4">
+
+                                    <h6>{{allprodobj[Obj['prod_cd']]}}</h6>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    NAME OF ACTIVITY :
+                                </div>
+                                <div class="col-4">
+
+                                    <h6>{{allactobj[Obj['act_cd']]}}</h6>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    TYPE OF BUDGET :
+                                </div>
+                                <div class="col-4">
+
+                                    <h6>{{allBudgetobj[Obj['bud_cd']]}}</h6>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    CALCULATED ESTIMATE:
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" [(ngModel)]="Obj['cal_amt']" class="form-control" disabled>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+
+                                <div class="col-12 text-right">
+                                    <!-- <button (click)="add()" class="btn btn-primary" style="margin-right: 3%;"> <i
+                                            class="fa fa-plus" style="font-size: 20px;"></i></button> -->
+                                </div>
+                                <br><br>
+                            </div>
+
+
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;margin-left: 4px;margin-right: 4px;">
+                                <div style="width: 5%;">
+                                    <b>SR NO.</b>
+                                </div>
+                                <div style="width: 15%;">
+                                    <b>LIST OF ITEM</b>
+                                </div>
+                                <div style="width: 10%;">
+                                    <b>ITEM CODE </b>
+                                </div>
+                                <div style="width: 10%;">
+                                    <b> ITEM DESCRIPTION</b>
+                                </div>
+                                <div style="width: 10%;" class="text-center">
+                                    <b>MARKED RATE</b>
+                                </div>
+                                <div style="width: 10%;">
+                                    <b> MARKED RATE UNIT</b>
+                                </div>
+                                <div style="width: 15%;">
+                                    <b>MEASUREMENT UNIT</b>
+                                </div>
+                                <div style="width: 20%;">
+                                    <b>MEASURED QUANTITY</b>
+                                </div>
+
+                                <!-- <div style="width: 5%;">
+                                    <b>ACTION</b>
+                                </div> -->
+                            </div>
+
+                            <br>
+
+                            <div *ngFor="let obj1 of data; let i = index;">
+                                <div class="row">
+                                    <div style="width: 5%;" class="text-center">
+                                        <b> {{i+1}}.</b>
+                                    </div>
+                                    <div style="width: 15%;">
+
+                                        <input type="text" [(ngModel)]="data[i]['item_id']" disabled>
+
+                                    </div>
+                                    <div style="width: 10%;">
+                                        <input type="text" class="form-control" placeholder=""
+                                            [(ngModel)]="obj1['item_cd']" disabled />
+
+                                    </div>
+                                    <div style="width: 10%;">
+                                        <input type="text" class="form-control" placeholder=""
+                                            [(ngModel)]="obj1['desc']" disabled />
+
+                                    </div>
+                                    <div style="width: 10%;">
+                                        <input type="text" class="form-control" placeholder="marked_rate"
+                                            [(ngModel)]="obj1['marked_rate']"  disabled/>
+
+                                    </div>
+
+                                    <div style="width: 10%;">
+                                        <input type="text" class="form-control" placeholder=""
+                                            [(ngModel)]="obj1['marked_rate_unit']"  disabled/>
+                                    </div>
+                                    <div style="width: 15%;">
+                                        <input type="text" class="form-control" placeholder=" "
+                                            [(ngModel)]="obj1['measurement_unit']"  disabled/>
+                                    </div>
+                                    <div style="width: 20%;">
+                                        <input type="text" class="form-control" placeholder=""
+                                            [(ngModel)]="obj1['net_quantity']" disabled />
+                                    </div>
+
+                                    <div style="width: 5%;">
+                                        <!-- <button (click)="delete(i)"> <i class="fa fa-trash-o"
+                                                style="color:red ;font-size: 20px;" aria-hidden="true"></i></button> -->
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div style="width: 20%;">
+
+                                    </div>
+                                    <div
+                                        style="width:5%;background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <b>SR NO.</b>
+                                    </div>
+                                    <div
+                                        style="width: 20%; background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <b>SUB ACTIVITY</b>
+                                    </div>
+
+                                    <div
+                                        style="width: 15%; background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <b>QUANTITY</b>
+                                    </div>
+
+                                    <div
+                                        style="width: 5%; background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <b>ACTION</b>
+                                    </div>
+                                    <div style="width: 5%;">
+                                        <button (click)="addInnerRow(i)" class="btn btn-primary"
+                                            style="margin-left: 3px; margin-top: 2px;"> <i class="fa fa-plus"
+                                                style="font-size: 20px;"></i></button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div *ngFor="let ob of data[i]['arr'];let j=index;">
+                                    <div class="row">
+
+                                        <div style="width: 20%;">
+
+                                        </div>
+                                        <div style="width:5%;" class="text-center">
+                                            <b>{{j+1}}.</b>
+                                        </div>
+                                        <div style="width: 20%; ">
+                                            <input type="text" class="form-control" placeholder=""
+                                                [(ngModel)]="ob['sub_activity']" />
+
+                                        </div>
+
+                                        <div style="width: 15%; ">
+                                            <input type="number" class="form-control" placeholder=""
+                                                (change)="check()" [(ngModel)]="ob['quantity']" />
+
+                                        </div>
+
+                                        <div style="width: 5%; ">
+                                            <button (click)="deleteInnerRow(i,j)"
+                                                style="margin-left: 3px; margin-top: 2px;"> <i class="fa fa-trash-o"
+                                                    style="color:red ;font-size: 20px;" aria-hidden="true"></i></button>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        <h6>TOTAL :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="number" class="form-control" placeholder=""
+                                        [(ngModel)]="obj1['total_quantity']"
+
+                                           disabled  />
+                                            
+
+                                    </div>
+                                    <div class="col-5">
+
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- <div class="row">
+                                    <div class="col-4 text-right">
+                                        <h6>TOTAL QUANTITY :</h6>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="number" class="form-control" placeholder=""
+                                         disabled   [(ngModel)]="" />
+                                    </div>
+                                </div> -->
+                                <br>
+                                <hr>
+                                <br>
+
+
+                            </div>
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">Submit </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-7-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    CONSUMPTION ANALYSIS DESCRIPTION :
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" [(ngModel)]="Obj['analys_desc']"
+                                        placeholder="Enter Consumption Description" class="form-control">
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    SELECT FIELD CONSUMPTION :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allField_item2" bindLabel="field_measurement_desc"
+                                    (change)="changeEstimate()" bindValue="id" [multiple]="false"
+                                    placeholder="Select Project" [(ngModel)]="Obj['field_measurement_id']"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="proj_cd">
+                                </ng-select>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    ESTIMATE ID :
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" disabled [(ngModel)]="Obj['est_id']" class="form-control">
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    REMARK :
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" disabled [(ngModel)]="Obj['remark']" class="form-control">
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div><br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    NAME OF PROJECT :
+                                </div>
+                                <div class="col-4">
+
+                                    <h6>{{allprojobj[Obj['proj_cd']]}}</h6>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    NAME OF PRODUCT :
+                                </div>
+                                <div class="col-4">
+
+                                    <h6>{{allprodobj[Obj['prod_cd']]}}</h6>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    NAME OF ACTIVITY :
+                                </div>
+                                <div class="col-4">
+
+                                    <h6>{{allactobj[Obj['act_cd']]}}</h6>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    TYPE OF BUDGET :
+                                </div>
+                                <div class="col-4">
+
+                                    <h6>{{allBudgetobj[Obj['bud_cd']]}}</h6>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    CALCULATED ESTIMATE:
+                                </div>
+                                <div class="col-4">
+
+                                    <input type="text" disabled [(ngModel)]="Obj['cal_amt']" class="form-control">
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="row">
+
+                                <div class="col-12 text-right">
+                                    <!-- <button (click)="add()" class="btn btn-primary" style="margin-right: 3%;"> <i
+                                            class="fa fa-plus" style="font-size: 20px;"></i></button> -->
+                                </div>
+                                <br><br>
+                            </div>
+
+
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;margin-left: 4px;margin-right: 4px;">
+                                <div style="width: 5%;">
+                                    <b>SR NO.</b>
+                                </div>
+                                <div style="width: 15%;">
+                                    <b>LIST OF ITEM</b>
+                                </div>
+                                <div style="width: 10%;">
+                                    <b>ITEM CODE </b>
+                                </div>
+                                <div style="width: 10%;">
+                                    <b> ITEM DESCRIPTION</b>
+                                </div>
+                                <div style="width: 10%;" class="text-center">
+                                    <b>MARKED RATE</b>
+                                </div>
+                                <div style="width: 10%;">
+                                    <b> MARKED RATE UNIT</b>
+                                </div>
+                                <div style="width: 15%;">
+                                    <b>MEASUREMENT UNIT</b>
+                                </div>
+                                <div style="width: 20%;">
+                                    <b>MEASURED QUANTITY</b>
+                                </div>
+
+                                <!-- <div style="width: 5%;">
+                                    <b>ACTION</b>
+                                </div> -->
+                            </div>
+
+                            <br>
+
+                            <div *ngFor="let obj1 of data; let i = index;">
+                                <div class="row">
+                                    <div style="width: 5%;" class="text-center">
+                                        <b> {{i+1}}.</b>
+                                    </div>
+                                    <div style="width: 15%;">
+                                       <input type="text" disabled [(ngModel)]="data[i]['item_id']"  class="form-control">
+
+                                    </div>
+                                    <div style="width: 10%;">
+                                        <input type="text" class="form-control" placeholder=""
+                                            [(ngModel)]="obj1['item_cd']" disabled />
+
+                                    </div>
+                                    <div style="width: 10%;">
+                                        <input type="text" class="form-control" placeholder=""
+                                            [(ngModel)]="obj1['desc']" disabled />
+
+                                    </div>
+                                    <div style="width: 10%;">
+                                        <input type="text" class="form-control" placeholder=""
+                                            [(ngModel)]="obj1['marked_rate']" disabled />
+
+                                    </div>
+
+                                    <div style="width: 10%;">
+                                        <input type="text" class="form-control" placeholder=""
+                                            [(ngModel)]="obj1['marked_rate_unit']" disabled />
+                                    </div>
+                                    <div style="width: 15%;">
+                                        <input type="text" class="form-control" placeholder=" "
+                                            [(ngModel)]="obj1['measurement_unit']" disabled />
+                                    </div>
+                                    <div style="width: 20%;">
+                                        <input type="text" class="form-control" placeholder=""
+                                            [(ngModel)]="obj1['net_quantity']"  disabled/>
+                                    </div>
+
+                                    <!-- <div style="width: 5%;">
+                                        <button (click)="delete(i)"> <i class="fa fa-trash-o"
+                                                style="color:red ;font-size: 20px;" aria-hidden="true"></i></button>
+                                    </div>   -->
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div style="width: 20%;">
+
+                                    </div>
+                                    <div
+                                        style="width:5%;background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <b>SR NO.</b>
+                                    </div>
+                                    <div
+                                        style="width: 20%; background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <b>SUB ACTIVITY</b>
+                                    </div>
+
+                                    <div
+                                        style="width: 15%; background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <b>QUANTITY</b>
+                                    </div>
+                                    <!-- <div
+                                        style="width: 15%; background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <b>UNIT</b>
+                                    </div> -->
+                                    <div
+                                        style="width: 5%; background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                        <b>ACTION</b>
+                                    </div>
+                                    <div style="width: 5%;">
+                                        <button (click)="addInnerRow(i)" class="btn btn-primary"
+                                            style="margin-left: 3px; margin-top: 2px;"> <i class="fa fa-plus"
+                                                style="font-size: 20px;"></i></button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div *ngFor="let ob of data[i]['arr'];let j=index;">
+                                    <div class="row">
+
+                                        <div style="width: 20%;">
+
+                                        </div>
+                                        <div style="width:5%;" class="text-center">
+                                            <b>{{j+1}}.</b>
+                                        </div>
+                                        <div style="width: 20%; ">
+                                            <input type="text" class="form-control" placeholder=""
+                                                [(ngModel)]="ob['sub_activity']" />
+
+                                        </div>
+
+                                        <div style="width: 15%; ">
+                                            <input type="number" class="form-control" placeholder=""
+                                                (change)="check()" [(ngModel)]="ob['quantity']" />
+
+                                        </div>
+                                        <div style="width: 15%; ">
+                                            <!-- <input type="text" class="form-control" placeholder=""
+                                                [(ngModel)]="ob['unit']" /> </div> -->
+                                            <div style="width: 5%; ">
+                                                <button (click)="deleteInnerRow(i,j)"
+                                                    style="margin-left: 3px; margin-top: 2px;"> <i class="fa fa-trash-o"
+                                                        style="color:red ;font-size: 20px;"
+                                                        aria-hidden="true"></i></button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        <h6>TOTAL ITEM :</h6>
+                                    </div>
+                                    <div class="col-3 ">
+                                        <input type="number" class="form-control" placeholder=""
+                                        [(ngModel)]="obj1['total_quantity']" disabled
+                                                >
+
+                                    </div>
+                                    <div class="col-5">
+
+                                    </div>
+                                </div>
+                                <br>
+                               
+                            
+
+                                <br>
+
+                                
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-beat" [fullScreen]="true">
+        <p style="color: white"> Loading... </p>
+    </ngx-spinner>

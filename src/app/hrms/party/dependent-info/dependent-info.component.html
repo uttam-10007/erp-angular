@@ -1,0 +1,215 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Employee Dependent Info </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Employee Dependent Detail</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i> Add Employee
+                                Dependent Detail</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-announcement"></i> Update
+                                Employee Dependent Detail</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" (change)="changeEmployee()" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <hr>
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="dependent_name">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Dependent Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.dependent_name }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="relation_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Relation
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0004'][element.relation_code]}}
+                                        </td>
+
+                                    </ng-container>
+
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="openUpdate(element)">Update</button>
+                                            <button class="btn btn-outline-danger" (click)="deleteDependent(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row"  *ngIf="errorMsg!=''" style="color: red;">
+                                <div class="col-12 text-center">
+                                    {{errorMsg}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Dependent Name * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="dependentObj['dependent_name']">
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Relation * :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0004']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="dependentObj['relation_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+
+
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submitDependentInfo()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row"  *ngIf="errorMsg!=''" style="color: red;">
+                                <div class="col-12 text-center">
+                                    {{errorMsg}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Dependent Name * :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="dependentObj['dependent_name']">
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Relation * :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0004']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="dependentObj['relation_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updateDependentInfo()">Update</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

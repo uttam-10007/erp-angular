@@ -1,0 +1,385 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Auction</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i class="ti-bar-chart"></i>
+                                List Auction</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i class="fa fa-plus-circle"></i>
+                                Create Auction</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i>
+                                Update Auction</a>
+                        </li>
+
+
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Scheme</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)='getAllSubschemes()' bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="obj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Select Sub-scheme</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select Sub-scheme" [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button (click)='show()' class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="example-container">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                    </div>
+
+                                </div>
+                                <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b> ID</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.id}} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="arr_effective_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Property Type</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ proptypeobj[element.property_type_id] }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="property_type_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Property Number</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ propobj[element.property_id]}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="property_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Reserve Price</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.reserve_price }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="length">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Registration Start Date</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{mainService.dateFormatChange(element.reg_start_date)}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="measurement_unit">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Registration End Date</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.dateFormatChange(element.reg_end_date)}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="property_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Auction Date</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.dateFormatChange(element.auction_date)}} </td>
+                                    </ng-container>
+
+
+
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-primary" *ngIf="element['arr_status_code']=='ALLOTMENT_PENDING'" (click)="approve(element,i)">Approve</button>
+                                            <button class="btn btn-info" (click)="openUpdate(element,i)">Update</button>
+                                            <button class="btn btn-danger" (click)="delete(element)">Delete</button>
+
+                                        </td>
+
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Scheme</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)='getAllSubschemes()' bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="obj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Select Sub-scheme</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select Sub-scheme" [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        (change)='getAllPropertyInfos()' [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Property Type</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="data" bindLabel="property_type_code" (change)='setPropertyData()' bindValue="property_type_id" [multiple]="false" placeholder="Property Type" [(ngModel)]="obj['property_type_id']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Subsidized/Non-Subsidized</h6>
+                                </div>
+                                <div class="col-3">{{obj['subsidised_or_non_subsidised']}}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Commercial/ non- commercial Property</h6>
+                                </div>
+                                <div class="col-3">{{obj['residential_or_commercial']}}</div>
+                                <div class="col-3 text-right">
+                                    <h6>STATE</h6>
+                                </div>
+                                <div class="col-3">{{obj['state']}}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>AREA PINCODE</h6>
+                                </div>
+                                <div class="col-3"></div>
+                                <div class="col-3 text-right">
+                                    <h6>DISTRICT</h6>
+                                </div>
+                                <div class="col-3">{{obj['district']}}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>ZONE</h6>
+                                </div>
+                                <div class="col-3">{{obj['locality']}}</div>
+                                <div class="col-3 text-right">
+                                    <h6>PROPERTY NO.</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="property_info" bindLabel="property_no" bindValue="property_id" [multiple]="false" placeholder="PROPERTY NO" [(ngModel)]="obj['property_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>LENGTH</h6>
+                                </div>
+                                <div class="col-3">{{obj['length']}}</div>
+                                <div class="col-3 text-right">
+                                    <h6>WIDTH</h6>
+                                </div>
+                                <div class="col-3">{{obj['width']}}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>AREA OF THE PROPERTY</h6>
+                                </div>
+                                <div class="col-3">{{obj['length']*obj['width']}}</div>
+                                <div class="col-3 text-right">
+                                    <h6>RESERVE PRICE</h6>
+                                </div>
+                                <div class="col-3"><input type="number" [(ngModel)]="obj['reserve_price'] " class="form-control"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>REGISTERATION START DATE</h6>
+                                </div>
+                                <div class="col-3"><input type="date" [(ngModel)]="obj['reg_start_date'] " class="form-control"></div>
+                                <div class="col-3 text-right">
+                                    <h6>REGISTERATION END DATE</h6>
+                                </div>
+                                <div class="col-3"><input type="date" [(ngModel)]="obj['reg_end_date'] " class="form-control"></div>
+                            </div><br>
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6>AUCTION DATE</h6>
+                                </div>
+                                <div class="col-3"><input type="date" [(ngModel)]="obj['auction_date']" class="form-control"></div>
+                                <div class="col-3 text-right">
+                                    <h6>AUCTION Time</h6>
+                                </div>
+                                <div class="col-3"><input type="time" [(ngModel)]="obj['auction_time']" class="form-control"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-outline-primary" (click)="submit()">Submit</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Scheme</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)='getAllSubschemes()' bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="obj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Select Sub-scheme</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select Sub-scheme" [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        (change)='getAllPropertyInfos()' [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Property Type</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="data" bindLabel="property_type_code" (change)='setPropertyData()' bindValue="property_type_id" [multiple]="false" placeholder="Property Type" [(ngModel)]="obj['property_type_id']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Subsidized/Non-Subsidized</h6>
+                                </div>
+                                <div class="col-3">{{obj['subsidised_or_non_subsidised']}}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Commercial/ non- commercial Property</h6>
+                                </div>
+                                <div class="col-3">{{obj['residential_or_commercial']}}</div>
+                                <div class="col-3 text-right">
+                                    <h6>STATE</h6>
+                                </div>
+                                <div class="col-3">{{obj['state']}}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>AREA PINCODE</h6>
+                                </div>
+                                <div class="col-3"></div>
+                                <div class="col-3 text-right">
+                                    <h6>DISTRICT</h6>
+                                </div>
+                                <div class="col-3">{{obj['district']}}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>ZONE</h6>
+                                </div>
+                                <div class="col-3">{{obj['locality']}}</div>
+                                <div class="col-3 text-right">
+                                    <h6>PROPERTY NO.</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="property_info" bindLabel="property_no" bindValue="property_id" [multiple]="false" placeholder="PROPERTY NO" [(ngModel)]="obj['property_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>LENGTH</h6>
+                                </div>
+                                <div class="col-3">{{obj['length']}}</div>
+                                <div class="col-3 text-right">
+                                    <h6>WIDTH</h6>
+                                </div>
+                                <div class="col-3">{{obj['width']}}</div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>AREA OF THE PROPERTY</h6>
+                                </div>
+                                <div class="col-3">{{obj['length']*obj['width']}}</div>
+                                <div class="col-3 text-right">
+                                    <h6>RESERVE PRICE</h6>
+                                </div>
+                                <div class="col-3"><input type="number" [(ngModel)]="obj['reserve_price'] " class="form-control"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>REGISTERATION START DATE</h6>
+                                </div>
+                                <div class="col-3"><input type="date" [(ngModel)]="obj['reg_start_date'] " class="form-control"></div>
+                                <div class="col-3 text-right">
+                                    <h6>REGISTERATION END DATE</h6>
+                                </div>
+                                <div class="col-3"><input type="date" [(ngModel)]="obj['reg_end_date'] " class="form-control"></div>
+                            </div><br>
+                            <div class="row">
+
+                                <div class="col-3 text-right">
+                                    <h6>AUCTION DATE</h6>
+                                </div>
+                                <div class="col-3"><input type="date" [(ngModel)]="obj['auction_date']" class="form-control"></div>
+                                <div class="col-3 text-right">
+                                    <h6>AUCTION Time</h6>
+                                </div>
+                                <div class="col-3"><input type="time" [(ngModel)]="obj['auction_time']" class="form-control"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-outline-primary" (click)="update()">Update</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

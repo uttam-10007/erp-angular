@@ -1,0 +1,260 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Auction Application</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                List</a>
+                        </li>
+                        <!--    <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Create</a>
+                        </li>-->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i>
+                                Application Details</a>
+                        </li>
+
+
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Scheme</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)='getAllSubschemes()' bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="obj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Select Sub-scheme</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select Sub-scheme" [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        (change)='getAllPropertyInfos()' [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button (click)='show()' class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="example-container">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                    </div>
+
+                                </div>
+
+                                <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                    <ng-container matColumnDef="app_id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Applicant ID</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_id}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="purpose">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Puspose Of Application</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.purpose }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="app_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Applicant Name</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="app_mobile">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Applicant Mobile Number</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.phone_no }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="app_user_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Applicant User Name</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.user_id }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="nationality">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Nationality</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.nationality }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Action</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-success" (click)='view(element)'>View</button>
+                                            <button class="btn btn-primary " (click)='approve(element)' *ngIf="element['arr_status_code']=='APPROVAL_PENDING'">Approve</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h3>Applicant Details</h3>
+                                </div>
+                            </div>
+                            <hr><br>
+                            <div class="example-container">
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>Applicant Id :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['party_id']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6>Applicant Name/Firm Name :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['party_name']}}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>Applicant Mobile Number :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['phone_no']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6>Applicant Email :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['email']}}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>User Name :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['user_id']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6>Nationality :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['nationality']}}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>Quota :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['quota']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6>Purpose :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['purpose']}}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h3>Property Details</h3>
+                                    </div>
+                                </div>
+                                <hr><br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>Scheme :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['scheme_name']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6>Sub-Scheme :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['sub_scheme_name']}}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>Property Typer :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['property_type_code']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6>Property Number :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['property_id']}}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>Subsidised/Non-Subsidised :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['subsidised_or_non_subsidised']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6>Commercial/Non-commercial Property :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['residential_or_commercial']}}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>State :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['state']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6>District :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['locality']}}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>Length :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['length']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6>Width :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['width']}}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>Area Of Property :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['length']*showData['width']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6>Reserve Price :</h6>
+                                    </div>
+                                    <div class="col-3">{{showData['reserve_price']}}</div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        <h6>Token Amount : </h6>
+                                    </div>
+                                    <div class="col-3">{{showData['reserve_price']}}</div>
+                                    <div class="col-3 text-right">
+                                        <h6></h6>
+                                    </div>
+                                    <div class="col-3"></div>
+                                </div><br>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

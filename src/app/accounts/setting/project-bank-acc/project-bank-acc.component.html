@@ -1,0 +1,229 @@
+
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Project Bank Account</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i> Project Bank Account Item List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle" aria-hidden="true"></i> Create
+                                    Project Bank Account
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"> </i> Update
+                                    Project Bank Account
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-4" data-toggle="tab"><i class="fa fa-upload"
+                                    aria-hidden="true"></i> Upload
+                                File
+                            </a>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                             
+
+                            </div>
+
+<br>
+                            <table mat-table [dataSource]="datasource" matSort style="width: 100%;">
+    
+                                <ng-container matColumnDef="SR No">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>SR No.
+                                    </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element ;let i = index;" class="right">
+                                        {{i+1 }} </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="Project_Code">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Project Code
+                                    </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ element.project_code}} </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="Project_Description">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Project Description
+                        
+                                    </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{ projectObject[element.project_code]}} </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="Bank_Account_No">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bank Account Number
+                        
+                                    </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{element.bank_acct_no}} </td>
+                                </ng-container>
+                        
+                        
+                                <ng-container matColumnDef="IFSC_Code">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>IFSC Code
+                        
+                                    </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{bankDetailsObject[element.bank_acct_no]['ifsc_code']}} </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="Branch_Name">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Branch Name
+                        
+                                    </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{bankDetailsObject[element.bank_acct_no]['branch_code']}} </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="Bank_Name">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bank Name
+                        
+                                    </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{bankDetailsObject[element.bank_acct_no]['bank_code']}}  </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Bank_Description">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bank Description
+                                    </th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                        {{bankDetailsObject[element.bank_acct_no]['bank_acct_desc']}} </td>
+                                </ng-container>
+                               <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                    <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                        
+                                        <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button>&nbsp;&nbsp;
+                                        <button class="btn btn-outline-danger" (click)="delete(element)">Delete</button>
+                        
+                                    </td>
+                                </ng-container>
+                        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                </tr>
+                            </table>
+                            <br>
+                            
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                          
+
+                        </div>
+
+                        
+                            <div class="tab-pane fade" id="tab-7-2">
+                                <br>
+                                
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                       Select Project :
+                                    </div>
+                                    <div class="col-4">
+                                        <ng-select [items]="allProjectHier" bindLabel="leaf_value"
+                                        bindValue="leaf_cd" [multiple]="false" placeholder=""
+                                        [(ngModel)]="bankObj['project_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>                               
+                                 </div>
+                                   
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        Select Bank Account Description :
+                                    </div>
+                                    <div class="col-4">
+                                        <ng-select [items]="allBankAccounts" bindLabel="bank_acct_desc"
+                                            bindValue="bank_acct_no" [multiple]="false" placeholder=""
+                                            [(ngModel)]="bankObj['bank_acct_no']" [selectableGroup]="true"
+                                            [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center ">
+                        <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                    
+
+                        <div class="tab-pane fade" id="tab-7-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                   Select Project :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allProjectHier" bindLabel="leaf_value"
+                                    bindValue="leaf_cd" [multiple]="false" placeholder=""
+                                    [(ngModel)]="bankObj['project_code']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                </ng-select>                               
+                             </div>
+                               
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Bank Account Description :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allBankAccounts" bindLabel="bank_acct_desc"
+                                        bindValue="bank_acct_no" [multiple]="false" placeholder=""
+                                        [(ngModel)]="bankObj['bank_acct_no']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center ">
+                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                          
+                        </div>
+
+
+
+                   
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+   
+
+  
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-beat" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

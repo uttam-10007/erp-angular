@@ -1,0 +1,629 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Ledger Report</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i> All
+                                Assets Ledger </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-bar-chart"></i> 
+                                Liabilities Ledger</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-bar-chart"></i> 
+                                All Equity</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab"><i class="ti-bar-chart"></i> 
+                                Income Ledger</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-5" data-toggle="tab"><i class="ti-bar-chart"></i> 
+                                Expense Ledger </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+
+                                <div class="col-4 text-left">
+                                    <h6>Select Chart Of Account :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="equity" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="obj['c_acc']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;" >
+                                <div class="col-4 text-left">
+                                    <h6>Select Party :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allParty" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="obj['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>From :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj['from_date']">
+                                </div> </div> <br>
+                                <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>To :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj['to_date']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" (click)="show()">Submit</button>
+                                </div>
+                              
+                            </div>
+                            <br>
+                            <hr>
+                            <div class=" text-right">
+                                <button class="btn btn-primary" (click)="print1()">Print</button> &nbsp;&nbsp;
+                                <button class="btn btn-success" (click)="export1()">Export</button> &nbsp;&nbsp;
+                            </div>
+                            <br>
+                            <div id="e">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>{{acount_name}}</h6>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        Equity ({{obj['acc_desc']}})
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2 text-right">
+                                        <h6>Financial Year :</h6>
+                                    </div>
+                                    <div class="col-2">{{res_obj['fin_year']}}</div>
+                                    <div class="col-2 text-right">
+                                        <h6>From :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="res_obj['from_date']">{{mainService.dateFormatChange(res_obj['from_date'])}}</div>
+                                    </div><br>
+                                    <div class="row">
+                                    <div class="col-2 text-right">
+                                        <h6>To :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="res_obj['to_date']">{{mainService.dateFormatChange(res_obj['to_date'])}}</div>
+
+                                </div>
+                                <br>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Particulars</th>
+                                            <th>Voucher Type</th>
+                                            <th>Voucher Number</th>
+                                            <th>Debit</th>
+                                            <th>Credit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of final_res">
+
+                                            <td *ngIf="item['acct_dt']">{{mainService.dateFormatChange(item['acct_dt'])}}</td>
+                                            <td *ngIf="!item['acct_dt']"></td>
+                                            <td>{{item['jrnl_desc']}}</td>
+                                            <td>{{item['jrnl_type']}}</td>
+                                            <td>{{item['jrnl_id']}}</td>
+                                            <td style="text-align:right">{{item['db']}}</td>
+                                            <td style="text-align:right">{{item['cr']}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>Select Chart Of Account :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="liability" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="obj_lia['c_acc']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>Select Party :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allParty" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="obj_lia['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>From :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj_lia['from_date']">
+                                </div></div><br>
+                                <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>To :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj_lia['to_date']">
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" (click)="show2()">Submit</button>
+                                </div>
+                               
+                            </div>
+                            <br>
+                            <hr>
+                            <div class=" text-right">
+                                <button class="btn btn-primary" (click)="print2()">Print</button>&nbsp;&nbsp;
+                                <button class="btn btn-success" (click)="export2()">Export</button> &nbsp;&nbsp;
+                            </div>
+                            <br>
+                            <div id="l">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>{{acount_name}}</h6>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        Liabilities ({{obj_lia['acc_desc']}})
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2 text-right">
+                                        <h6>Financial Year :</h6>
+                                    </div>
+                                    <div class="col-2">{{res_obj2['fin_year'] }}
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <h6>From :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="res_obj2['from_date']">{{mainService.dateFormatChange(res_obj2['from_date'])}}</div>
+                                    <div class="col-2 text-right">
+                                        <h6>To :</h6>
+                                    </div>
+                                    <!-- <div class="col-2">{{res_obj2['to_date']}}</div> -->
+                                    <div class="col-2" *ngIf="res_obj2['to_date']">{{mainService.dateFormatChange(res_obj2['to_date'])}}</div>
+
+
+                                </div>
+                                <br>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <!-- <th>Account Code</th> -->
+                                            <th>Particulars</th>
+                                            <th>Voucher Type</th>
+                                            <th>Voucher Number</th>
+                                            <th>Debit</th>
+                                            <th>Credit</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of final_res2">
+                                            <td *ngIf="item['acct_dt']">{{mainService.dateFormatChange(item['acct_dt'])}}</td>
+                                            <td *ngIf="!item['acct_dt']"></td>
+                                            <!-- <td>{{obj['c_acc']}}</td> -->
+                                            <td>{{item['jrnl_desc']}}</td>
+                                            <td>{{item['jrnl_type']}}</td>
+                                            <td>{{item['jrnl_id']}}</td>
+                                            <td style="text-align:right">{{item['db']}}</td>
+                                            <td style="text-align:right">{{item['cr']}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade  show active" id="tab-1">
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>Select Chart Of Account :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="assets" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="obj_ass['c_acc']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>Select Party :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allParty" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="obj_ass['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>From :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj_ass['from_date']">
+                                </div>
+                            </div><br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+
+                                <div class="col-4 text-left">
+                                    <h6>To :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj_ass['to_date']">
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" (click)="show3()">Submit</button>
+                                </div>
+                              
+
+                            </div>   <br>
+                            <hr>
+                            <div class="text-right">
+                                <button class="btn btn-primary" (click)="print3()">Print</button>&nbsp;&nbsp;
+                                <button class="btn btn-success" (click)="export3()">Export</button> &nbsp;&nbsp;
+                            </div>
+                         
+                            
+                            <br>
+                            <div id="a">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>{{acount_name}}</h6>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        Assets ({{obj_ass['acc_desc']}})
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2 text-left">
+                                        <h6>Financial Year :</h6>
+                                    </div>
+                                    <div class="col-2">{{res_obj2['fin_year'] }}
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <h6>From :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="res_obj2['from_date']">{{mainService.dateFormatChange(res_obj2['from_date'])}}</div>
+                                    <div class="col-2 text-left">
+                                        <h6>To :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="res_obj2['to_date']">{{mainService.dateFormatChange(res_obj2['to_date'])}}</div>
+
+                                </div>
+                                <br>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <!-- <th>Account Code</th> -->
+                                            <th>Particulars</th>
+                                            <th>Voucher Type</th>
+                                            <th>Voucher Number</th>
+                                            <th>Debit</th>
+                                            <th>Credit</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of final_res3">
+                                            <td *ngIf="item['acct_dt']">{{mainService.dateFormatChange(item['acct_dt'])}}</td>
+                                            <td *ngIf="!item['acct_dt']"></td>
+                                            <!-- <td>{{obj['c_acc']}}</td> -->
+                                            <td>{{item['jrnl_desc']}}</td>
+                                            <td>{{item['jrnl_type']}}</td>
+                                            <td>{{item['jrnl_id']}}</td>
+                                            <td style="text-align:right">{{item['db']}}</td>
+                                            <td style="text-align:right">{{item['cr']}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-5">
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>Select Chart Of Account :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="expense" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="obj_exp['c_acc']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>Select Party :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allParty" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="obj_exp['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>From :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj_exp['from_date']">
+                                </div></div><br>
+                                <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>To :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj_exp['to_date']">
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" (click)="show4()">Submit</button>
+                                </div>
+                              
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="text-right">
+                                <button class="btn btn-primary" (click)="print4()">Print</button>&nbsp;&nbsp;
+                                <button class="btn btn-success" (click)="export4()">Export</button> &nbsp;&nbsp;
+                            </div>
+                            <br>
+                            <div>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>{{acount_name}}</h6>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        Expence ({{obj_exp['acc_desc']}})
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2 text-left">
+                                        <h6>Financial Year :</h6>
+                                    </div>
+                                    <div class="col-2">{{res_obj2['fin_year'] }}
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <h6>From :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="res_obj2['from_date']">{{mainService.dateFormatChange(res_obj2['from_date'])}}</div>
+                                    <div class="col-2 text-left">
+                                        <h6>To :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="res_obj2['from_date']">{{mainService.dateFormatChange(res_obj2['to_date'])}}</div>
+
+                                </div>
+                                <br>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <!-- <th>Account Code</th> -->
+                                            <th>Particulars</th>
+                                            <th>Voucher Type</th>
+                                            <th>Voucher Number</th>
+                                            <th>Debit</th>
+                                            <th>Credit</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of final_res4">
+                                            <td *ngIf="item['acct_dt']">{{mainService.dateFormatChange(item['acct_dt'])}}</td>
+                                            <td *ngIf="!item['acct_dt']"></td>
+                                            <!-- <td>{{obj['c_acc']}}</td> -->
+                                            <td>{{item['jrnl_desc']}}</td>
+                                            <td>{{item['jrnl_type']}}</td>
+                                            <td>{{item['jrnl_id']}}</td>
+                                            <td style="text-align:right">{{item['db']}}</td>
+                                            <td style="text-align:right">{{item['cr']}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-4">
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <!-- <div class="col-3 text-left">
+                                    <h6>Select :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="first_dropdown" bindLabel="lvl1_value" bindValue="lvl1_code" [multiple]="false" placeholder="Select.." [(ngModel)]="obj_rev['balcnce']" (change)="change_c_acc5()" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="lvl1_code">
+                                    </ng-select>
+                                </div> -->
+                                <div class="col-4 text-left">
+                                    <h6>Select Chart Of Account :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="income" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="obj_rev['c_acc']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>Select Party :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allParty" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="obj_rev['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="lvl1_code">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>From :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj_rev['from_date']">
+                                </div></div><br>
+                                <div class="row" style="margin-left: 2%;margin-right: 2;">
+                                <div class="col-4 text-left">
+                                    <h6>To :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="obj_rev['to_date']">
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" (click)="show5()">Submit</button>
+                                </div>
+                               
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="text-right">
+                                <button class="btn btn-primary" (click)="print5()">Print</button>&nbsp;&nbsp;
+                                <button class="btn btn-success" (click)="export5()">Export</button> &nbsp;&nbsp;
+                            </div>
+                            <br>
+                            <div>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>{{acount_name}}</h6>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        Income ({{obj_rev['acc_desc']}})
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-2 text-right">
+                                        <h6>Financial Year :</h6>
+                                    </div>
+                                    <div class="col-2">{{res_obj2['fin_year'] }}
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <h6>From :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="res_obj2['from_date']">{{mainService.dateFormatChange(res_obj2['from_date'])}}</div>
+                                    <div class="col-2 text-right">
+                                        <h6>To :</h6>
+                                    </div>
+                                    <div class="col-2" *ngIf="res_obj2['from_date']">{{mainService.dateFormatChange(res_obj2['to_date'])}}</div>
+
+                                </div>
+                                <br>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <!-- <th>Account Code</th> -->
+                                            <th>Particulars</th>
+                                            <th>Voucher Type</th>
+                                            <th>Voucher Number</th>
+                                            <th>Debit</th>
+                                            <th>Credit</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of final_res5">
+
+                                            <td *ngIf="item['acct_dt']">{{mainService.dateFormatChange(item['acct_dt'])}}</td>
+                                            <td *ngIf="!item['acct_dt']"></td>
+                                            <!-- <td>{{obj['c_acc']}}</td> -->
+                                            <td>{{item['jrnl_desc']}}</td>
+                                            <td>{{item['jrnl_type']}}</td>
+                                            <td>{{item['jrnl_id']}}</td>
+                                            <td style="text-align:right">{{item['db']}}</td>
+                                            <td style="text-align:right">{{item['cr']}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

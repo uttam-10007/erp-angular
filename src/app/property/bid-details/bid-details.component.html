@@ -1,0 +1,147 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Auction Bid Details</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                List</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3 text-left">
+                                    <h6>Select Scheme  :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)='getAllSubschemes()'
+                                        bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme"
+                                        [(ngModel)]="obj['scheme_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3"></div>
+                               
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+
+                                <div class="col-3 text-left">
+                                    <h6>Select Sub-scheme  :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name"
+                                        bindValue="sub_scheme_code" [multiple]="false" placeholder="Select Sub-scheme"
+                                        [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" (change)='getAllPropertyInfos()'
+                                        [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+
+                                <div class="col-3 text-left">
+                                    <h6>Select Property ID :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="data" bindLabel="property_type_id"
+                                        bindValue="property_type_id" [multiple]="false" placeholder="Select Proprty ID"
+                                        [(ngModel)]="obj['property_id']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" 
+                                        [closeOnSelect]="true" name="party_bank_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button (click)='show()' class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="example-container">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)"
+                                                placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                    </div>
+
+                                </div>
+
+                                <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                    <ng-container matColumnDef="s_no">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Party ID</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_id}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="app_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                Party Name</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_name }} </td>
+                                    </ng-container>   
+                                     <ng-container matColumnDef="phone_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                Party Mobile Number</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.phone_no }} </td>
+                                    </ng-container> 
+                                       <ng-container matColumnDef="email">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>
+                                                Party Email</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.email }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="bid_amt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            <b>Active Bid Amount</b> </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.bid_amt }} </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                    </tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

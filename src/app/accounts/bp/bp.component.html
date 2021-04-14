@@ -1,0 +1,347 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Bank Payment</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>    
+                                Bank Payment List</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                class="fa fa-plus-circle"></i> GENERATE BP </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <div class="row ">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" style="margin-left: 2px;" (click)="addRemark()">Generate Advice</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="select_flag">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Select
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            <input class="form-check-input" type="checkbox" [(ngModel)]="element.select_flag"></td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Party ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.party_id }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="party_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Party Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{party[element.party_id]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Amount
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.bp_amount}}
+                                        </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="bp_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>BP Date
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <!-- {{element.bp_date}} -->
+                                            <p *ngIf="element.bp_date">{{mainService.dateFormatChange(element.bp_date)}}</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="remark">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Remark
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.remark}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.status}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-primary" *ngIf="element.status=='GENERATED'" (click)="schedule(element)">Schedule</button>
+                                            <button class="btn btn-danger" (click)="delete(element)">Delete</button>
+                                            <button class="btn btn-primary" *ngIf="element.status=='SCHEDULED' ||  element.status=='REJECTED'" (click)="status(element)">View Status</button>
+
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="list"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: list;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                            <br>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+                                    <h6> Select Chart Of Account :</h6>
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="allChartOfAccount" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="search_obj['chart_of_account']" [selectableGroup]="true" [selectableGroupAsModel]="true" name="chart_of_account0">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+                                    <h6>Select Party :</h6>
+                                </div>
+                                <div class="col-3">
+
+
+                                    <ng-select [items]="allParty" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="search_obj['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="true" name="chart_of_account0">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button (click)="search()" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Search</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row" *ngIf='show_selected_table==1'>
+                                <div class="col-4 text-right">
+                                    <h6>Remark :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <textarea type="date" class="form-control" placeholder="" [(ngModel)]="search_obj['remark']"></textarea>
+                                </div>
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content" style="height: 80%; width: 90%; margin-left: 5%; margin-top: 100px;">
+
+                                        <table class="table ">
+                                            <thead style="background-color:#1589FF ; color: white;">
+                                                <tr>
+                                                    <th scope="col">Party ID</th>
+                                                    <th scope="col">Party Name</th>
+                                                    <th scope="col">Amount</th>
+                                                    <th>Select </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let i of popUpTableData;let j=index">
+                                                    <td>{{i['party_id']}}</td>
+                                                    <td>{{i['party_name']}}</td>
+                                                    <td style="text-align: center;">{{i['txn_amt']}}</td>
+                                                    <td> <input class="form-check-input" style="width:20px; text-align: center;" type="checkbox" [(ngModel)]="i['select']">
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                        <br>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="selected_table()">Save changes</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <br>
+
+                            <!-- =========== -->
+                            <!-- [(ngModel)]="sel['chart_of_account']" -->
+                            <table class="table" *ngIf="show_selected_table==1">
+                                <thead style="background-color: #1589FF; color: white;">
+                                    <tr>
+                                        <th scope="col">Party ID</th>
+                                        <th scope="col">Party Name</th>
+                                        <th scope="col">Amount</th>
+                                        <th>BP Date </th>
+                                        <th>Party Bank </th>
+                                        <th>Chart of Account </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let i of selected_list;let j=index">
+                                        <td>{{i['party_id']}}</td>
+                                        <td>{{i['party_name']}}</td>
+                                        <td><input type="number" class="form-control" [(ngModel)]="i['txn_amt']"></td>
+                                        <td *ngIf="i['bp_date']">{{mainService.dateFormatChange(i['bp_date'])}} </td>
+                                        <td>{{i['bank_acct_num']}} - {{i['bank_code']}} - {{i['branch_code']}} - {{i['ifsc_code']}}
+                                        </td>
+                                        <td>
+                                            <ng-select [items]="BankChartOfAccount" bindLabel="chart_of_account_desc" bindValue="chart_of_account_code" [multiple]="false" placeholder="Select Chart Of Account" [(ngModel)]="i['org_bank_acct_no']" [selectableGroup]="true" [selectableGroupAsModel]="true"
+                                                name="chart_of_account0">
+                                            </ng-select>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center" *ngIf="show_selected_table==1">
+                                    <button (click)="submit()" class="btn btn-primary"> Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="myModal_Status">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Status</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <a *ngFor="let ob of statusArr;let i=index">
+                        <div class="step completed" *ngIf="ob.status=='APPROVED'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="barblue" style="color: blue;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                        <div class="step" *ngIf="ob.status=='REJECTED'">
+                            <div class="v-stepper">
+                                <div class="circles"></div>
+
+                            </div>
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                        <!-- active -->
+                        <div class="step" *ngIf="ob.status=='PENDING'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="bar" style="color: black;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Remark :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-4 text-right">
+                        Remark :
+                    </div>
+                    <div class="col-4">
+                        <textarea type="date" class="form-control" placeholder="" [(ngModel)]="remark"></textarea>
+
+                    </div>
+                    <div class="col-4">
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button (click)="GenerateAdvice()" class="btn btn-primary"> Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

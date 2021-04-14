@@ -1,0 +1,1168 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">SOR Estimate</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i>SOR Estimate List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle" aria-hidden="true"></i> Create
+                               SOR Estimate
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"> </i> Update
+                               SOR  Estimate
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-4" data-toggle="tab"><i class="fa fa-upload"
+                                    aria-hidden="true"></i> Upload
+                                File
+                            </a>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-4">
+
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button class="btn btn-outline-danger" (click)="deleteAll()">Delete All</button>
+                                </div>
+
+                            </div>
+
+
+                            <div class=" example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Estimate ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.id }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="remark">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Remark
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.remark}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="region_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Region
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.region_cd}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="circle_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Circle
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.circle_cd}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="activity_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Activity
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{allactobj[element.act_cd]}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="proj_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Project
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{allprojobj[element.proj_cd]}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="prod_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Product
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ allprodobj[element.prod_cd]}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="bud_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Budget
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ allBudgetobj[element.bud_cd]}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="est_bud">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Estimate Budget
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.est_bud}} </td>
+                                    </ng-container>
+
+
+
+
+
+
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button>&nbsp;&nbsp;
+                                            <button class="btn btn-outline-danger" (click)="delete(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-7-2">
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Estimate ID :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['id']" disabled>
+                                </div>
+                                <div class="col-1 text-right">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Select Circle :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN035']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['circle_cd']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="base_item_id">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Select Region :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN034']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['region_cd']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="base_item_id">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1 text-right">
+                                </div>
+
+                                <div class="col-2 text-right">
+                                    Select Project :
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allProjectHier" bindLabel="leaf_value"
+                                        bindValue="leaf_cd" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['proj_cd']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="activity_code">
+                                    </ng-select> -->
+                                    <ng-select [items]="allProject" bindLabel="desc" (change)="changeProject()" bindValue="code" [multiple]="false" placeholder="Select Project" [(ngModel)]="Obj['proj_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <div class="row">
+                                        <div class="col-3 text-center">
+                                            <h6><b>OR</b></h6>
+
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <button type="button" class="btn btn-primary" (click)="Select('project')">Select</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" style="margin-top: 5px;">
+                                <div class="col-8">
+
+                                </div>
+                                <div class="col-4">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {{Obj['proj_desc']}}
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            {{Obj['proj_lvl']}}
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Select Product :
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allProductHier" bindLabel="leaf_value"
+                                    bindValue="leaf_cd" [multiple]="false" placeholder=""
+                                    [(ngModel)]="Obj['prod_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="batch_item_code">
+                                </ng-select> -->
+                                    <ng-select [items]="allProduct" bindLabel="desc" (change)="changeProduct()" bindValue="code" [multiple]="false" placeholder="Select Product" [(ngModel)]="Obj['prod_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_cd">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <div class="row">
+                                        <div class="col-3 text-center">
+                                            <h6><b>OR</b></h6>
+
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <button type="button" class="btn btn-primary" (click)="Select('product')">Select</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-2 text-right">
+                                    Select Activity :
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allActivityHier" bindLabel="leaf_value"
+                                        bindValue="leaf_cd" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['act_cd']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="batch_item_code">
+                                    </ng-select> -->
+                                    <ng-select [items]="allActivity" bindLabel="desc" (change)="changeActivity()" bindValue="code" [multiple]="false" placeholder="Select Activity" [(ngModel)]="Obj['act_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="act_cd">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <div class="row">
+                                        <div class="col-3 text-center">
+                                            <h6><b>OR</b></h6>
+
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <button type="button" class="btn btn-primary" (click)="Select('activity')">Select</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row" style="margin-top: 5px;">
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-4">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {{Obj['prod_desc']}}
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            {{Obj['prod_lvl']}}
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-4">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {{Obj['act_desc']}}
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            {{Obj['act_lvl']}}
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Select Budget :
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allBudgetHier" bindLabel="leaf_value"
+                                        bindValue="leaf_cd" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['bud_cd']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="batch_item_code">
+                                    </ng-select> -->
+                                    <ng-select [items]="allBudget" bindLabel="desc" (change)="changeBudget()" bindValue="code" [multiple]="false" placeholder="Select Budget" [(ngModel)]="Obj['bud_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="bud_cd">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <div class="row">
+                                        <div class="col-3 text-center">
+                                            <h6><b>OR</b></h6>
+
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <button type="button" class="btn btn-primary" (click)="Select('budget')">Select</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-2 text-right">
+                                    Estimate Budget:
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['est_bud']" disabled>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px;">
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-4">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {{Obj['bud_desc']}}
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            {{Obj['bud_lvl']}}
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row" style="margin-top: 5px;">
+                                <div class="col-2 text-right">
+                                    Remark :
+                                </div>
+                                <div class="col-4">
+
+                                    <textarea class="form-control" type="text" [(ngModel)]="Obj['remark']"></textarea>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addline()" style="align-content: right;"><i
+                                            class="fa fa-plus" aria-hidden="true"></i></button></div>
+                            </div>
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-right">
+
+                                </div>
+                            </div>
+
+                            <br>
+
+
+
+                            <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b> Item Category</b>
+                                </div>
+                                <div style="width: 8%;text-align: center;">
+                                    <b>Item of Work</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Item Code</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Item Description </b>
+                                </div>
+                                <div style="width: 13%;text-align: center;">
+                                    <b>PWD Specifiation No.</b>
+                                </div>
+
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Defined Unit</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Quantity</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Rate</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Total</b>
+                                </div>
+                                <div style="width: 4%;text-align: center;">
+                                    <b>Action</b>
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row" *ngFor="let ln of Obj['dataArr']; let i = index;" style="margin-top: 15px;">
+                                <div style="width: 5%;text-align: center;">
+                                    {{i+1}}
+                                </div>
+                                <div style="width: 10%;">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN033']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="ln['sor_item_category']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="base_item_id"
+                                        (change)="changecategory(i)">
+                                    </ng-select>
+                                </div>
+                                <div style="width: 10%;">
+                                    <ng-select [items]="ln['data']" bindLabel="item_work" bindValue="item_code" [multiple]="false" placeholder="" [(ngModel)]="ln['item_code']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="base_item_id" (change)="change(i)">
+                                    </ng-select>
+                                </div>
+                                <div style="width: 8%;text-align: center;">
+                                    <input class="form-control" type="text" [(ngModel)]="ln['item_code']" disabled>
+
+                                </div>
+                                <div style="width: 10%;">
+                                    <input class="form-control" type="text" [(ngModel)]="ln['desc']" disabled>
+
+                                </div>
+                                <div style="width: 10%;">
+
+                                    <input class="form-control" type="text" [(ngModel)]="ln['pwd_spec']" disabled>
+
+                                </div>
+                                <div style="width: 10%;">
+                                    <input class="form-control" type="text" [(ngModel)]="ln['unit']" disabled>
+
+                                </div>
+                                <div style="width: 10%;">
+                                    <input class="form-control" type="number" [(ngModel)]="ln['quantity']">
+                                </div>
+                                <div style="width: 10%;">
+                                    <input class="form-control" type="number" [(ngModel)]="ln['rate']" disabled>
+                                </div>
+                                <div style="width: 10%;">
+                                    <input class="form-control" type="number" [(ngModel)]="ln['total']" disabled>
+                                </div>
+                                <div style="width: 4%;">
+                                    <button class="btn btn-danger" (click)="deleteline(i)"><i class="fa fa-trash"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="check()">Check</button>&nbsp;&nbsp;
+
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:blue;">NOTE - </h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:brown;">* Required Fields</h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color: brown;">^ One of these is required</h6>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="tab-7-3">
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Estimate ID :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['id']" disabled>
+                                </div>
+                                <div class="col-1 text-right">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Select Circle :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN035']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['circle_cd']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="base_item_id">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Select Region :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN034']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['region_cd']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="base_item_id">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1 text-right">
+                                </div>
+
+                                <div class="col-2 text-right">
+                                    Select Project :
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allProjectHier" bindLabel="leaf_value"
+                                        bindValue="leaf_cd" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['proj_cd']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="activity_code">
+                                    </ng-select> -->
+                                    <ng-select [items]="allProject" bindLabel="desc" (change)="changeProject()" bindValue="code" [multiple]="false" placeholder="Select Project" [(ngModel)]="Obj['proj_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="proj_cd">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <div class="row">
+                                        <div class="col-3 text-center">
+                                            <h6><b>OR</b></h6>
+
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <button type="button" class="btn btn-primary" (click)="Select('project')">Select</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" style="margin-top: 5px;">
+                                <div class="col-8">
+
+                                </div>
+                                <div class="col-4">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {{Obj['proj_desc']}}
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            {{Obj['proj_lvl']}}
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Select Product :
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allProductHier" bindLabel="leaf_value"
+                                    bindValue="leaf_cd" [multiple]="false" placeholder=""
+                                    [(ngModel)]="Obj['prod_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="batch_item_code">
+                                </ng-select> -->
+                                    <ng-select [items]="allProduct" bindLabel="desc" (change)="changeProduct()" bindValue="code" [multiple]="false" placeholder="Select Product" [(ngModel)]="Obj['prod_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="prod_cd">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <div class="row">
+                                        <div class="col-3 text-center">
+                                            <h6><b>OR</b></h6>
+
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <button type="button" class="btn btn-primary" (click)="Select('product')">Select</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-2 text-right">
+                                    Select Activity :
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allActivityHier" bindLabel="leaf_value"
+                                        bindValue="leaf_cd" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['act_cd']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="batch_item_code">
+                                    </ng-select> -->
+                                    <ng-select [items]="allActivity" bindLabel="desc" (change)="changeActivity()" bindValue="code" [multiple]="false" placeholder="Select Activity" [(ngModel)]="Obj['act_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="act_cd">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <div class="row">
+                                        <div class="col-3 text-center">
+                                            <h6><b>OR</b></h6>
+
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <button type="button" class="btn btn-primary" (click)="Select('activity')">Select</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row" style="margin-top: 5px;">
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-4">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {{Obj['prod_desc']}}
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            {{Obj['prod_lvl']}}
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-4">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {{Obj['act_desc']}}
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            {{Obj['act_lvl']}}
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Select Budget :
+                                </div>
+                                <div class="col-3">
+                                    <!-- <ng-select [items]="allBudgetHier" bindLabel="leaf_value"
+                                        bindValue="leaf_cd" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['bud_cd']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="batch_item_code">
+                                    </ng-select> -->
+                                    <ng-select [items]="allBudget" bindLabel="desc" (change)="changeBudget()" bindValue="code" [multiple]="false" placeholder="Select Budget" [(ngModel)]="Obj['bud_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="bud_cd">
+                                    </ng-select>
+                                </div>
+                                <div class="col-1">
+                                    <div class="row">
+                                        <div class="col-3 text-center">
+                                            <h6><b>OR</b></h6>
+
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <button type="button" class="btn btn-primary" (click)="Select('budget')">Select</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-2 text-right">
+                                    Estimate Budget:
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['est_bud']" disabled>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px;">
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-4">
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {{Obj['bud_desc']}}
+                                        </div>
+                                        <div class="col-1">
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            {{Obj['bud_lvl']}}
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row" style="margin-top: 5px;">
+                                <div class="col-2 text-right">
+                                    Remark :
+                                </div>
+                                <div class="col-4">
+
+                                    <textarea class="form-control" type="text" [(ngModel)]="Obj['remark']"></textarea>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addline()" style="align-content: right;"><i
+                                            class="fa fa-plus" aria-hidden="true"></i></button></div>
+                            </div>
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-right">
+
+                                </div>
+                            </div>
+
+                            <br>
+
+
+
+                            <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 5%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b> Item Category</b>
+                                </div>
+                                <div style="width: 8%;text-align: center;">
+                                    <b>Item of Work</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Item Code</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Item Description </b>
+                                </div>
+                                <div style="width: 13%;text-align: center;">
+                                    <b>PWD Specifiation No.</b>
+                                </div>
+
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Defined Unit</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Quantity</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Rate</b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Total</b>
+                                </div>
+                                <div style="width: 4%;text-align: center;">
+                                    <b>Action</b>
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row" *ngFor="let ln of Obj['dataArr']; let i = index;" style="margin-top: 15px;">
+                                <div style="width: 5%;text-align: center;">
+                                    {{i+1}}
+                                </div>
+                                <div style="width: 10%;">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN033']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="ln['sor_item_category']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="base_item_id"
+                                        (change)="changecategory(i)">
+                                    </ng-select>
+                                </div>
+                                <div style="width: 10%;">
+                                    <ng-select [items]="ln['data']" bindLabel="item_work" bindValue="item_code" [multiple]="false" placeholder="" [(ngModel)]="ln['item_code']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="base_item_id" (change)="change(i)">
+                                    </ng-select>
+                                </div>
+                                <div style="width: 8%;text-align: center;">
+                                    <input class="form-control" type="text" [(ngModel)]="ln['item_code']" disabled>
+
+                                </div>
+                                <div style="width: 10%;">
+                                    <input class="form-control" type="text" [(ngModel)]="ln['desc']" disabled>
+
+                                </div>
+                                <div style="width: 10%;">
+
+                                    <input class="form-control" type="text" [(ngModel)]="ln['pwd_spec']" disabled>
+
+                                </div>
+                                <div style="width: 10%;">
+                                    <input class="form-control" type="text" [(ngModel)]="ln['unit']" disabled>
+
+                                </div>
+                                <div style="width: 10%;">
+                                    <input class="form-control" type="number" [(ngModel)]="ln['quantity']">
+                                </div>
+                                <div style="width: 10%;">
+                                    <input class="form-control" type="number" [(ngModel)]="ln['rate']" disabled>
+                                </div>
+                                <div style="width: 10%;">
+                                    <input class="form-control" type="number" [(ngModel)]="ln['total']" disabled>
+                                </div>
+                                <div style="width: 4%;">
+                                    <button class="btn btn-danger" (click)="deleteline(i)"><i class="fa fa-trash"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="check()">Check</button>&nbsp;&nbsp;
+
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:blue;">NOTE - </h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:brown;">* Required Fields</h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color: brown;">^ One of these is required</h6>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div class="modal" id="select">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-3 text-center">
+
+
+                    </div>
+                    <div class="col-3 text-center" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b>Code</b></h6>
+
+
+                    </div>
+                    <div class="col-3 text-center" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b> Value</b></h6>
+
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 1:
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl1_cd']" disabled>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd" (change)="onChangeLvl1()" [multiple]="false" placeholder="Select Level 1 " [(ngModel)]="Chartobj['lvl1_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl1_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 2 :
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl2_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd" (change)="onChangeLvl2()" [multiple]="false" placeholder="Select Level 2" [(ngModel)]="Chartobj['lvl2_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl2_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 3 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl3_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd" (change)="onChangeLvl3()" [multiple]="false" placeholder="Select Level 3" [(ngModel)]="Chartobj['lvl3_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl3_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 4 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl4_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+                        <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd" (change)="onChangeLvl4()" [multiple]="false" placeholder="Select Level 4" [(ngModel)]="Chartobj['lvl4_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl4_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 5 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl5_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd" (change)="onChangeLvl5()" [multiple]="false" placeholder="Select Level 5" [(ngModel)]="Chartobj['lvl5_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl5_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 6 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl6_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd" (change)="onChangeLvl6()" [multiple]="false" placeholder="Select Level 6" [(ngModel)]="Chartobj['lvl6_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl6_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 7 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl7_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level7" (change)="onChangeLvl7()" bindLabel="lvl7_value" bindValue="lvl7_cd" [multiple]="false" placeholder="Select Level 7" [(ngModel)]="Chartobj['lvl7_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl7_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Leaf :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['leaf_cd']">
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['leaf_value']">
+
+                    </div>
+                </div>
+                <br>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="SubmitSelectedEvnetHier()">Submit</button>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

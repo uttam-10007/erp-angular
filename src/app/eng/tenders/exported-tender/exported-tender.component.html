@@ -1,0 +1,2010 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Exported Tender</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i>Exported Tender List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle" aria-hidden="true"></i> Create
+                                Exported Tender
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"> </i> Update
+                                Exported Tender
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-4" data-toggle="tab"><i class="fa fa-upload"
+                                    aria-hidden="true"></i> Upload
+                                File
+                            </a>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-4">
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class=" example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>TenderID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.svayam_tender_id }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="name_of_tender">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Name of
+                                            Tender
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.tender_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="tender_opening_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Sale
+                                            Opening Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.sale_start_date}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="tender_closing_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>sale
+                                            End Date
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.sale_end_date}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="tender_type_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Tender Type
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.tender_type}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="packet_type_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Estimate
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.est_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="apply_start_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bid Opening
+                                            Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.bid_opening_date}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="apply_end_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Opening Place
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.opening_bid_place}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="est_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Estimate
+                                            Value
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.est_bud}} </td>
+                                    </ng-container>
+
+
+
+
+
+
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary"
+                                                (click)="open_update(element)">Update</button>&nbsp;&nbsp;
+                                            <button class="btn btn-outline-danger"
+                                                (click)="delete(element)">Delete</button>
+                                            <button class="btn btn-outline-success" (click)="broadcast(element)"
+                                                *ngIf="element.tender_status == null">Broadcast</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-7-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Estimate ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEstimate" (change)="changeestimate()" bindLabel="id"
+                                        bindValue="id" [multiple]="false" placeholder="" [(ngModel)]="Obj['est_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5 style="background-color: #217dbb;color:white;margin-right: 85%;">
+                                        <b style="margin-left:5% ; "> BASIC DETAILS </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6> ORGANISATION CHAIN :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['org_chain']" disabled>
+                                </div>
+
+                                <div class="col-3 text-right">
+                                    <h6>NO.OF COVERS :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN021']" (change)="changecover()"
+                                        bindLabel="value" bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['num_of_cover']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Estimate ID :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['est_id']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>FORM OF CONTRACT :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN026']" bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['form_of_contract']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Tender Type :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN020'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['tender_type']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>ITEM WISE TECHNICAL EVALUATION ALLOWED :</h6>
+
+                                </div>
+                                <div class="col-2">
+                                    <ng-select [items]="select" bindLabel="value" bindValue="value" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['evaluation_allowed']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <!--  <div class="col-2"> -->
+                                <button class="btn btn-primary" (click)="open()"
+                                    *ngIf="Obj['evaluation_allowed'] == 'YES'"><i class="fa fa-edit"
+                                        aria-hidden="true"></i></button>
+                                <!--  </div> -->
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>TENDER CATEGORY :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN025'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['tender_category']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TENDER SUB CATEGORY :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN031'] " bindLabel="value" bindValue="code" 
+                                    [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['tender_sub_category']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PAYMENT MODE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN028'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['payment_mode']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <!-- <div class="col-3 text-right">
+                                    <h6>Period of Work :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['period_of_work']" >
+                                </div> -->
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>GENERAL TECHNICAL EVALUATION ALLOWED :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="select " bindLabel="value" bindValue="value" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['gen_tech_evaluation_allowed']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>EMD :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['emb']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>IS MULTIPLE CURRENCY FEE ALLOWED :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="select " bindLabel="value" bindValue="value" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['is_mul_curr_allowed']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TENDER FEE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['tender_fee']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>IS MULTIPLE CURRENCY ALLOWED FOR BOQ :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="select " bindLabel="value" bindValue="value" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['is_mul_curr_allowed_for_boq']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Status :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="tenderstatus " bindLabel="value" bindValue="value"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['status']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>ALLOW TWO STAGE BIDDING :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="select " bindLabel="value" bindValue="value" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['allowed_two_stage_bidding']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                    <!-- <input type="text" class="form-control" [(ngModel)]="Obj['service_area']" > -->
+                                </div>
+                                <!--  <div class="col-3 text-right">
+                                    <h6>NIT  :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['nit']" >
+                                </div> -->
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> PAYMENT INSTRUMENTS </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PAYMENT MODE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['payment_mode']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>INSTRUMENT/S FOR ONLINE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN029'] " bindLabel="value"
+                                        bindValue="code" [multiple]="true" placeholder=""
+                                        [(ngModel)]="Obj['payment_instrument_dataarr']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> COVER INFORMATION </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>NO. OF COVERS :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['num_of_cover']" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row" *ngFor="let l of Obj['cover_dataarr']; let i = index;"
+                                style="margin-top: 15px;">
+                                <div class="col-4 text-right">
+                                    <h6>DETAILS IN COVER {{i+1}} :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="l['data']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> WORK ITEM DETAILS </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>WORK TITLE/ TENDER NAME :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_name']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>WORK DESCRIPTION :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_desc']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>ESTIMATE BUDGET :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['est_bud']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>PERIOD OF WORK :</h6>
+
+                                </div><input type="number" class="form-control" [(ngModel)]="Obj['work_period']"
+                                    style="width: 10%;margin-right:1% ;">
+
+
+                                <ng-select [items]="mainService.codeValueTechObj['EN027']" bindLabel="value"
+                                    bindValue="code" [multiple]="false" placeholder=""
+                                    [(ngModel)]="Obj['work_period_type']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code"
+                                    style="width: 13%;">
+                                </ng-select>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>LOCATION :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['location']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>BID VALIDITY :</h6>
+
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['bid_validity']">
+                                </div>
+                                <div class="col-1">
+                                    DAYS
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PRE BID MEETING DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['pre_bid_meeting_date']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>METHOD OF SELECTION :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN022'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['method_of_selection']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PRE BID MEETING ADDRESS :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control"
+                                        [(ngModel)]="Obj['pre_bid_meeting_add']"></textarea>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>OPENING BID PLACE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['opening_bid_place']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> CRITICAL DATES </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PUBLISH DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['publish_date']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>BID OPENING DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['bid_opening_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>DOC DOWNLOAD/SALE START DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['sale_start_date']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>SALE END DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['sale_end_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>CLARIFICATION START DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['clarificaion_start_date']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>PRE BID MEETING :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['pre_bid_meeting_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <!-- <div class="row">
+    <div class="col-3 text-right">
+        <h6>DOC DOWNLOAD/SALE START DATE :</h6>
+
+    </div>
+    <div class="col-3">
+        <input type="date" class="form-control" [(ngModel)]="Obj['sale_start_date']" >
+    </div>
+    <div class="col-3 text-right">
+        <h6>SALE END DATE  :</h6>
+
+    </div>
+    <div class="col-3">
+        <input type="date" class="form-control" [(ngModel)]="Obj['sale_end_date']" >
+    </div>
+</div>
+<br> -->
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> TENDER DOCUMENTS </b></h5>
+                                </div>
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addline1()"
+                                        style="align-content: right;"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button></div>
+
+                            </div>
+
+
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <b>DOCUMENT</b>
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <b>DOCUMENT DESCRIPTION</b>
+                                </div>
+                                <div style="width: 30%;text-align: center;">
+                                    <b>FILE </b>
+                                </div>
+
+
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Action</b>
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row" *ngFor="let lnm of Obj['tender_doc_dataarr']; let i = index;"
+                                style="margin-top: 15px;">
+                                <div style="width: 10%;text-align: center;">
+                                    {{i+1}}
+                                </div>
+                                <div style="width: 25%;">
+
+                                    <input type="text" class="form-control" [(ngModel)]="lnm['document_type']">
+                                </div>
+                                <div style="width: 25%;">
+
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control"
+                                        [(ngModel)]="lnm['document_desc']"></textarea>
+                                </div>
+                                <div style="width: 30%;text-align: center;">
+                                    <button class="btn btn-success" (click)="view(lnm['document_id'])"
+                                        *ngIf="lnm['document_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                    <button class="btn btn-primary" (click)="openUploadTable('TENDER DOC',i)"><i
+                                            class="fa fa-upload"></i>Upload
+                                        Document</button>
+
+                                </div>
+
+                                <div style="width: 10%;">
+                                    <button class="btn btn-danger" (click)="deleteline1(i)"><i class="fa fa-trash"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 70%;border-color: black;">
+                                        <b style="margin-left:5% ;"> TENDER INVITING AUTHORITY </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>NAME :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="Obj['tender_inviting_auth_name']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>DESIGNATION :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN013'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['tender_inviting_auth_designation']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>CONTACT DETAILS :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="Obj['tender_inviting_auth_contact_details']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>DEPARTMENT :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN030'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['tender_inviting_auth_department']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> ENABLE CORRIGENDUM </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addline()" style="align-content: right;"><i
+                                            class="fa fa-plus" aria-hidden="true"></i></button></div>
+                            </div>
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-right">
+
+                                </div>
+                            </div>
+
+                            <br>
+
+
+
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 40%;text-align: center;">
+                                    <b>ISSUE FOR CORRIGENDUM</b>
+                                </div>
+                                <div style="width: 40%;text-align: center;">
+                                    <b>CORRIGENDUM DOC </b>
+                                </div>
+
+
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Action</b>
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row" *ngFor="let ln of Obj['dataArr']; let i = index;"
+                                style="margin-top: 15px;">
+                                <div style="width: 10%;text-align: center;">
+                                    {{i+1}}
+                                </div>
+                                <div style="width: 40%;">
+
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control"
+                                        [(ngModel)]="ln['issue_for_corrigendum']"></textarea>
+                                </div>
+                                <div style="width: 40%;text-align: center;">
+                                    <button class="btn btn-success" (click)="view(ln['document_id'])"
+                                        *ngIf="ln['document_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                    <button class="btn btn-primary" (click)="openUploadTable('TENDER',i)"><i
+                                            class="fa fa-upload"></i>Upload
+                                        Document</button>
+
+                                </div>
+
+                                <div style="width: 10%;">
+                                    <button class="btn btn-danger" (click)="deleteline(i)"><i class="fa fa-trash"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+
+
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-3" style="background-color: #217dbb; color: white; font: bold;">
+                                    OTHER DETAILS
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    LOA DOC :
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['loa_document_id'])"
+                                    *ngIf="Obj['loa_document_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                    <button class="btn btn-primary" (click)="openUpload('loa_document_id')"><i
+                                            class="fa fa-upload"></i>Upload
+                                        Document</button>
+                                </div>
+                                <div class="col-3 text-right">
+                                    EXTENSION :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="other_details" bindLabel="value" bindValue="id"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['extension']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    AGREEMENT :
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['agreement_doc_id'])"
+                                    *ngIf="Obj['agreement_doc_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                    <button class="btn btn-primary" (click)="openUpload('agreement_doc_id')"><i
+                                            class="fa fa-upload"></i>Upload
+                                        Document</button>
+
+                                </div> 
+                              
+                                <div class="col-3 text-right">
+                                    ESCALATION :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="other_details" bindLabel="value" bindValue="id"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['escalation']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    BLACKLISTING :
+                                </div>
+                                <div class="col-3">
+                                <button class="btn btn-success" (click)="view(Obj['blacklist_doc_id'])"
+                                *ngIf="Obj['blacklist_doc_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                <button class="btn btn-primary" (click)="openUpload('blacklist_doc_id')"><i
+                                        class="fa fa-upload"></i>Upload
+                                    Document</button>
+                                </div>
+                                <div class="col-3 text-right">
+                                    DEVIATION :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="other_details" bindLabel="value" bindValue="id"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['deviation']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    COMPLETION CERTIFICATE :
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['completion_cert_document_id'])"
+                                    *ngIf="Obj['completion_cert_document_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                    <button class="btn btn-primary" (click)="openUpload('completion_cert_document_id')"><i
+                                            class="fa fa-upload"></i>Upload
+                                        Document</button>
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:blue;">NOTE - </h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:brown;">* Required Fields</h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color: brown;">^ One of these is required</h6>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-7-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Estimate ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEstimate" (change)="changeestimate()" bindLabel="id"
+                                        bindValue="id" [multiple]="false" placeholder="" [(ngModel)]="Obj['est_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 85%;border-color: black;">
+                                        <b style="margin-left:5% ;"> BASIC DETAILS </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6> ORGANISATION CHAIN :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['org_chain']" disabled>
+                                </div>
+
+                                <div class="col-3 text-right">
+                                    <h6>NO.OF COVERS :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN021']" (change)="changecover()"
+                                        bindLabel="value" bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['num_of_cover']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Estimate ID :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['est_id']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>FORM OF CONTRACT :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN026']" bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['form_of_contract']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Tender Type :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN020'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['tender_type']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>ITEM WISE TECHNICAL EVALUATION ALLOWED :</h6>
+
+                                </div>
+                                <div class="col-2">
+                                    <ng-select [items]="select" bindLabel="value" bindValue="value" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['evaluation_allowed']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <!--  <div class="col-2"> -->
+                                <button class="btn btn-primary" (click)="open()"
+                                    *ngIf="Obj['evaluation_allowed'] == 'YES'"><i class="fa fa-edit"
+                                        aria-hidden="true"></i></button>
+                                <!--  </div> -->
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>TENDER CATEGORY :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN025'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['tender_category']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TENDER SUB CATEGORY :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]=" mainService.codeValueTechObj['EN031']" bindLabel="value" bindValue="code" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['tender_sub_category']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PAYMENT MODE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN028'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['payment_mode']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <!-- <div class="col-3 text-right">
+                                    <h6>Period of Work :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['period_of_work']" >
+                                </div> -->
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>GENERAL TECHNICAL EVALUATION ALLOWED :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="select " bindLabel="value" bindValue="value" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['gen_tech_evaluation_allowed']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>EMD :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['emb']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>IS MULTIPLE CURRENCY FEE ALLOWED :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="select " bindLabel="value" bindValue="value" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['is_mul_curr_allowed']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>TENDER FEE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['tender_fee']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>IS MULTIPLE CURRENCY ALLOWED FOR BOQ :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="select " bindLabel="value" bindValue="value" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['is_mul_curr_allowed_for_boq']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Status :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="tenderstatus " bindLabel="value" bindValue="value"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['status']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>ALLOW TWO STAGE BIDDING :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="select " bindLabel="value" bindValue="value" [multiple]="false"
+                                        placeholder="" [(ngModel)]="Obj['allowed_two_stage_bidding']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                    <!-- <input type="text" class="form-control" [(ngModel)]="Obj['service_area']" > -->
+                                </div>
+                                <!--  <div class="col-3 text-right">
+                                    <h6>NIT  :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['nit']" >
+                                </div> -->
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> PAYMENT INSTRUMENTS </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PAYMENT MODE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['payment_mode']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>INSTRUMENT/S FOR ONLINE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN029'] " bindLabel="value"
+                                        bindValue="code" [multiple]="true" placeholder=""
+                                        [(ngModel)]="Obj['payment_instrument_dataarr']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> COVER INFORMATION </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>NO. OF COVERS :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['num_of_cover']" disabled>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row" *ngFor="let l of Obj['cover_dataarr']; let i = index;"
+                                style="margin-top: 15px;">
+                                <div class="col-4 text-right">
+                                    <h6>DETAILS IN COVER {{i+1}} :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="l['data']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> WORK ITEM DETAILS </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>WORK TITLE/ TENDER NAME :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_name']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>WORK DESCRIPTION :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_desc']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>ESTIMATE BUDGET :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['est_bud']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>PERIOD OF WORK :</h6>
+
+                                </div><input type="number" class="form-control" [(ngModel)]="Obj['work_period']"
+                                    style="width: 10%;margin-right:1% ;">
+
+
+                                <ng-select [items]="mainService.codeValueTechObj['EN027']" bindLabel="value"
+                                    bindValue="code" [multiple]="false" placeholder=""
+                                    [(ngModel)]="Obj['work_period_type']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code"
+                                    style="width: 13%;">
+                                </ng-select>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>LOCATION :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['location']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>BID VALIDITY :</h6>
+
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['bid_validity']">
+                                </div>
+                                <div class="col-1">
+                                    DAYS
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PRE BID MEETING DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['pre_bid_meeting_date']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>METHOD OF SELECTION :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN022'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['method_of_selection']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PRE BID MEETING ADDRESS :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control"
+                                        [(ngModel)]="Obj['pre_bid_meeting_add']"></textarea>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>OPENING BID PLACE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['opening_bid_place']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> CRITICAL DATES </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>PUBLISH DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['publish_date']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>BID OPENING DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['bid_opening_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>DOC DOWNLOAD/SALE START DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['sale_start_date']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>SALE END DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['sale_end_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>CLARIFICATION START DATE :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control"
+                                        [(ngModel)]="Obj['clarificaion_start_date']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>PRE BID MEETING :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['pre_bid_meeting_date']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> TENDER DOCUMENTS </b></h5>
+                                </div>
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addline1()"
+                                        style="align-content: right;"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button></div>
+
+                            </div>
+
+
+                            <br>
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <b>DOCUMENT</b>
+                                </div>
+                                <div style="width: 25%;text-align: center;">
+                                    <b>DOCUMENT DESCRIPTION</b>
+                                </div>
+                                <div style="width: 30%;text-align: center;">
+                                    <b>FILE </b>
+                                </div>
+
+
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Action</b>
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row" *ngFor="let lnm of Obj['tender_doc_dataarr']; let i = index;"
+                                style="margin-top: 15px;">
+                                <div style="width: 10%;text-align: center;">
+                                    {{i+1}}
+                                </div>
+                                <div style="width: 25%;">
+
+                                    <input type="text" class="form-control" [(ngModel)]="lnm['document_type']">
+                                </div>
+                                <div style="width: 25%;">
+
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control"
+                                        [(ngModel)]="lnm['document_desc']"></textarea>
+                                </div>
+                                <div style="width: 30%;text-align: center;">
+                                    <button class="btn btn-success" (click)="view(lnm['document_id'])"
+                                        *ngIf="lnm['document_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                    <button class="btn btn-primary" (click)="openUploadTable('TENDER DOC',i)"><i
+                                            class="fa fa-upload"></i>Upload
+                                        Document</button>
+
+                                </div>
+
+                                <div style="width: 10%;">
+                                    <button class="btn btn-danger" (click)="deleteline1(i)"><i class="fa fa-trash"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 70%;border-color: black;">
+                                        <b style="margin-left:5% ;"> TENDER INVITING AUTHORITY </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>NAME :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="Obj['tender_inviting_auth_name']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>DESIGNATION :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN013'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['tender_inviting_auth_designation']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>CONTACT DETAILS :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="Obj['tender_inviting_auth_contact_details']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>DEPARTMENT :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN030'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['tender_inviting_auth_department']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5
+                                        style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;">
+                                        <b style="margin-left:5% ;"> ENABLE CORRIGENDUM </b></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addline()" style="align-content: right;"><i
+                                            class="fa fa-plus" aria-hidden="true"></i></button></div>
+                            </div>
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-right">
+
+                                </div>
+                            </div>
+
+                            <br>
+
+
+
+                            <div class="row"
+                                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 40%;text-align: center;">
+                                    <b>ISSUE FOR CORRIGENDUM</b>
+                                </div>
+                                <div style="width: 40%;text-align: center;">
+                                    <b>CORRIGENDUM DOC </b>
+                                </div>
+
+
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Action</b>
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row" *ngFor="let ln of Obj['dataArr']; let i = index;"
+                                style="margin-top: 15px;">
+                                <div style="width: 10%;text-align: center;">
+                                    {{i+1}}
+                                </div>
+                                <div style="width: 40%;">
+
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control"
+                                        [(ngModel)]="ln['issue_for_corrigendum']"></textarea>
+                                </div>
+                                <div style="width: 40%;text-align: center;">
+                                    <button class="btn btn-success" (click)="view(ln['document_id'])"
+                                        *ngIf="ln['document_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                    <button class="btn btn-primary" (click)="openUploadTable('TENDER',i)"><i
+                                            class="fa fa-upload"></i>Upload
+                                        Document</button>
+
+                                </div>
+
+                                <div style="width: 10%;">
+                                    <button class="btn btn-danger" (click)="deleteline(i)"><i class="fa fa-trash"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+
+
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3" style="background-color: #217dbb; color: white; font: bold;">
+                                    OTHER DETAILS
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    LOA DOC :
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['loa_document_id'])"
+                                    *ngIf="Obj['loa_document_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                    <button class="btn btn-primary" (click)="openUpload('loa_document_id')"><i
+                                            class="fa fa-upload"></i>Upload
+                                        Document</button>
+                                </div>
+                                <div class="col-3 text-right">
+                                    EXTENSION :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="other_details" bindLabel="value" bindValue="id"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['extension']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    AGREEMENT :
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['agreement_doc_id'])"
+                                    *ngIf="Obj['agreement_doc_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                    <button class="btn btn-primary" (click)="openUpload('agreement_doc_id')"><i
+                                            class="fa fa-upload"></i>Upload
+                                        Document</button>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    ESCALATION :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="other_details" bindLabel="value" bindValue="id"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['escalation']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    BLACKLISTING :
+                                </div>
+                                <div class="col-3">
+                                 
+                                <button class="btn btn-success" (click)="view(Obj['blacklist_doc_id'])"
+                                *ngIf="Obj['blacklist_doc_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                <button class="btn btn-primary" (click)="openUpload('blacklist_doc_id')"><i
+                                        class="fa fa-upload"></i>Upload
+                                    Document</button>
+                                </div>
+                                <div class="col-3 text-right">
+                                    DEVIATION :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="other_details" bindLabel="value" bindValue="id"
+                                        [multiple]="false" placeholder="" [(ngModel)]="Obj['deviation']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    COMPLETION CERTIFICATE :
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-success" (click)="view(Obj['completion_cert_document_id'])"
+                                    *ngIf="Obj['completion_cert_document_id']!=null" style="margin-right: 10px;">VIEW</button>
+                                    <button class="btn btn-primary" (click)="openUpload('completion_cert_document_id')"><i
+                                            class="fa fa-upload"></i>Upload
+                                        Document</button>
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:blue;">NOTE - </h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:brown;">* Required Fields</h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color: brown;">^ One of these is required</h6>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>
+<div class="modal" id="select">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Upload Document :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-4 text-right">
+                        Upload File:
+                    </div>
+                    <div class="col-4 text-center">
+                        <input #file type="file" name="pimage" ng2FileSelect [uploader]="uploader" class="form-control"
+                            style="border-color: black" (change)="onFileUpload($event,file.files)">
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button type="button" [disabled]="!uploader.getNotUploadedItems().length" class="btn btn-info"
+                            (click)='upload()'><i class="fa fa-upload" aria-hidden="true">&nbsp;</i>Upload</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" (click)="Close()"
+                    data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="row">&nbsp;&nbsp;&nbsp;
+                    <h4 class="modal-title"> TECHNICAL EVALUATION </h4>&nbsp;
+
+                    <button class="btn btn-primary" (click)="addline2()"><i class="fa fa-plus"
+                            aria-hidden="true"></i></button>
+                </div>
+
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-right">
+
+                    </div>
+                </div>
+
+                <br>
+                <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                    <div style="width: 10%;text-align: center;">
+                        <b>Sr NO.</b>
+                    </div>
+                    <div style="width: 25%;text-align: center;">
+                        <b>DOCUMENT</b>
+                    </div>
+                    <div style="width: 25%;text-align: center;">
+                        <b>DOCUMENT DESCRIPTION</b>
+                    </div>
+                    <div style="width: 30%;text-align: center;">
+                        <b>FILE </b>
+                    </div>
+
+
+                    <div style="width: 10%;text-align: center;">
+                        <b>Action</b>
+                    </div>
+                </div>
+                <br>
+
+                <hr>
+                <div class="row" *ngFor="let lnm of Obj['evaluation_allowed_dataarr']; let i = index;"
+                    style="margin-top: 15px;">
+                    <div style="width: 10%;text-align: center;">
+                        {{i+1}}
+                    </div>
+                    <div style="width: 25%;">
+
+                        <input type="text" class="form-control" [(ngModel)]="lnm['document_type']">
+                    </div>
+                    <div style="width: 25%;">
+
+                        <textarea style="width: 100%;" id="re" name="re" class="form-control"
+                            [(ngModel)]="lnm['document_desc']"></textarea>
+                    </div>
+                    <div style="width: 30%;text-align: center;">
+                        <!-- <button class="btn btn-success" (click)="view(lnm['document_id'])"
+                        *ngIf="lnm['document_id']!=null">VIEW</button>
+                    <button class="btn btn-primary" (click)="openUploadTable('TENDER DOC',i)"
+                        *ngIf="lnm['document_id'] ==null"><i class="fa fa-upload"></i>Upload
+                        Document</button> -->
+
+                    </div>
+
+                    <div style="width: 10%;">
+                        <button class="btn btn-danger" (click)="deleteline2(i)"><i class="fa fa-trash"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+
+                <!--  <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;margin-left: 4px;margin-right: 4px;">
+                    <div class="col-2 text-center">
+                        <b>Item Id</b>
+                    </div>
+                    <div class="col-2 text-center">
+                        <b>Item Desc</b>
+                    </div>
+                    <div class="col-2 text-center">
+                        <b>Item Rate </b>
+                    </div>
+                    <div class="col-2 text-center">
+                        <b>Item Unit</b>
+                    </div>
+
+                    <div class="col-2 text-center">
+                        <b>Item Qty</b>
+                    </div>
+                    <div class="col-1 text-center">
+                        <b>Item Cost</b>
+                    </div>
+                    <div class="col-1 text-right">
+                        <b>Action</b>
+                    </div>
+                </div>
+                <br>
+
+                <hr>
+                <div class="row" *ngFor="let ln of Obj['dataArr']; let i = index;" style="margin-top: 15px;">
+                    <div class="col-2 text-center">
+                        <ng-select [items]="allBaseItem" bindLabel="base_item_id" bindValue="base_item_id" [multiple]="false" placeholder="" [(ngModel)]="ln['base_item_id']" [selectableGroup]="true" [selectableGroupAsModel]="true" [closeOnSelect]="false" name="base_item_id"
+                            (change)="change(i)">
+                        </ng-select>
+                    </div>
+                    <div class="col-2 text-center">
+                        {{ln['base_item_desc']}}
+                    </div>
+                    <div class="col-2 text-center">
+                        {{ln['costing_rate_at_site']}}
+                    </div>
+                    <div class="col-2 text-center">
+                        {{ln['costing_rate_unit']}}
+                    </div>
+                    <div class="col-2 text-center">
+                        <input class="form-control" type="number" [(ngModel)]="ln['item_qty']" (change)="changeQty(i)">
+                    </div>
+                    <div class="col-1 text-center">
+                        <h6>{{ln['item_cost']}}</h6>
+
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-danger" (click)="deleteline(i)"><i class="fa fa-trash"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="save_popUp()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

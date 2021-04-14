@@ -1,0 +1,254 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">CHART OF ACCOUNT MAPPING</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" ><i
+                                    class="ti-bar-chart"></i>
+                               Relation List</a>
+                        </li>
+
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create Relation </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" (click)="refresh()" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Relation
+                            </a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Relation Id
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="chart_acc">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Chart Of Account
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.chart_of_account }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Type Of Relation
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                           {{element.type}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="relation">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Relation
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.relation}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-primary" (click)="open_update(element)"
+                                              >Update</button>
+                                           
+                                            <button class="btn btn-danger" style="margin-left: 2px;"
+                                                (click)="delete(element)">Delete</button>
+
+
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="list"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: list;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                            <br>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                   Chart Of Account :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="chartOfAcc" bindLabel="leaf_value" 
+                                    bindValue="leaf_code" [multiple]="false" placeholder="Select chart of account" 
+                                    [(ngModel)]="obj['chart_of_account']" [selectableGroup]="true" 
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Select Type :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="type" bindLabel="id"
+                                    bindValue="id" [multiple]="false" placeholder="Select type" 
+                                    [(ngModel)]="obj['type']" [selectableGroup]="true" 
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                                    </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Relation :
+                                </div>
+                                <div class="col-3">
+                                   <input type="text" [(ngModel)]="obj['relation']"  class="form-control">
+                                    </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                      
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                   Chart Of Account :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="chartOfAcc" bindLabel="leaf_value" 
+                                    bindValue="leaf_code" [multiple]="false" placeholder="Select chart of account" 
+                                    [(ngModel)]="obj['chart_of_account']" [selectableGroup]="true" 
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Select Type :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="type" bindLabel="id"
+                                    bindValue="id" [multiple]="false" placeholder="Select type" 
+                                    [(ngModel)]="obj['type']" [selectableGroup]="true" 
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+                                    </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Relation :
+                                </div>
+                                <div class="col-3">
+                                   <input type="text" [(ngModel)]="obj['relation']"  class="form-control">
+                                    </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                      
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                         
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

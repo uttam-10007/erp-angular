@@ -1,0 +1,273 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Fields Event Records</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All Event Record List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"></i>Create Event Record</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refresh()"><i class="ti-announcement"></i>Update
+                                Event Record</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="s_no">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>S No.
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{i+1 }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="record_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Event Record Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.record_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="record_business_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Event Record Description
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.record_business_name }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-outline-danger" (click)="deleteLayout(element)">Delete</button>
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div> 
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Event Record Code :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="record['record_code']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Event Record Description :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="record['record_business_name']">
+                                </div>
+                            </div>
+                            <br>
+                           
+                            <div class="row">
+                                <div class="col-4 text-center">
+
+                                </div>
+                                <div class="col-4 text-center">
+                                    <button class="btn btn-primary" (click)="save()">Save</button>
+
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button class="btn btn-info" (click)="add()">Add</button>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1">
+                                   
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6> <b>S No.</b></h6>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <h6><b>Field</b></h6>                                 
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6><b>Action</b></h6>                                 
+                                </div>
+                            </div>
+                            <hr>
+                            <!-- <div class="row">
+                                <div class="col-1">
+                                   
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6>1 </h6>
+                                </div>
+                                <div class="col-6 text-center" >
+                                    
+                                    <input type="text" class="form-control" [(ngModel)]="record['record_code']" disabled>
+                                   
+                                </div>
+                                
+                            </div>
+                            <br> -->
+                            <div *ngFor="let arr of record['data']; let i = index;">
+                                <div class="row">
+                                    <div class="col-1">
+                                       
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <h6>{{i+1}} </h6>
+                                    </div>
+                                   
+                                    <div class="col-6 text-center" >
+                                        
+                                        <ng-select [items]="allFields" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="record['data'][i]['field_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2 text-center" >
+                                        <button class="btn btn-danger" (click)="delete(i)">Delete</button>                              
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Event Record Code :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="record['record_code']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Event Record Description :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="record['record_business_name']">
+                                </div>
+                            </div>
+                            <br>
+                           
+                            <div class="row">
+                                <div class="col-4 text-center">
+
+                                </div>
+                                <div class="col-4 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button class="btn btn-info" (click)="add()">Add</button>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1">
+                                   
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6> <b>S No.</b></h6>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <h6><b>Field</b></h6>                                 
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6><b>Action</b></h6>                                 
+                                </div>
+                            </div>
+                            <hr>
+                            <!-- <div class="row">
+                                <div class="col-1">
+                                   
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6>1 </h6>
+                                </div>
+                                <div class="col-6 text-center" >
+                                    
+                                    <input type="text" class="form-control" [(ngModel)]="record['record_code']" disabled>
+                                   
+                                </div>
+                                
+                            </div>
+                            <br> -->
+                            <div *ngFor="let arr of record['data']; let i = index;">
+                                <div class="row">
+                                    <div class="col-1">
+                                       
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <h6>{{i+1}} </h6>
+                                    </div>
+                                   
+                                    <div class="col-6 text-center" >
+                                        
+                                        <ng-select [items]="allFields" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="record['data'][i]['field_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2 text-center" >
+                                        <button class="btn btn-danger" (click)="delete(i)">Delete</button>                              
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

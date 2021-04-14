@@ -1,0 +1,631 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">MANAGE PROPERY TYPE INFO</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i
+                                    class="ti-bar-chart"></i> All
+                                Property Type List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i
+                                    class="fa fa-plus-circle"></i> Create
+                                Property Type</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i
+                                    class="ti-settings"></i> Update
+                                Property Type</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Select Scheme :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allScheme" bindLabel="scheme_name" bindValue="scheme_code" (change)="changeSchemeToShow()" [multiple]="false" placeholder="" [(ngModel)]="getObj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Select Sub Scheme :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="selectedtSubScheme" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="" [(ngModel)]="getObj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="getAllPropertyInfos()">SUBMIT</button>
+                                </div>
+
+                            </div>
+
+                            <div class=" table-container ">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="example-container">
+                                    <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                        <ng-container matColumnDef="property_type_id">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>S.No
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.property_type_id}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="property_type_code">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Property Type
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.property_type_code}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="residential_or_commercial">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Residential / Commercial
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.residential_or_commercial}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="subsidised_or_non_subsidised">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Subsidised/ Non-Subsidised
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.subsidised_or_non_subsidised}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="quota_code">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Quota
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.quota_code}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="sub_quota_code">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Sub Quota
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.sub_quota_code}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="no_of_property">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>No Of Properties
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.no_of_property}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="length">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Length
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.length}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="width">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Width
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.width}} </td>
+                                        </ng-container>
+                                        displayedColumns = [ 'amount_per','cancellation_amount_per'];
+                                        <ng-container matColumnDef="measurement_unit">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Unit of Measure
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.measurement_unit}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="estimated_cost">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Basic Cost
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.estimated_cost}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="additional_cost">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Additional Cost
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.additional_cost}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="premium_amount">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Premium Cost
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.premium_amount}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="final_amount">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Final Cost
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.final_amount}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="amount_per">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Application Percent
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.amount_per}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="cancellation_amount_per">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Cancellation Percent
+                                                </b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.cancellation_amount_per}} </td>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+
+                                                <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button>
+
+
+                                            </td>
+
+                                        </ng-container>
+
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Scheme :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="allScheme" bindLabel="scheme_name" bindValue="scheme_code" (change)="changeScheme()" [multiple]="false" placeholder="" [(ngModel)]="obj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Select Sub Scheme :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="selectedtSubScheme" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="" [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Property Type :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0015']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['property_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Subsidised/Non-Subsidised :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0016']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['subsidised_or_non_subsidised']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Commercial/Residential :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0018']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['residential_or_commercial']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <!-- <div class="col-3 text-right">
+                                    <h6>Subsidised/Non-Subsidised :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0016']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['subsidised_or_non_subsidised']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div> -->
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Quota :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0019']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['quota_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Sub Quota :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0020']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['sub_quota_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Length :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['length']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Width :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['width']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Measurement Unit :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0021']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['measurement_unit']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>No Of Property :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['no_of_property']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Basic Cost :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['estimated_cost']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Additional Cost :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['additional_cost']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Premium Cost :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['premium_amount']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Final Cost :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['final_amount']">
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Application Amount of Final Cost in %:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" name="cancelation_amount" [(ngModel)]="obj['amount_per']" placeholder="">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Cancelation Amount of Application Amount in %:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" name="cancelation_amount" [(ngModel)]="obj['cancellation_amount_per']" placeholder="">
+
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-11 text-right">
+
+                                    <button class="btn btn-info" (click)="addNewCost()">ADD Cost</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div *ngFor="let selectedCost of selectedCost,let i = index;">
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        <h6> Select Payment Options:</h6>
+                                    </div>
+                                    <div class="col-4">
+
+
+                                        <ng-select [items]="mainService.codeValueTechObj['PROP0006']" (change)="ChangeCost(i)" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="selectedCost['no_of_installment']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                            [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+                                    </div>
+
+                                    <div class="col-4 text-left">
+                                        <button class="btn btn-danger" (click)="deleteCost(i)">Delete</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row" *ngFor="let emi of selectedCost['emi'],let j = index;">
+                                    <br>
+
+                                    <div class="col-3 text-right">
+                                        <h6>S.NO. :</h6>
+                                    </div>
+                                    <div class="col-3 text-left">
+
+                                        {{emi['id']}}
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        <h6>Amount:</h6>
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        <input class="form-control" type="number" [(ngModel)]="emi['payment_amount']" name="amount" placeholder="Enter Amount">
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Scheme :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="allScheme" bindLabel="scheme_name" bindValue="scheme_code" (change)="changeScheme()" [multiple]="false" placeholder="" [(ngModel)]="obj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Select Sub Scheme :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="selectedtSubScheme" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="" [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Property Type :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0015']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['property_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Subsidised/Non-Subsidised :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0016']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['subsidised_or_non_subsidised']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Commercial/Residential :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0018']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['residential_or_commercial']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <!-- <div class="col-3 text-right">
+                                    <h6>Subsidised/Non-Subsidised :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0016']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['subsidised_or_non_subsidised']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div> -->
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Quota :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0019']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['quota_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Sub Quota :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0020']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['sub_quota_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Length :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['length']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Width :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['width']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Measurement Unit :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0021']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['measurement_unit']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>No Of Property :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['no_of_property']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Basic Cost :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['estimated_cost']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Additional Cost :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['additional_cost']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Premium Cost :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['premium_amount']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Final Cost :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="obj['final_amount']">
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Application Amount of Final Cost in %:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" name="cancelation_amount" [(ngModel)]="obj['amount_per']" placeholder="">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Cancelation Amount of Application Amount in %:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" name="cancelation_amount" [(ngModel)]="obj['cancellation_amount_per']" placeholder="">
+
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-11 text-right">
+
+                                    <button class="btn btn-info" (click)="addNewCost()">ADD Cost</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div *ngFor="let selectedCost of selectedCost,let i = index;">
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        <h6> Select Payment Options:</h6>
+                                    </div>
+                                    <div class="col-4">
+
+
+                                        <ng-select [items]="mainService.codeValueTechObj['PROP0006']" (change)="ChangeCost(i)" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="selectedCost['no_of_installment']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                            [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+                                    </div>
+
+                                    <div class="col-4 text-left">
+                                        <button class="btn btn-danger" (click)="deleteCost(i)">Delete</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row" *ngFor="let emi of selectedCost['emi'],let j = index;">
+                                    <br>
+
+                                    <div class="col-3 text-right">
+                                        <h6>S.NO. :</h6>
+                                    </div>
+                                    <div class="col-3 text-left">
+
+                                        {{emi['id']}}
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        <h6>Amount:</h6>
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        <input class="form-control" type="number" [(ngModel)]="emi['payment_amount']" name="amount" placeholder="Enter Amount">
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">UPDATE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

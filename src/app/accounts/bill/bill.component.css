@@ -1,0 +1,212 @@
+tr.mat-header-row {
+    height: 40px !important;
+}
+
+tr.mat-row {
+    height: 30px !important;
+    font-size: 12px;
+}
+
+.example-container {
+    max-height: 720px;
+    overflow: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-cell {
+    padding: 5px 10px 5px 0;
+}
+
+.mat-header-cell {
+    padding: 5px 10px 5px 0;
+}
+
+.mat-row:nth-child(even) {
+    background-color: rgb(238, 224, 226);
+}
+
+.mat-row:nth-child(odd) {
+    background-color: white;
+}
+
+#tbl th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #d9edf7;
+    color: black;
+}
+
+#tbl th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tbl1 th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.modal-lg {
+    max-width: 80% !important;
+}
+
+.r {
+    text-align: right;
+}
+
+.circles {
+    height: 20px;
+    width: 20px;
+    border: 0.188em solid red;
+    background-color: red;
+    border-radius: 100%;
+    display: inline-block;
+}
+
+.circlesdone {
+    height: 20px;
+    width: 20px;
+    border: 0.188em solid rgb(6, 150, 215);
+    background-color: rgb(6, 150, 215);
+    border-radius: 100%;
+    display: inline-block;
+}
+
+.circlespending {
+    height: 20px;
+    width: 20px;
+    border: 0.188em solid grey;
+    /*  background-color:  rgb(6,150,215); */
+    border-radius: 100%;
+    display: inline-block;
+}
+
+.aa {
+    background-color: #ffa500;
+}
+
+.circle-desc-active {
+    font-weight: bold;
+}
+
+.vl {
+    border-left: 6px solid green;
+    height: 500px;
+}
+
+.barblue {
+    width: 0.083em;
+    height: 60px;
+    border: 0.031em solid rgb(89, 255, 47);
+    color: rgb(89, 255, 47);
+    background-color: rgb(89, 255, 47);
+    display: inline-block;
+    text-align: center;
+}
+
+.bar {
+    width: 0.063em;
+    height: 60px;
+    border: 0.031em solid grey;
+    color: gray;
+    background-color: gray;
+    display: inline-block;
+    text-align: center;
+}
+
+.cc {
+    min-width: 320px;
+    margin: "0px auto";
+    text-align: center;
+}
+
+.circle-desc {
+    position: absolute;
+    top: 5.000em;
+    font-size: 1.125em;
+    width: auto;
+    max-width: 9.375em;
+    margin-left: -0.750em;
+}
+
+.container {
+    width: 25%;
+}
+
+.step {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    background-color: cream;
+}
+
+.v-stepper {
+    position: relative;
+    /*   visibility: visible; */
+}
+
+
+/* regular step */
+
+.step .circle {
+    background-color: white;
+    border: 3px solid gray;
+    border-radius: 100%;
+    width: 20px;
+    /* +6 for border */
+    height: 20px;
+    display: inline-block;
+}
+
+.step .line {
+    top: 23px;
+    left: 12px;
+    /*   height: 120px; */
+    height: 100%;
+    position: absolute;
+    border-left: 3px solid gray;
+}
+
+.step.completed .circle {
+    visibility: visible;
+    background-color: rgb(89, 255, 47);
+    border-color: rgb(89, 255, 47);
+}
+
+.step.completed .line {
+    border-left: 3px solid rgb(89, 255, 47);
+}
+
+.step.active .circle {
+    visibility: visible;
+    border-color: rgb(89, 255, 47);
+}
+
+.step.empty .circle {
+    visibility: hidden;
+}
+
+.step.empty .line {
+    /*     visibility: hidden; */
+    /*   height: 150%; */
+    top: 0;
+    height: 150%;
+}
+
+.step:last-child .line {
+    border-left: 3px solid white;
+    z-index: -1;
+    /* behind the circle to completely hide */
+}
+
+.content {
+    margin-left: 20px;
+    display: inline-block;
+}

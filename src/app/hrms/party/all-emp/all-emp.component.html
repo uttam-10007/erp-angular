@@ -1,0 +1,789 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">All Employees </div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i> All
+                                Employee </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i> More
+                                Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab"><i class="ti-announcement"></i>
+                                Employee Document</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-5" data-toggle="tab"><i class="ti-announcement"></i>
+                                Update
+                                Date of Birth</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{element.tempid}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_name }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_email">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Email
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_email}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_father_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Father's Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_father_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_phone_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Phone No
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_phone_no}} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-primary" (click)="openUpdate(element)">View
+                                                More</button>
+                                            <button class="btn btn-info" (click)="viewDocumments(element)">View
+                                                Documents</button>
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Employee Category Code</h6>
+                                </div>
+                                <div class="col-3 ">
+                                    <h6>{{empObj['emp_cat_code']}}</h6>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Employee ID</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_id']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Employee Name</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_name']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Gender</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_sex']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Email</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_email']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Phone No</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_phone_no']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>DOB</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_dob']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Father's Name</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_father_name']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Permanent Address Line 1</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_permanent_addr_line1']}}
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Permanent Address Line 2</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_permanent_addr_line2']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Permanent City</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_permanent_addr_city']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Permanent Address District</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_permanent_addr_dist']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Permanent Address State</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_permanent_addr_state']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Permanent Address Pin</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_permanent_addr_pin_code']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Local Address Line 1</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_local_addr_line1']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Local Address Line 2</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_local_addr_line2']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Local City</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_local_addr_city']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Local Address District</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_local_addr_dist']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Local Address State</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_local_addr_state']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Local Address Pin</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_local_addr_pin_code']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Employee's PAN</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_pan_no']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Adhar No</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_adhar_no']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Mother's Name</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_mother_name']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Identification Mark</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['identification_mark']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Reservation Category</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['reservation_category_code']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Marital Status</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['marital_status']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Husband Name If Applicable</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_husband_name']}}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Religeon</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_religeon']}}
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Nationality</h6>
+                                </div>
+                                <div class="col-3">
+                                    {{empObj['emp_nationality']}}
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row" *ngIf="errorMsg!=''" style="color: red;">
+                                <div class="col-12 text-center">
+                                    {{errorMsg}}
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" (change)="changeEmployee()" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee ID :
+                                </div>
+                                <div class="col-3">
+                                    <h6> {{mainService.accInfo['account_short_name']}}{{getNumberFormat(selectEmpObj['emp_id'])}}</h6>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee Category Code:
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0046']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_cat_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="emp_cat_code">
+                                    </ng-select>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee Name:
+                                </div>
+                                <div class="col-3">
+                                    <h6>{{personalInfoObj['emp_name']}}</h6>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee Email:
+                                </div>
+                                <div class="col-3">
+
+                                    <input size="10" class="form-control" [(ngModel)]="personalInfoObj['emp_email']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee Phone No. :
+                                </div>
+                                <div class="col-3">
+                                    <input size="10" class="form-control" [(ngModel)]="personalInfoObj['emp_phone_no']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee DOB :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_dob']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Father's Name :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_father_name']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee's PAN :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_pan_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee Adhar No. :
+                                </div>
+                                <div class="col-3">
+                                    <input size="12" class="form-control" [(ngModel)]="personalInfoObj['emp_adhar_no']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    Gender :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0008']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_sex']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Mother's Name :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="personalInfoObj['emp_mother_name']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    Reservation Category :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0037']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['reservation_category_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Marital Status :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0038']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['marital_status']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Husband Name If Applicable :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="personalInfoObj['emp_husband_name']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Religion :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0039']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_religeon']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Nationality :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0040']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_nationality']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Identification Mark :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="identification_mark" [(ngModel)]="personalInfoObj['identification_mark']" placeholder="Identification Mark"></textarea>
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <h5>PERMANANT ADDRESS</h5>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Address Line 1 :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="party_permanent_addr_line1" [(ngModel)]="personalInfoObj['emp_permanent_addr_line1']" placeholder="Current Address Line 1"></textarea>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Address Line 2 :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="party_permanent_addr_line2" [(ngModel)]="personalInfoObj['emp_permanent_addr_line2']" placeholder="Current Address Line 2"></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    City :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_permanent_addr_city']">
+
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    State :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0009']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_permanent_addr_state']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    District :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0010']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_permanent_addr_dist']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    PIN Code :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_permanent_addr_pin_code']">
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <h5>LOCAL ADDRESS</h5>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Address Line 1 :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="party_local_addr_line1" [(ngModel)]="personalInfoObj['emp_local_addr_line1']" placeholder=""></textarea>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Address Line 2 :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="party_local_addr_line2" [(ngModel)]="personalInfoObj['emp_local_addr_line2']" placeholder=""></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    City :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_local_addr_city']">
+
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    State :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0009']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_local_addr_state']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    District :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0010']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_local_addr_dist']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    PIN Code :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_local_addr_pin_code']">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updatePersonalInfo()">Update</button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-4">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="uploadObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Document Type :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0045']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Employee" [(ngModel)]="uploadObj['document_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-center">
+
+                                </div>
+                                <div class="col-4 text-center">
+                                    <input #file type="file" name="pimage" ng2FileSelect [uploader]="uploader" class="form-control" style="border-color: black" (change)="onFileUpload($event,file.files)">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button type="button" [disabled]="!uploader.getNotUploadedItems().length" class="btn btn-info" (click)='upload()'><i class="fa fa-upload"
+                                            aria-hidden="true">&nbsp;</i>Upload</button>
+
+                                </div>
+                            </div>
+
+                            <hr>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource1" matSort #sortCol2="matSort">
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.tempid }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ empNameObj[element.emp_id] }} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="document_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Document Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.document_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="document_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Document Type Code
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.document_type_code}} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-primary" (click)="view(element)">View</button>
+
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator1 [pageSizeOptions]="[10, 20]" showFirstLastButtons>
+                                </mat-paginator>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <img [src]="imgURL" />
+
+                                    <!-- <a download="file" [href]="imgURL">{{filename}}</a> -->
+                                    <!-- <div>{{imgURL}}</div> -->
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-5">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" (change)="changeEmployee()" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Date of Birth :
+                                </div>
+
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="personalInfoObj['emp_dob']">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updatedob()">Update</button>
+                                </div>
+                            </div>
+
+                            <br>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

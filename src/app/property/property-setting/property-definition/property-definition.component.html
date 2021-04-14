@@ -1,0 +1,288 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">MANAGE Property</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" (click)="refressadd()" data-toggle="tab"><i
+                                    class="ti-bar-chart"></i> All
+                                Property List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refressadd()"><i
+                                    class="fa fa-plus-circle"></i> Create
+                                Property </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refressadd()"><i
+                                    class="ti-settings"></i> Update
+                                Property</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Scheme :</h6>
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="changeScheme(obj['scheme_code'])" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="obj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Sub-Scheme:</h6>
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" (change)="gettypeofproperty()" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Property Status </h6>
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['PROP0011']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Property Status" [(ngModel)]="obj['property_status']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name111">
+
+
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="getAllPropert()">Fetch</button>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class=" table-container ">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field style="margin-left: 2%">
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="example-container">
+                                    <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+
+                                        <ng-container matColumnDef="property_id">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Property id</b>
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.property_id}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="property_no">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Property
+                                                    No.</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.property_no }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="property_type_id">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                <b>Property Type id</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.prop_desc }} </td>
+                                        </ng-container>
+
+
+                                        <ng-container matColumnDef="property_status">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                                <b>Property Status</b> </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                                {{ element.property_status }} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="action">
+                                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+                                            </th>
+                                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                                <button class="btn btn-outline-primary" (click)="edit(element,i)">Update</button>
+                                                <button class="btn btn-outline-danger" (click)="delete(element,i)">Delete</button>
+
+                                            </td>
+
+                                        </ng-container>
+
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true">
+                                        </tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Scheme :</h6>
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="changeScheme(obj['scheme_code'])" bindValue="scheme_code" [multiple]="false" placeholder="Select Scheme" [(ngModel)]="obj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Sub-Scheme:</h6>
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" (change)="gettypeofproperty()" bindValue="sub_scheme_code" [multiple]="false" placeholder="Select subScheme" [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Property Type</h6>
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="PropInfoArr" bindLabel="property_type_id" bindValue="property_type_id" [multiple]="false" placeholder="Property Info" [(ngModel)]="obj['property_type_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Enter Property No :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="property_no" [(ngModel)]="obj['property_no']" placeholder="Enter Property No ">
+
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="addNewRow()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Scheme :</h6>
+                                </div>
+                                <div class="col-4">
+
+
+                                    <ng-select [items]="schemeArr" bindLabel="scheme_name" (change)="changeScheme(obj['scheme_code'])" bindValue="scheme_code" [multiple]="false" placeholder="" [(ngModel)]="obj['scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="scheme_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Sub-Scheme:</h6>
+                                </div>
+                                <div class="col-4">
+
+
+                                    <ng-select [items]="subschemeArr" bindLabel="sub_scheme_name" bindValue="sub_scheme_code" [multiple]="false" placeholder="" [(ngModel)]="obj['sub_scheme_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="sub_scheme_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Property Type :</h6>
+                                </div>
+                                <div class="col-4">
+
+
+                                    <ng-select [items]="PropInfoArr" bindLabel="property_type_id" bindValue="property_type_id" [multiple]="false" placeholder="Property Info" [(ngModel)]="obj['property_type_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> Enter Property No :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" name="property_no" [(ngModel)]="obj['property_no']" placeholder="Enter Property No ">
+
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

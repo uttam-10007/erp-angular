@@ -1,0 +1,116 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Journal</div>
+                </div>
+                <div class="ibox-body">
+                    <br>
+                    <div class='row'>
+                        <div class="col-4 text-right">
+                            <h6>Journal Record Code:</h6>
+
+                        </div>
+                        <div class="col-4 text-center">
+                            <input type="text" class="form-control" name="record_code"
+                                [(ngModel)]="record_obj['record_code']" placeholder="Enter Record Code" disabled />
+
+                        </div>
+                    </div>
+                    <br>
+
+
+                    <div class='row'>
+                        <div class="col-4 text-right">
+                            <h6>Journal Record Business Name:</h6>
+
+                        </div>
+                        <div class="col-4 text-center">
+                            <input type="text" class="form-control" name="record_business_name"
+                                [(ngModel)]="record_obj['record_business_name']"
+                                placeholder="Enter Record Business Name" disabled />
+
+                        </div>
+                    </div>
+                    <br>
+
+
+                    <div class='row'>
+                        <div class="col-4 text-right">
+                            <h6>Journal Record Technical Name:</h6>
+
+                        </div>
+                        <div class="col-4 text-center">
+                            <input type="text" class="form-control" name="record_technical_name"
+                                [(ngModel)]="record_obj['record_technical_name']"
+                                placeholder="Enter Record Technical Name" disabled />
+
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <button class="btn btn-outline-info" (click)="addRow()">Add Row</button>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-2 text-center">
+                            <h6> <b>S No.</b></h6>
+                        </div>
+                        <div class="col-8 text-center">
+                            <h6><b>Field</b></h6>                                 
+                        </div>
+                        <div class="col-2 text-center">
+                            <h6><b>Action</b></h6>                                 
+                        </div>
+                    </div>
+                    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                        <div class="example-box" *ngFor="let obj of usedField; let i = index" cdkDrag>
+                            <div class="col-2 text-center">
+                                {{i}}
+                            </div>
+
+
+                            <div class="col-8 text-center">
+
+                                <ng-select [items]="allFields" bindLabel="desc" bindValue="field_code"
+                                    [multiple]="false" placeholder="Select Field" [(ngModel)]="usedField[i].field_code"
+                                    [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="Reference_data">
+                                </ng-select>
+
+                            </div>
+
+
+                            <div class="col-2 text-center">
+                                <button class="btn btn-outline-danger" (click)="deleteRow(i)">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-5"></div>
+                        <div class="col-6">
+                            <button class="btn btn-outline-info" (click)="update()">Update</button>
+                        </div>
+                    </div>
+
+
+                    <br>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<ngx-spinner>
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

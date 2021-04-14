@@ -1,0 +1,882 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Establishments </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Establishments Detail</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i> Add Establishments
+                                </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-tasks"></i> Update Establishments
+                                </a>
+                        </li>
+
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Select Employee :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="newallEmplyees" bindLabel="emp_name" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="emp_id" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="getAllArrangementOfParty()">EMPLOYMENT HISTORY</button>
+                                </div>
+
+                            </div>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{this.mainService.accInfo['account_short_name']}}{{getNumberFormat(element['emp_id'])}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element['emp_name']}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="establishment_type_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Service Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0015'][element.establishment_type_code]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="designation_group_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Designation Group
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0041'][element.designation_group_code]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="designation_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Designation
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0011'][element.designation_code]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="cadre_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Cadre
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0013'][element.cadre_code]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="class_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Class
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0014'][element.class_code]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="pay_commission_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Pay Commission
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0016'][element.pay_commission_code]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="grade_pay_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Grade Pay
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.grade_pay_code}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="pay_scale_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Pay Band
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_scale_code}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="level_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Level Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0020'][element.level_code]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="retirement_age">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Retirement Age
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0012'][element.retirement_age]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emp_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Staus
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_status_code}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="order_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Order No
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.order_id}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="inc_month">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Month
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0024'][element.inc_month]}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="joining_type_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Joining Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.joining_type_code}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="joining_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Joining Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.tempjoining_date}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="notice_period">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Notice Period
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.notice_period}}
+                                        </td>
+                                    </ng-container>
+
+
+
+
+
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="newallEmplyees" bindLabel="emp_name" (change)="changeEmployee()" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="emp_id" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <br>
+                            <div class="row" *ngIf="addEstObj['emp_status_code'] != 'JOINING' && addEstObj['emp_status_code'] != undefined">
+                                <div class="col-12 text-center">
+                                    <h6>Joining of Employee is already complete...</h6>
+                                </div>
+                            </div>
+                            <div *ngIf="addEstObj['emp_status_code'] == 'JOINING' || addEstObj['emp_status_code'] == undefined">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>BASIC DETAIL</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        Order ID: {{addEstObj['order_id']}}
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        Designation:
+                                    </div>
+                                    <div class="col-3">
+
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0011']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['designation_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        Designation Group :
+                                    </div>
+                                    <div class="col-3">
+
+
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0041']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['designation_group_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        Employement Type :
+                                    </div>
+                                    <div class="col-3">
+
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0015']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['establishment_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+
+
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        Cadre :
+                                    </div>
+                                    <div class="col-3">
+
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0013']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['cadre_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-3 text-right">Class:</div>
+                                    <div class="col-3">
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0014']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['class_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+                                    </div>
+                                    <div class="col-3 text-right">Pay Commission :</div>
+                                    <div class="col-3">
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0016']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['pay_commission_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        Grade Pay:
+                                    </div>
+                                    <div class="col-3">
+
+                                        <ng-select [items]="grade_pay" (change)="changeGradePay()" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['grade_pay_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+
+
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        Pay Band:
+                                    </div>
+                                    <div class="col-3">
+
+                                        <ng-select [items]="pay_scale" (change)="changeGradePay()" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['pay_scale_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        Level :
+                                    </div>
+                                    <div class="col-3">
+
+                                        <ng-select [items]="level" (change)="changeGradePay()" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['level_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        Basic Pay :
+                                    </div>
+                                    <div class="col-3">
+                                        <h6>{{addEstObj['basic_pay']}}</h6>
+                                        <ng-select [items]="baseArr" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['basic_pay']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6> OTHER DETAILS</h6>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        Increment Month :
+                                    </div>
+                                    <div class="col-3">
+
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['inc_month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        Promotion Interval :
+                                    </div>
+                                    <div class="col-3">
+
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0034']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['promotion_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        Probation in Days :
+                                    </div>
+                                    <div class="col-3">
+
+                                        <input class="form-control" type="number" [(ngModel)]="addEstObj['probation_days']">
+
+
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        Notice Period in Days :
+                                    </div>
+                                    <div class="col-3">
+
+                                        <input class="form-control" type="number" [(ngModel)]="addEstObj['notice_period']">
+
+
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        Retirement Age :
+                                    </div>
+                                    <div class="col-3">
+
+
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0012']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['retirement_age']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        Adopting Family Planning :
+                                    </div>
+                                    <div class="col-3">
+
+
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0042']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['family_planning']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3 text-right">
+                                        Conveyance Type :
+                                    </div>
+                                    <div class="col-3">
+
+
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0043']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['conv_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        Uniform Given :
+                                    </div>
+                                    <div class="col-3">
+
+                                        <ng-select [items]="mainService.codeValueTechObj['HR0042']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['uniform_ind']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+
+
+
+                                    </div>
+                                </div>
+                                <br>
+
+
+
+
+
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <button class="btn btn-outline-info" (click)="saveArangment()">SUBMIT</button>
+                                    </div>
+
+
+                                </div>
+                                <br>
+                                <hr>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6 text-center">
+                                        <h6>
+                                            Select the Date of Salary Start:
+                                        </h6>
+                                    </div>
+                                    <div class="row">
+                                        <input class="form-control" type="date" [(ngModel)]="addEstObj['start_dt']">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2 r1 text-center">
+                                        <h6>S.No</h6>
+                                    </div>
+                                    <div class="col-3 r1 text-center">
+                                        <h6>Salary Component</h6>
+                                    </div>
+                                    <div class="col-3 r1 text-right">
+                                        <h6>Amount</h6>
+                                    </div>
+                                    <div class="col-2 r1 text-right">
+                                        <h6>Type</h6>
+                                    </div>
+
+
+                                    <div class="col-2 r1 text-center">
+                                        <h6>Delete</h6>
+                                    </div>
+                                </div>
+                                <div class="row" *ngFor="let ob of AllFixPay; let i = index">
+                                    <div class="col-2 r1 text-center">
+                                        {{i+1}}
+                                    </div>
+                                    <div class="col-3 r1 text-center">
+                                        {{ob.pay_component_code}}
+                                    </div>
+                                    <div class="col-3 r1 text-right">
+                                        {{ob.pay_component_amt}}
+                                    </div>
+                                    <div class="col-2 r1 text-center">
+                                        {{ob.pay_code}}
+                                    </div>
+
+
+
+                                    <div class="col-2 r1 text-center">
+                                        <button class="btn btn-danger" (click)="deleteFixPay(i)">Delete</button>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <hr>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6>
+                                            Please Check the Leaves of the this Employee
+                                        </h6>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-3 r1 text-center">
+                                        <h6>S.No</h6>
+                                    </div>
+                                    <div class="col-3 r1 text-center">
+                                        <h6>Leave Type</h6>
+                                    </div>
+                                    <div class="col-3 r1 text-right">
+                                        <h6>Number of Leaves</h6>
+                                    </div>
+
+
+                                    <div class="col-3 r1 text-center">
+                                        <h6>Delete</h6>
+                                    </div>
+                                </div>
+                                <div class="row" *ngFor="let ob of Allleave; let i = index">
+                                    <div class="col-3 r1 text-center">
+                                        {{i+1}}
+                                    </div>
+                                    <div class="col-3 r1 text-center">
+                                        {{ob.leave_code}}
+                                    </div>
+                                    <div class="col-3 r1 text-right">
+                                        <input class="form-control" [(ngModel)]="Allleave[i]['num_of_leaves']">
+
+                                    </div>
+
+
+                                    <div class="col-3 r1 text-center">
+                                        <button class="btn btn-danger" (click)="deleteLeave(i)">Delete</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-4 text-right">
+                                        Arrear :
+                                    </div>
+                                    <div class="col-4">
+                                        <input class="form-control" type="number" [(ngModel)]="this.variablepayObj['pay_component_amt']">
+                                    </div>
+                                </div>
+                                <hr>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h6> You are adding a new Employee to your organisation. Hope that you have checked all the information. Once you will click SUBMIT, your employee will be able to draw salary and will be able to do lot of things.</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-12 text-center">
+                                        <button class="btn btn-success" (click)="allDone()">SUBMIT</button>
+
+                                    </div>
+
+
+
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="newallEmplyees" bindLabel="emp_name" (change)="changeEmployee1()" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="emp_id" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h6>BASIC DETAIL</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    Order ID: {{updateObj['order_id']}}
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Designation:
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0011']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['designation_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Designation Group :
+                                </div>
+                                <div class="col-3">
+
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0041']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['designation_group_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employement Type :
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0015']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['establishment_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Cadre :
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0013']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['cadre_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">Class:</div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0014']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['class_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                                <div class="col-3 text-right">Pay Commission :</div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0016']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['pay_commission_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Grade Pay:
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="grade_pay" (change)="changeGradePay()" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['grade_pay_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Pay Band:
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="pay_scale" (change)="changeGradePay()" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['pay_scale_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Level :
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="level" (change)="changeGradePay()" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['level_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Basic Pay :
+                                </div>
+                                <div class="col-3">
+
+                                    <h6>{{updateObj['basic_pay1']}}</h6>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h6> OTHER DETAILS</h6>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Increment Month :
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['inc_month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Promotion Interval :
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0034']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['promotion_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <!-- <div class="col-3 text-right">
+                                    Probation in Days :
+                                </div>
+                                <div class="col-3">
+
+                                    <input class="form-control" type="number" [(ngModel)]="updateObj['probation_days']">
+
+
+                                </div> -->
+                                <div class="col-3 text-right">
+                                    Notice Period in Days :
+                                </div>
+                                <div class="col-3">
+
+                                    <input class="form-control" type="number" [(ngModel)]="updateObj['notice_period']">
+
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Retirement Age :
+                                </div>
+                                <div class="col-3">
+
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0012']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['retirement_age']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Adopting Family Planning :
+                                </div>
+                                <div class="col-3">
+
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0042']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['family_planning']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Conveyance Type :
+                                </div>
+                                <div class="col-3">
+
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0043']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['conv_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Uniform Given :
+                                </div>
+                                <div class="col-3">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0042']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="updateObj['uniform_ind']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+
+
+                                </div>
+                            </div>
+
+                            <br>
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-outline-info" (click)="updateArangment()">UPDATE EMPLOYEMENT</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

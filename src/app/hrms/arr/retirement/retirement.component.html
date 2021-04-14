@@ -1,0 +1,281 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Retirements </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" (click)="refresh()" data-toggle="tab"><i class="ti-bar-chart"></i> All Retirement List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" (click)="refresh()" data-toggle="tab"><i class="ti-bar-chart"></i> All VRS List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refresh()"><i class="fa fa-plus-circle"></i> Add
+                                VRS </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-4" data-toggle="tab" (click)="refresh()"><i class="ti-bar-chart"></i> Retire Employee
+                            </a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter2($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource2" matSort>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{this.mainService.accInfo['account_short_name']}}{{getNumberFormat(element['emp_id'])}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{employeeObj[element.emp_id]}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="retirement_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Retirement Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <p *ngIf="element['retirement_date']">{{mainService.dateformatchange(element.retirement_date)}} </p>
+
+                                        
+                                        </td>
+                                    </ng-container>
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{this.mainService.accInfo['account_short_name']}}{{getNumberFormat(element['emp_id'])}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{employeeObj[element.emp_id]}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="date_of_retirement">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Date of Retirement
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <p *ngIf="element['date_of_retirement']">{{mainService.dateformatchange(element.date_of_retirement)}} </p>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="reason_of_retirement">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Reason
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.reason_of_retirement}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="application_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Application Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <p *ngIf="element['application_date']">{{mainService.dateformatchange(element.application_date)}} </p>
+
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="approval_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Approval Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <p *ngIf="element['approval_date']">{{mainService.dateformatchange(element.approval_date)}} </p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-primary" (click)="approve(element)" *ngIf="element.status=='APPLIED'"> Approve</button>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <!--  <select class="form-control" [(ngModel)]="updateObj['emp_id']">
+                                        <option *ngFor="let obj of allEmployees" [(ngValue)]="obj.emp_id">
+                                            {{obj.emp_name}}</option>
+                                    </select> -->
+
+
+                                    <ng-select [items]="newallEmplyees" bindLabel="emp_name" bindValue="emp_id" [multiple]="false" placeholder="" [(ngModel)]="retireObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="emp_id">
+                                    </ng-select>
+
+
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Date Of Retirement :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="retireObj['date_of_retirement']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Reason Of Retirement :
+                                </div>
+                                <div class="col-4">
+
+
+                                    <input type="text" class="form-control" [(ngModel)]="retireObj['reason_of_retirement']">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submitRetirement()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-4">
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource1" matSort>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{this.mainService.accInfo['account_short_name']}}{{getNumberFormat(element['emp_id'])}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{employeeObj[element.emp_id]}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="retirement_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Retirement Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <p *ngIf="element['retirement_date']">{{mainService.dateformatchange(element.retirement_date)}} </p></td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-info" (click)="approve1(element)"> RETIRE</button>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

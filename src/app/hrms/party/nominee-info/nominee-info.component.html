@@ -1,0 +1,478 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Employee Nominee Info </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="chamgeTab()"><i
+                                    class="ti-bar-chart"></i>
+                                Employee Nominee Detail</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="chamgeTab()"><i
+                                    class="ti-settings"></i> Add Employee
+                                Nominee Detail</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="chamgeTab()"><i
+                                    class="ti-announcement"></i> Update
+                                Employee Nominee Detail</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" (change)="changeEmployee()"
+                                        bindValue="emp_id" [multiple]="false" placeholder="Select Employee"
+                                        [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <hr>
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="nom_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Nominee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="nom_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Nominee Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.nom_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="nom_email">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Nominee
+                                            Email
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.nom_email}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="nom_phone_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Nominee
+                                            Phone No
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.nom_phone_no}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="nominee_relation_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Nominee
+                                            Relation
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.nominee_relation_code}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="nom_share">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Nominee
+                                            Share
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.nom_share}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="nom_bank_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Nominee Bank
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.nom_bank_name}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="nom_branch_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Branch Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.nom_branch_name}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="nom_ifsc_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Ifsc Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.nom_ifsc_code}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="nom_bank_acct_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Account
+                                            Number
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.nom_bank_acct_no}} </td>
+                                    </ng-container>
+
+
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary"
+                                                (click)="openUpdate(element)">Update</button>
+                                            <button class="btn btn-outline-danger"
+                                                (click)="deleteEducation(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row" *ngIf="errorMsg!=''" style="color: red;">
+                                <div class="col-12 text-center">
+                                    {{errorMsg}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" bindValue="emp_id"
+                                        [multiple]="false" placeholder="Select Employee"
+                                        [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="nomineeObj['nom_name']">
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Email :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="email" [(ngModel)]="nomineeObj['nom_email']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Phone No. :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="nomineeObj['nom_phone_no']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Relation :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0004']" bindLabel="value" bindValue="code" 
+                                    [multiple]="false" placeholder="" [(ngModel)]="nomineeObj['nominee_relation_code']"
+                                     [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Bank Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="email" [(ngModel)]="nomineeObj['nom_bank_name']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Branch Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="email"
+                                        [(ngModel)]="nomineeObj['nom_branch_name']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee IFSC Code :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="email" [(ngModel)]="nomineeObj['nom_ifsc_code']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Bank Account No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text"
+                                        [(ngModel)]="nomineeObj['nom_bank_acct_no']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Share :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="nomineeObj['nom_share']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submitNomineeInfo()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+                            <br>
+                            <div class="row" *ngIf="errorMsg!=''" style="color: red;">
+                                <div class="col-12 text-center">
+                                    {{errorMsg}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" bindValue="emp_id"
+                                        [multiple]="false" placeholder="Select Employee"
+                                        [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="nomineeObj['nom_name']">
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Email :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="email" [(ngModel)]="nomineeObj['nom_email']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Phone No. :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="nomineeObj['nom_phone_no']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Relation :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0004']" bindLabel="value" bindValue="code" 
+                                    [multiple]="false" placeholder="" [(ngModel)]="nomineeObj['nominee_relation_code']"
+                                     [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Bank Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="email" [(ngModel)]="nomineeObj['nom_bank_name']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Branch Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="email"
+                                        [(ngModel)]="nomineeObj['nom_branch_name']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee IFSC Code :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="email" [(ngModel)]="nomineeObj['nom_ifsc_code']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Bank Account No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="email"
+                                        [(ngModel)]="nomineeObj['nom_bank_acct_no']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Nominee Share :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" [(ngModel)]="nomineeObj['nom_share']">
+
+                                </div>
+
+
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updateNomineeInfo()">Update</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

@@ -1,0 +1,1715 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">CB Manage</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All CB List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                class="fa fa-plus-circle"></i> Create CB </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update CB
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <!-- <br>
+                            <div class="row">
+
+                                <div class="col-4 text-right">
+                                    <h6>Select Status:</h6>
+
+                                </div>
+                                <div class="col-4 ">
+                                    <ng-select [items]="cb_status" bindLabel="code" bindValue="value" [multiple]="false"
+                                        placeholder="Select Status" [(ngModel)]="selectedStatus"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="party_id">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="getCBData()">Submit</button>&nbsp;&nbsp;
+
+                                </div>
+
+                            </div> -->
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <button class="btn btn-danger" (click)="rejectSelected()">Reject</button>&nbsp;&nbsp;
+                                    <button class="btn btn-info" (click)="acceptSelected()">Accept</button>&nbsp;&nbsp;
+                                    <button class="btn btn-success" (click)="processSelected()">Process</button>
+                                </div>
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+
+
+                                    <ng-container matColumnDef="select">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Select
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            <input class="form-check-input" type="checkbox" [(ngModel)]="element['select']">
+                                        </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="cb_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>CB ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.cb_id }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Party Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ partyArrObj[element.party_id ]}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="work_order_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Work Order No.
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.work_order_no }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="work_or_service_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Work/Service Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.work_or_service_name }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="cb_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> CB Date
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <p *ngIf="element.cb_date">{{mainService.dateFormatChange(element.cb_date)}}</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="bill_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Invoice No.
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.bill_no }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="bill_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Invoice Date
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <p *ngIf="element.bill_date">{{mainService.dateFormatChange(element.bill_date)}}</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Status
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-primary" *ngIf="element.status=='GENERATED'" (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-danger" *ngIf="element.status=='GENERATED'" (click)="delete(element)">Delete</button>
+                                            <button class="btn btn-primary" *ngIf="element.status=='GENERATED'" (click)="schedule(element)">Schedule</button>
+                                            <button class="btn btn-primary" *ngIf="element.status=='SCHEDULED' ||  element.status=='REJECTED'" (click)="status(element)">View Status</button>
+
+                                            <button class="btn btn-info" (click)="printData(element)">Download</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-2">
+                                    <h6> Work Order No. :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="allwork" bindLabel="temp_desc" (change)="changework()" bindValue="id" [multiple]="false" placeholder="Select work" [(ngModel)]="obj['work_order_no']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="party_id">
+                                    </ng-select>
+                                    <!--  <input class="form-control" type="text" [(ngModel)]="obj['work_order_no']"> -->
+
+                                </div>
+                                <!-- <div class="col-2">
+                                    CB No. :
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['cb_id']" disabled>
+                                </div> -->
+                                <div class="col-2">
+                                    <h6> Date :
+                                    </h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <!--  <input class="form-control" type="date" [(ngModel)]="obj['cb_date']" disabled> -->
+                                    <p *ngIf="obj['cb_date']"> {{mainService.dateFormatChange(obj['cb_date'])}}</p>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-2">
+                                    <h6>Work/ Service Name :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    {{obj['work_or_service_name']}}
+                                    <!--  <input class="form-control" type="text" [(ngModel)]="obj['work_or_service_name']"> -->
+
+                                </div>
+
+                                <div class="col-2">
+                                    <h6>Invoice No. :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" placeholder="enter invoice number" type="text" [(ngModel)]="obj['bill_no']">
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2">
+                                    <h6>Party Name :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    {{partyArrObj[obj['party_id']]}}
+                                    <!--  <ng-select [items]="partyArr" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="obj['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="party_id">
+                                    </ng-select> -->
+                                </div>
+                                <div class="col-2">
+                                    <h6>Invoice Date :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" type="date" [(ngModel)]="obj['bill_date']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-4 text-left">
+
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6 text-right">
+                                    <h5><b>PAYABLES</b></h5>
+
+                                </div>
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" (click)="addRow()"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div>
+                                <div class="row" style="background-color: #1589FF;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <div style="width: 5%;" class="text-center">
+
+                                        <h6><b>S No.</b></h6>
+
+                                    </div>
+                                    <div style="width: 24%;" class="text-center">
+                                        <h6><b>Description</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 10%;" class="text-center">
+                                        <h6><b> HSN Code</b></h6>
+
+
+                                    </div>
+
+                                    <div style="width: 5%;" class="text-center">
+                                        <h6><b> Rate(%)</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 10%;" class="text-center">
+                                        <h6><b>Amount</b></h6>
+
+
+                                    </div>
+
+                                    <div style="width: 10%;" class="text-center">
+                                        <h6><b>GST Type</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <h6><b>CGST</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <h6><b>SGST</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <h6><b>IGST</b></h6>
+
+
+                                    </div>
+
+                                    <div style="width: 10%;" class="text-center">
+                                        <h6><b>Total</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 5%;" class="text-center">
+                                        <h6><b></b></h6>
+
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div *ngFor="let ln of AllBillRow; let i = index;">
+                                    <div class="row">
+                                        <div class="text-center" style="width: 5%;">
+
+
+                                            <h6><b> {{ln['event_id']}}.</b></h6>
+                                        </div>
+                                        <div style="width: 24%;">
+                                            <!-- <ng-select [items]="allEVents" bindLabel="event_desc" bindValue="event_code"
+                                                [multiple]="false" placeholder="Select Event"
+                                                [(ngModel)]="ln['event_code']" [selectableGroup]="true"
+                                                [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                name="event_code">
+                                            </ng-select> -->
+                                            <div id="text" (click)="open_event_popup(i)" style="color:rgb(69, 138, 216);">
+                                                {{ln['event_code']}} - {{ln['event_desc']}} &nbsp;&nbsp;
+                                                <h6>
+                                                    <b><u>Select Event</u></b>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                        <div style="width: 10%;">
+                                            <ng-select [items]="hsnArr" bindLabel="hsn_desc" bindValue="hsn_code" [multiple]="false" placeholder="Select HSN Code" [(ngModel)]="ln['hsn_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_type">
+                                            </ng-select>
+                                        </div>
+                                        <div style="width: 5%;" class="text-center">
+                                            <b>{{rateObj[ln['hsn_code']]}}%</b>
+                                        </div>
+                                        <div style="width: 10%;">
+                                            <input type="number" class="form-control" placeholder="" [(ngModel)]="ln['amount']">
+                                        </div>
+                                        <div style="width: 10%;">
+                                            <ng-select [items]="gstArr" bindLabel="value" bindValue="code" (change)="changeGst(i)" [multiple]="false" placeholder="Select GST Type" [(ngModel)]="ln['gst_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="gst_type">
+                                            </ng-select>
+                                        </div>
+                                        <div style="width: 7%;">
+                                            <!-- <input type="number" class="form-control" placeholder="" [(ngModel)]="ln['cgst']" disabled> -->
+                                            <label style="margin-left: 5%;">{{ln['cgst']}}</label>
+
+                                        </div>
+                                        <div style="width: 7%;">
+                                            <!-- <input type="number" class="form-control" placeholder="" [(ngModel)]="ln['sgst']" disabled> -->
+                                            <label style="margin-left: 5%;">{{ln['sgst']}}</label>
+
+                                        </div>
+                                        <div style="width: 7%;">
+                                            <!-- <input type="number" class="form-control" placeholder="" [(ngModel)]="ln['igst']" disabled> -->
+                                            <label style="margin-left: 5%;">{{ln['igst']}}</label>
+
+                                        </div>
+
+                                        <div style="width: 10%;">
+
+                                            <!-- <input style="width: 100%;" type="number" class="form-control" placeholder="" [(ngModel)]="ln['total_amount']" disabled> -->
+                                            <label style="margin-left: 5%;">{{ln['total_amount']}}</label>
+
+                                        </div>
+                                        <div style="width: 5%;">
+                                            <button class="btn btn-danger " (click)="deleteRow(i)"><i
+                                                    class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-6 text-right">
+                                            <b>Deductions:</b>
+
+                                        </div>
+                                        <div class="col-6">
+                                            <button class="btn btn-primary " style="margin-left: 3%;" (click)="dedAdd(i)"><i class="fa fa-plus"
+                                                    aria-hidden="true"></i></button>
+                                        </div>
+
+                                    </div><br>
+                                    <div *ngFor="let ded of ln['ded']; let j = index;" style="width: 80%; margin-left: 10%;">
+                                        <div class="row">
+                                            <div style="width: 5%;">
+
+                                            </div>
+                                            <div class="text-center" style="width: 5%;">
+                                                {{j+1}}.
+                                            </div>
+                                            <div style="width: 20%;">
+                                                <ng-select [items]="mainService.codeValueTechObj['ACC0057']" placeholder="Select Deduction Type" bindLabel="value" bindValue="code" [multiple]="false" [(ngModel)]="ded['deduction_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                    (change)="ChangeDed(ded['deduction_type'],i,j)" name="field_name">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 13%; text-align: center;" *ngIf="ded['deduction_type']!=undefined">
+
+                                                <ng-select [items]="amountTypeArr" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Amount Type" [(ngModel)]="ded['amt_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="amt_type">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 12%;" *ngIf="ded['deduction_type']!=undefined">
+                                                <input type="number" class="form-control" placeholder="" [(ngModel)]="ded['ded_amount']" disabled>
+                                            </div>
+                                            <div style="width: 20%;" *ngIf="ded['deduction_type']=='IT'">
+                                                <ng-select [items]="dedDataArr[ded['deduction_type']]" placeholder="Select Rule" bindLabel="gov_rule" bindValue="gov_rule" [multiple]="false" [(ngModel)]="ded['gov_rule']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                    (change)="ChangeRule(ded['gov_rule'],ded['deduction_type'],i,j)" name="field_name">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 7%;">
+                                                <button class="btn btn-danger " (click)="deleteDed(i,j)"><i
+                                                        class="fa fa-trash" aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+
+                                        <div class="col-12 text-center">
+
+                                            <h6><b> DEDUCTION AMOUNT: {{ln['deduction_amount'].toFixed(2)}}</b></h6>
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <div class="row">
+
+                                        <div class="col-12 text-center">
+
+                                            <h6><b>TOTAL PAYABLE AMOUNT: {{ln['payable_amount'].toFixed(2)}}</b></h6>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                </div>
+
+                                <div class="row" style="padding-top: 12px;padding-bottom: 12px;">
+                                    <div class="text-center" style="width: 5%;">
+                                    </div>
+                                    <div style="width: 25%;">
+                                        <b>TOTAL AMOUNT</b>
+                                    </div>
+                                    <div style="width: 14%;">
+
+                                    </div>
+                                    <div style="width: 10%;" class="text-center">
+                                        <b>{{totalAmount.toFixed(2)}}</b>
+                                    </div>
+                                    <div style="width: 10%;">
+
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <b>{{cgstAmount.toFixed(2)}}</b>
+
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <b>{{sgstAmount.toFixed(2)}}</b>
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <b>{{igstAmount.toFixed(2)}}</b>
+                                    </div>
+
+                                    <div style="width: 10%;" class="text-center">
+
+                                        <b>{{net_amount.toFixed(2)}}</b>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br>
+                            <hr>
+                            <div class="row">
+
+                                <div class="col-12 text-right">
+
+                                    <h5><b>NET PAYABLE AMOUNT: {{net_amount.toFixed(2)}}</b></h5>
+                                </div>
+
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-10 text-left">
+                                    <h5><b>TOTAL DEDUCTIONS</b></h5>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+
+                            <table class="table table-bordered" style="width: 80%; margin-left: 10%;">
+                                <thead style="background-color: #1589FF; color: white;">
+                                    <tr>
+                                        <th>S No. </th>
+                                        <th>Deduction Type</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dn of AllDedRow; let j = index;">
+                                        <td>{{j+1}}</td>
+                                        <td>{{dedTypeObj[dn['deduction_type']]}}</td>
+                                        <td> {{dn['ded_amount'].toFixed(2)}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <br>
+                            <div class="row">
+
+                                <div class="col-12 text-right">
+
+                                    <h6><b>TOTAL DEDUCTION AMOUNT: {{total_ded_amount.toFixed(2)}}</b></h6>
+                                </div>
+                            </div>
+
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="check()">Check</button>&nbsp;&nbsp;
+                                    <button class="btn btn-primary" (click)="save()">Save</button>&nbsp;&nbsp;
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-2">
+                                    <h6> Party Name :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <ng-select [items]="partyArr" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Party" [(ngModel)]="obj['party_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="party_id">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2">
+                                    <h6>CB No. :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" type="text" [(ngModel)]="obj['cb_id']" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-2">
+                                    <h6> Work Order No. :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" placeholder="enter work order number" type="text" [(ngModel)]="obj['work_order_no']">
+
+                                </div>
+                                <div class="col-2">
+                                    <h6> Date :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <!-- <input class="form-control" type="date" [(ngModel)]="obj['cb_date']" disabled> -->
+                                    <p *ngIf="obj['cb_date']">{{mainService.dateFormatChange(obj['cb_date'])}}</p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2">
+                                    <h6> Work/ Service Name :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" placeholder="enter work or service name" type="text" [(ngModel)]="obj['work_or_service_name']">
+
+                                </div>
+                                <div class="col-2">
+                                    <h6>Invoice No. :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" placeholder="enter invoice number" type="text" [(ngModel)]="obj['bill_no']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-4 text-left">
+
+                                </div>
+                                <div class="col-2">
+                                    <h6> Invoice Date :</h6>
+                                </div>
+                                <div class="col-4 text-left">
+                                    <input class="form-control" type="date" [(ngModel)]="obj['bill_date']">
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6 text-right">
+                                    <h5><b>PAYABLES</b></h5>
+
+                                </div>
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" (click)="addRow()"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <div>
+                                <div class="row" style="background-color: #1589FF;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <div style="width: 5%;" class="text-center">
+
+                                        <h6><b>S No.</b></h6>
+
+                                    </div>
+                                    <div style="width: 24%;" class="text-center">
+                                        <h6><b>Description</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 10%;" class="text-center">
+                                        <h6><b> HSN Code</b></h6>
+
+
+                                    </div>
+
+                                    <div style="width: 5%;" class="text-center">
+                                        <h6><b> Rate(%)</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 10%;" class="text-center">
+                                        <h6><b>Amount</b></h6>
+
+
+                                    </div>
+
+                                    <div style="width: 10%;" class="text-center">
+                                        <h6><b>GST Type</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <h6><b>CGST</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <h6><b>SGST</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <h6><b>IGST</b></h6>
+
+
+                                    </div>
+
+                                    <div style="width: 10%;" class="text-center">
+                                        <h6><b>Total</b></h6>
+
+
+                                    </div>
+                                    <div style="width: 5%;" class="text-center">
+                                        <h6><b></b></h6>
+
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div *ngFor="let ln of AllBillRow; let i = index;">
+                                    <div class="row">
+                                        <div class="text-center" style="width: 5%;">
+
+
+                                            <h6><b> {{ln['event_id']}}.</b></h6>
+                                        </div>
+                                        <div style="width: 24%;">
+                                            <!--  <ng-select [items]="allEVents" bindLabel="event_desc" bindValue="event_code"
+                                                [multiple]="false" placeholder="Select Event"
+                                                [(ngModel)]="ln['event_code']" [selectableGroup]="true"
+                                                [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                name="event_code">
+                                            </ng-select> -->
+                                            <div id="text" (click)="open_event_popup(i)" style="color:rgb(37, 130, 236);">
+                                                {{ln['event_code']}} - {{ln['event_desc']}} &nbsp;&nbsp;
+                                                <h6>
+                                                    <b><u>Select Event</u></b>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                        <div style="width: 10%;">
+                                            <ng-select [items]="hsnArr" bindLabel="hsn_desc" bindValue="hsn_code" [multiple]="false" placeholder="Select HSN Code" [(ngModel)]="ln['hsn_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_type">
+                                            </ng-select>
+                                        </div>
+                                        <div style="width: 5%;" class="text-center">
+                                            <b>{{rateObj[ln['hsn_code']]}}%</b>
+                                        </div>
+                                        <div style="width: 10%;">
+                                            <input type="number" class="form-control" placeholder="" [(ngModel)]="ln['amount']">
+                                        </div>
+                                        <div style="width: 10%;">
+                                            <ng-select [items]="gstArr" bindLabel="value" bindValue="code" (change)="changeGst(i)" [multiple]="false" placeholder="Select GST Type" [(ngModel)]="ln['gst_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="gst_type">
+                                            </ng-select>
+                                        </div>
+                                        <div style="width: 7%;">
+                                            <!-- <input type="number" class="form-control" placeholder="" [(ngModel)]="ln['cgst']" disabled> -->
+                                            <span>{{ln['cgst']}}</span>
+
+                                        </div>
+                                        <div style="width: 7%;">
+                                            <!-- <input type="number" class="form-control" placeholder="" [(ngModel)]="ln['sgst']" disabled> -->
+                                            <span>{{ln['sgst']}}</span>
+                                        </div>
+                                        <div style="width: 7%;">
+                                            <!-- <input type="number" class="form-control" placeholder="" [(ngModel)]="" disabled> -->
+                                            <span>{{ln['igst']}}</span>
+                                        </div>
+
+                                        <div style="width: 10%;">
+
+                                            <!-- <input style="width: 100%;" type="number" class="form-control" placeholder="" [(ngModel)]="ln['total_amount']" disabled> -->
+
+                                            <span>{{ln['total_amount']}}</span>
+                                        </div>
+                                        <div style="width: 5%;">
+                                            <button class="btn btn-danger " (click)="deleteRow(i)"><i
+                                                    class="fa fa-trash" aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-6 text-right">
+                                            <b>Deductions:</b>
+                                        </div>
+                                        <div class="col-6">
+                                            <button class="btn btn-primary " style="margin-left: 5%;" (click)="dedAdd(i)"><i class="fa fa-plus"
+                                                    aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div *ngFor="let ded of ln['ded']; let j = index;" style="width: 80%; margin-left: 10%;">
+                                        <div class="row">
+                                            <div style="width: 5%;">
+
+                                            </div>
+                                            <div class="text-center" style="width: 5%;">
+                                                {{j+1}}.
+                                            </div>
+                                            <div style="width: 20%;">
+                                                <ng-select [items]="mainService.codeValueTechObj['ACC0057']" placeholder="Select Deduction Type" bindLabel="value" bindValue="code" [multiple]="false" [(ngModel)]="ded['deduction_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                    (change)="ChangeDed(ded['deduction_type'],i,j)" name="field_name">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 13%; text-align: center;" *ngIf="ded['deduction_type']!=undefined">
+
+                                                <ng-select [items]="amountTypeArr" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Amount Type" [(ngModel)]="ded['amt_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="amt_type">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 12%;" *ngIf="ded['deduction_type']!=undefined">
+                                                <input type="number" class="form-control" placeholder="" [(ngModel)]="ded['ded_amount']" disabled>
+                                            </div>
+                                            <div style="width: 20%;" *ngIf="ded['deduction_type']=='IT'">
+                                                <ng-select [items]="dedDataArr[ded['deduction_type']]" placeholder="Select Rule" bindLabel="gov_rule" bindValue="gov_rule" [multiple]="false" [(ngModel)]="ded['gov_rule']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                    (change)="ChangeRule(ded['gov_rule'],ded['deduction_type'],i,j)" name="field_name">
+                                                </ng-select>
+                                            </div>
+                                            <div style="width: 7%;">
+                                                <button class="btn btn-danger " (click)="deleteDed(i,j)"><i
+                                                        class="fa fa-trash" aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+
+                                        <div class="col-12 text-center">
+
+                                            <h6><b> DEDUCTION AMOUNT: {{ln['deduction_amount'].toFixed(2)}}</b></h6>
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <div class="row">
+
+                                        <div class="col-12 text-center">
+
+                                            <h6><b>TOTAL PAYABLE AMOUNT: {{ln['payable_amount'].toFixed(2)}}</b></h6>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                </div>
+
+                                <div class="row" style="padding-top: 12px;padding-bottom: 12px;">
+                                    <div class="text-center" style="width: 5%;">
+                                    </div>
+                                    <div style="width: 25%;">
+                                        <b>TOTAL AMOUNT</b>
+                                    </div>
+                                    <div style="width: 14%;">
+
+                                    </div>
+                                    <div style="width: 10%;" class="text-center">
+                                        <b>{{totalAmount.toFixed(2)}}</b>
+                                    </div>
+                                    <div style="width: 10%;">
+
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <b>{{cgstAmount.toFixed(2)}}</b>
+
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <b>{{sgstAmount.toFixed(2)}}</b>
+                                    </div>
+                                    <div style="width: 7%;" class="text-center">
+                                        <b>{{igstAmount.toFixed(2)}}</b>
+                                    </div>
+
+                                    <div style="width: 10%;" class="text-center">
+
+                                        <b>{{net_amount.toFixed(2)}}</b>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+
+                                <div class="col-12 text-right">
+
+                                    <h5><b>NET PAYABLE AMOUNT: {{net_amount.toFixed(2)}}</b></h5>
+                                </div>
+
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-10 text-left">
+                                    <h5><b>TOTAL DEDUCTIONS</b></h5>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+
+
+                            <br>
+                            <table class="table table-bordered" style="width: 80%; margin-left: 10%;">
+                                <thead>
+                                    <tr style=" background: #1589FF; color: white;">
+                                        <th>S No. </th>
+                                        <th>Deduction Type</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dn of AllDedRow; let j = index;">
+                                        <td>{{j+1}}</td>
+                                        <td>{{dedTypeObj[dn['deduction_type']]}}</td>
+                                        <td> {{dn['ded_amount'].toFixed(2)}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+
+                            <br>
+                            <div class="row">
+
+                                <div class="col-12 text-right">
+
+                                    <h6><b>TOTAL DEDUCTION AMOUNT: {{total_ded_amount.toFixed(2)}}</b></h6>
+                                </div>
+                            </div>
+
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="check()">Check</button>&nbsp;&nbsp;
+                                    <button class="btn btn-primary" (click)="update()">Update</button>&nbsp;&nbsp;
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="p" [hidden]="true">
+    <br>
+    <div class="row">
+        <div class="col-12 text-center">
+            <img [src]="mainService.accountImageUrl" class="img-circle" width="90px" />
+
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-12 text-center">
+            <h4>{{mainService.accInfo['account_name']}} ({{mainService.accInfo['account_short_name']}})</h4>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+
+        <div class="col-12 text-center">
+            <h5>Contingent Bill</h5>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-3 text-right">
+            Party Name :
+        </div>
+        <div class="col-3 text-left">
+            {{ obj['party_id']}}
+
+        </div>
+        <div class="col-2 text-right">
+            CB No. :
+        </div>
+        <div class="col-3 text-left">
+            {{ obj['cb_id']}}
+
+
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-3 text-right">
+            Work Order No. :
+        </div>
+        <div class="col-3 text-left">
+            {{ obj['work_order_no']}}
+
+        </div>
+        <div class="col-2 text-right">
+            Date :
+        </div>
+        <div class="col-2 text-left">
+            {{ obj['cb_date']}}
+
+
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-3 text-right">
+            Work/ Service Name :
+        </div>
+        <div class="col-3 text-left">
+            {{ obj['work_or_service_name']}}
+
+        </div>
+        <div class="col-2 text-right">
+            Bill No. :
+        </div>
+        <div class="col-3 text-left">
+            {{ obj['bill_no']}}
+
+
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-3 text-right">
+
+        </div>
+        <div class="col-3 text-left">
+
+        </div>
+        <div class="col-2 text-right">
+            Bill Date :
+        </div>
+        <div class="col-3 text-left">
+            {{ obj['bill_date']}}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12 text-left">
+
+            <h5><b>PAYABLES</b></h5>
+
+        </div>
+    </div>
+    <table id='tbl'>
+
+        <tr>
+            <th style="width: 5%;">
+                S No.
+            </th>
+            <th style="width: 25%;">
+                Description
+            </th>
+            <th style="width: 12%;">
+                HSN Code
+            </th>
+            <th style="width: 7%;">
+                CGST(%)
+            </th>
+            <th style="width: 7%;">
+                SGST(%)
+            </th>
+            <th style="width: 7%;">
+                IGST(%)
+            </th>
+            <th style="width: 11%;">
+                Amount
+            </th>
+            <th style="width: 11%;">
+                Tax Amount
+            </th>
+
+        </tr>
+        <br>
+        <tr *ngFor="let ln of AllBillRow; let i = index;">
+
+            <td>
+                {{ln['event_id']}}.
+            </td>
+            <td>
+
+
+                {{ln['event_desc']}}
+
+
+            </td>
+
+            <td class="text-center">
+
+                {{hsnObj[ln['hsn_code']]}}
+
+            </td>
+            <td>
+
+                {{ln['cgst']}}
+
+            </td>
+            <td>
+
+                {{ln['sgst']}}
+
+            </td>
+            <td>
+
+                {{ln['igst']}}
+
+            </td>
+            <td>
+                {{ln['amount']}}
+
+            </td>
+            <td>
+                {{ln['tax_amount']}}
+
+            </td>
+
+        </tr>
+
+        <br>
+
+        <tr>
+
+            <td>
+
+            </td>
+            <td>
+                <b>TOTAL AMOUNT</b>
+            </td>
+
+            <td>
+
+            </td>
+            <td class="text-center">
+                <b>{{cgstAmount}}</b>
+
+            </td>
+            <td class="text-center">
+                <b>{{sgstAmount}}</b>
+
+            </td>
+
+            <td class="text-center">
+                <b>{{igstAmount}}</b>
+
+
+            </td>
+            <td class="text-center">
+                <b>{{totalAmount}}</b>
+
+            </td>
+            <td class="text-center">
+                <b>{{TaxAmount}}</b>
+
+            </td>
+
+        </tr>
+    </table>
+
+    <br>
+    <div class="row">
+
+        <div class="col-12 text-right">
+
+            <h6><b>TOTAL PAYABLE AMOUNT: {{total_amt.toFixed(2)}}</b></h6>
+        </div>
+    </div>
+
+
+
+    <hr>
+    <div class="row">
+        <div class="col-12 text-left">
+
+            <h5><b>DEDUCTIONS</b></h5>
+
+        </div>
+    </div>
+    <table id='tbl'>
+
+        <tr>
+            <th>
+                S No.
+            </th>
+            <th>
+                Deduction Type
+            </th>
+            <th>
+                Amount Type
+            </th>
+            <th>
+                Amount
+            </th>
+
+        </tr>
+        <br>
+        <tr *ngFor="let dn of AllDedRow; let j = index;">
+
+            <td>
+                {{j+1}}
+            </td>
+            <td>
+
+                {{dedTypeObj[dn['deduction_type']]}}
+
+            </td>
+            <td>
+
+                {{amountTypeArrObj[dn['amount_type']]}}
+
+            </td>
+            <td>
+
+
+                {{dn['ded_amount']}}
+
+            </td>
+
+
+        </tr>
+    </table>
+    <br>
+    <div class="row">
+
+        <div class="col-12 text-right">
+
+            <h6><b>TOTAL DEDUCTION AMOUNT: {{total_ded_amount.toFixed(2)}}</b></h6>
+        </div>
+    </div>
+
+
+    <hr>
+    <div class="row">
+
+        <div class="col-12 text-right">
+
+            <h5><b>NET PAYABLE AMOUNT: {{net_amount.toFixed(2)}}</b></h5>
+        </div>
+
+    </div>
+    <hr>
+</div>
+
+
+
+
+
+
+
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event By Filter :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+                <div class="row" style="background-color: #217dbb;color:white;padding-top:8px;padding-bottom:8px;margin-left:5px;margin-right:5px;">
+                    <div class="col-3">Select Project</div>
+                    <div class="col-3">Select Product</div>
+                    <div class="col-3">Select Activity</div>
+                    <div class="col-3">Select Budget</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allProject" bindLabel="desc" (change)="changeProject()" bindValue="code" [multiple]="false" placeholder="Select Project" [(ngModel)]="selectObj['proj_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="proj_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('project')">Select</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allProduct" bindLabel="desc" (change)="changeProduct()" bindValue="code" [multiple]="false" placeholder="Select Product" [(ngModel)]="selectObj['prod_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="prod_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('product')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allActivity" bindLabel="desc" (change)="changeActivity()" bindValue="code" [multiple]="false" placeholder="Select Activity" [(ngModel)]="selectObj['act_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="act_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('activity')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allBudget" bindLabel="desc" (change)="changeBudget()" bindValue="code" [multiple]="false" placeholder="Select Budget" [(ngModel)]="selectObj['bud_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="bud_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('budget')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="row" style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+                            <div class="col-9">Project</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['proj_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['proj_lvl']}}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row" style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Product</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['prod_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['prod_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row" style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Activity</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['act_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['act_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row" style="background-color:  #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Budget</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['bud_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['bud_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button type="button" class="btn btn-outline-primary" (click)="FilteredEvents()">Submit</button>
+                    </div>
+                </div>
+                <hr>
+                <br>
+                <div class=" table-container ">
+                    <div class="row">
+                        <div class="col-4">
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4 text-center">
+
+                        </div>
+
+                    </div>
+
+                    <div class="example-container">
+                        <table mat-table [dataSource]="dataSource1" matSort #sortCol2="matSort" style="width: 100%">
+
+                            <ng-container matColumnDef="event_code">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Event Code</b> </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                    {{ element.event_code}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="event_desc">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Event
+                                        Description</b> </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                    {{ element.event_desc }} </td>
+                            </ng-container>
+
+
+
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                    <button class="btn btn-outline-primary" (click)="select(element)">Select</button>
+
+                                </td>
+
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns1;sticky: true">
+                            </tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                            </tr>
+                        </table>
+                        <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="myModal_Status">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Status</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <a *ngFor="let ob of statusArr;let i=index">
+                        <div class="step completed" *ngIf="ob.status=='APPROVED'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="barblue" style="color: blue;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                        <div class="step" *ngIf="ob.status=='REJECTED'">
+                            <div class="v-stepper">
+                                <div class="circles"></div>
+
+                            </div>
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                        <!-- active -->
+                        <div class="step" *ngIf="ob.status=='PENDING'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="bar" style="color: black;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="select">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-3 text-center">
+
+
+                    </div>
+                    <div class="col-3 text-center" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b>Code</b></h6>
+
+
+                    </div>
+                    <div class="col-3 text-center" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b> Value</b></h6>
+
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 1:
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl1_cd']" disabled>
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd" (change)="onChangeLvl1()" [multiple]="false" placeholder="Select Level 1 " [(ngModel)]="Chartobj['lvl1_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl1_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 2 :
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl2_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd" (change)="onChangeLvl2()" [multiple]="false" placeholder="Select Level 2" [(ngModel)]="Chartobj['lvl2_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl2_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 3 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl3_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+                        <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd" (change)="onChangeLvl3()" [multiple]="false" placeholder="Select Level 3" [(ngModel)]="Chartobj['lvl3_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl3_value">
+                        </ng-select>
+                    </div>
+
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 4 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl4_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+                        <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd" (change)="onChangeLvl4()" [multiple]="false" placeholder="Select Level 4" [(ngModel)]="Chartobj['lvl4_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl4_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 5 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl5_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd" (change)="onChangeLvl5()" [multiple]="false" placeholder="Select Level 5" [(ngModel)]="Chartobj['lvl5_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl5_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 6 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl6_cd']" disabled>
+
+                    </div>
+
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd" (change)="onChangeLvl6()" [multiple]="false" placeholder="Select Level 6" [(ngModel)]="Chartobj['lvl6_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl6_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 7 :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl7_cd']" disabled>
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <ng-select [items]="level7" (change)="onChangeLvl7()" bindLabel="lvl7_value" bindValue="lvl7_cd" [multiple]="false" placeholder="Select Level 7" [(ngModel)]="Chartobj['lvl7_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="lvl7_value">
+                        </ng-select>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Leaf :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['leaf_cd']">
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['leaf_value']">
+
+                    </div>
+                </div>
+                <br>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="SubmitSelectedEvnetHier()">Submit</button>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

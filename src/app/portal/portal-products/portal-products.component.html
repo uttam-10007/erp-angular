@@ -1,0 +1,38 @@
+<div style="margin-top: 5%;" class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="table-responsive">
+                <table style="width: 100%;" class="table">
+                    <thead>
+                        <tr>
+
+                            <th>#</th>
+                            <th>Product Code</th>
+                            <th>Product Name</th>
+                            <th>Status</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let p of erpUser.active_product_cd; let i = index">
+                            <td>
+                                {{i}}
+                            </td>
+                            <td>{{p.prod_cd}}</td>
+                            <td>{{p.product_name}}</td>
+                            <td>
+                                <button *ngIf="p.status==1" class="btn btn-warning" (click)="deactivate(p.prod_cd,i)">Deactivate</button>
+                                <button *ngIf="p.status==0" class="btn btn-info" (click)="activate(p.prod_cd,i)">Activate</button>
+                            </td>
+
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

@@ -1,0 +1,1036 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Verification</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i>All Application List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle" aria-hidden="true"></i> Update Application
+
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+
+
+                            </div>
+
+
+                            <div class=" example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="s_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>NAME OF THE COMPANY
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="application_category_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Category
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.application_category_code}} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button>
+                                            <button class="btn btn-outline-danger" *ngIf="element['status']=='ACTIVE'" (click)="cancel(element)">Cancel</button>
+                                            <button class="btn btn-outline-danger" (click)="delete(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-7-2">
+                            <br>
+                            <div style="border: 2px solid black">
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h5><b>COMPANY PROFILE</b></h5>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div class="col-2">
+                                        <h6 style="margin-left: 5px;">ID :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['id']" disabled>
+
+                                    </div>
+                                    <!-- <div class="col-2">
+                                        <h6>ORIGIN :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['origin']">
+
+                                    </div> -->
+                                    <div class="col-2">
+                                        <h6>NAME :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['name']" disabled>
+
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+
+                                    <div class="col-2">
+                                        <h6 style="margin-left: 5px;">ADDRESS :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['reg_addr']">
+
+                                    </div>
+                                    <div class="col-2">
+                                        <h6>PHONE NO :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['mob_no']" disabled>
+
+                                    </div>
+                                </div>
+                                <br>
+
+
+                                <div class="row">
+
+                                    <div class="col-2">
+                                        <h6 style="margin-left: 5px;">EMAIL ID :</h6>
+                                        <h6 *ngIf="email==false" style="color: red;">(please Enter valid Email)</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['pri_email_id']">
+
+                                    </div>
+                                    <div class="col-2">
+                                        <h6>EST YEAR :</h6>
+                                    </div>
+                                    <div class="col-3">
+
+                                        <ng-select [items]="mainService.codeValueTechObj['EN011']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['estab_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-success" (click)="view(obj['incorp_cert_document_id'])">VIEW</button>
+                                        <!-- <button class="btn btn-primary" (click)="open()">ACCEPT</button>
+                                        <button class="btn btn-danger" (click)="open()">REJECT</button> -->
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div class="col-2">
+                                        <h6 style="margin-left: 5px;">CORRESPONDENCE ID :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['sec_email_id']">
+
+                                    </div>
+                                    <div class="col-2">
+                                        <h6>PAN :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['pan_no']">
+
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-success" (click)="view(obj['pan_document_id'])">VIEW</button>
+                                        <!-- <button class="btn btn-primary" (click)="open()">ACCEPT</button>
+                                        <button class="btn btn-danger" (click)="open()">REJECT</button> -->
+
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+
+
+
+                                    <div class="col-2">
+                                        <h6 style="margin-left: 5px;">LABOR REG NO. :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['labour_reg_no']">
+
+                                    </div>
+                                    <div class="col-2">
+                                        <h6>ESIC NO. :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['esic_no']">
+
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+
+                                    <div class="col-2">
+                                        <h6 style="margin-left: 5px;">CHALLAN ID :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['challan_id']">
+
+                                    </div>
+
+                                    <div class="col-2">
+                                        <h6>EPF NO. :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['epf_no']">
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div class="col-2">
+                                        <h6 style="margin-left: 5px;">CHALLAN STATUS :</h6>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['challan_status']">
+
+                                    </div>
+
+
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div class="col-1">
+                                    </div>
+
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <h6><b>CONSTITUTION TYPE </b></h6>
+                                            </div>
+                                            <div class="col-3">
+
+                                                <ng-select [items]="mainService.codeValueTechObj['EN014']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['const_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                                </ng-select>
+                                            </div>
+
+
+                                            <div class="col-12 text-right">
+                                                <button (click)="add()" class="btn btn-primary"> <i class="fa fa-plus"
+                                                            style="font-size: 20px;"></i></button>
+                                            </div>
+
+
+                                        </div>
+                                        <br>
+                                        <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                            <div style="width: 6%;">
+
+                                                <h6><b>S NO.</b></h6>
+
+                                            </div>
+                                            <div style="width: 6%;">
+
+                                                <h6><b>PHOTO</b></h6>
+
+                                            </div>
+                                            <div style="width: 12%;">
+
+                                                <h6><b>DIN NO.</b></h6>
+
+                                            </div>
+                                            <div style="width: 20%;">
+
+                                                <h6><b>NAME OF THE DIRECTORS </b></h6>
+
+                                            </div>
+                                            <div style="width: 15%;">
+
+                                                <h6><b>PAN NO. </b></h6>
+
+                                            </div>
+                                            <div style="width: 15%;">
+
+                                                <h6><b>PHONE NO </b></h6>
+
+                                            </div>
+                                            <div style="width: 15%;">
+
+                                                <h6><b>ADHAAR NO </b></h6>
+
+                                            </div>
+                                            <div style="width: 11%;">
+
+                                                <h6><b>Action </b></h6>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div *ngFor="let ln of obj['director_data']; let i = index;">
+                                    <div class="row">
+
+                                        <div class="col-1">
+                                        </div>
+
+                                        <div class="col-10">
+
+                                            <div class="row">
+                                                <div style="width: 6%;" class="text-center">
+                                                    {{i+1}}.
+
+                                                </div>
+                                                <div style="width: 6%;">
+
+                                                    <button class="btn btn-success" (click)="view(ln['document_id'])" *ngIf="ln['document_id']!=null">VIEW</button>
+                                                    <button class="btn btn-primary" (click)="openUploadTable('PHOTO',i)" *ngIf="ln['document_id'] ==null"><i class="fa fa-upload"></i></button>
+
+
+
+
+                                                </div>
+                                                <div style="width: 12%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="ln['din_no']">
+
+
+                                                </div>
+                                                <div style="width: 20%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="ln['name']">
+
+
+                                                </div>
+                                                <div style="width: 15%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="ln['pan_no']">
+
+
+                                                </div>
+                                                <div style="width: 15%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="ln['phone_no']">
+
+
+                                                </div>
+                                                <div style="width: 15%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="ln['adhar_no']">
+
+                                                </div>
+                                                <div style="width: 11%;">
+
+                                                    <button class="btn btn-danger" (click)="delete2(i)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-1">
+                                    </div>
+
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <h6><b>WORK COMPLETION DETAILS </b></h6>
+                                            </div>
+                                            <div class="col-3">
+                                                <h6><b>SELECT WORK COMPLETION CATEGORY </b></h6>
+                                            </div>
+                                            <div class="col-3">
+                                                <ng-select [items]="mainService.codeValueTechObj['EN017']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['work_completion_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                                </ng-select>
+                                            </div>
+                                            <div class="col-3 text-right">
+                                                <div class="col-12 text-right">
+                                                    <button (click)="add2()" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <br>
+                                        <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                            <div style="width: 6%;">
+
+                                                <h6><b>S NO.</b></h6>
+
+                                            </div>
+                                            <div style="width: 15%;">
+
+                                                <h6><b>CLIENT</b></h6>
+
+                                            </div>
+                                            <div style="width: 24%;">
+
+
+                                                <h6><b> CONTACT PERSON</b></h6>
+
+                                            </div>
+                                            <div style="width: 15%;">
+
+                                                <h6><b>PHONE NO. </b></h6>
+
+                                            </div>
+                                            <div style="width: 15%;">
+
+                                                <h6><b>AMOUNT </b></h6>
+
+                                            </div>
+                                            <div style="width: 15%;">
+
+                                                <h6><b>PDF </b></h6>
+
+                                            </div>
+                                            <div style="width: 10%;">
+
+                                                <h6><b>ACTION </b></h6>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div *ngFor="let pj of obj['project_data']; let i = index;">
+                                    <div class="row">
+
+                                        <div class="col-1">
+                                        </div>
+
+                                        <div class="col-10">
+
+                                            <div class="row">
+                                                <div style="width: 6%;" class="text-center">
+                                                    {{i+1}}.
+
+                                                </div>
+                                                <div style="width: 15%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="pj['client_name']">
+
+
+                                                </div>
+                                                <div style="width: 24%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="pj['person_name']">
+
+
+                                                </div>
+                                                <div style="width: 15%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="pj['phone_no']">
+
+
+                                                </div>
+                                                <div style="width: 15%;" class="text-right">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="pj['amount']">
+
+
+                                                </div>
+                                                <div style="width: 15%;">
+                                                    <button class="btn btn-success" (click)="view(pj['document_id'])" *ngIf="pj['document_id']!=null">VIEW</button>
+                                                    <button class="btn btn-primary" (click)="openUploadTable('COMPLETION_CERTIFICATE',i)" *ngIf="pj['document_id']==null"> <i class="fa fa-upload"></i></button>
+
+                                                </div>
+                                                <div style="width: 10%;">
+
+                                                    <button class="btn btn-danger" (click)="delete1(i)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-1">
+
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+
+                                <br>
+
+                                <div class="row">
+
+                                    <div class="col-1">
+                                    </div>
+
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <h6><b>CATEGORY </b></h6>
+                                            </div>
+                                            <div class="col-3">
+
+                                                <ng-select [items]="categoryArr" bindLabel="application_category_code" bindValue="application_category_code" [multiple]="false" placeholder="" [(ngModel)]="obj['application_category_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                    name="batch_item_code">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <br>
+
+
+                                <div class="row">
+
+                                    <div class="col-1">
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <h6><b>TURNOVER  </b></h6>
+
+                                            </div>
+                                            <div class="col-12 text-right">
+                                                <button (click)="add1()" class="btn btn-primary"> <i class="fa fa-plus"></i> </button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                            <div style="width: 6%;">
+
+                                                <h6><b>S NO.</b></h6>
+
+                                            </div>
+                                            <div style="width: 14%;">
+
+                                                <h6><b>FINANCIAL YEAR</b></h6>
+
+                                            </div>
+                                            <div style="width: 18%;">
+
+
+                                                <h6><b>WORKING CAPITAL	 </b></h6>
+
+                                            </div>
+                                            <div style="width: 17%;">
+
+                                                <h6><b>PROFIT AFTER TAX	</b></h6>
+
+                                            </div>
+                                            <div style="width: 18%;">
+
+
+                                                <h6><b>TURNOVER </b></h6>
+
+                                            </div>
+                                            <div style="width: 17%;">
+
+                                                <h6><b>PROFIT AND LOSS	</b></h6>
+
+                                            </div>
+                                            <div style="width: 10%;">
+
+                                                <h6><b>ACTION	</b></h6>
+
+                                            </div>
+
+                                            <!-- <div style="width: 20%;">
+
+                                            <h6><b>PROFIT AND LOSS </b></h6>
+
+                                        </div> -->
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <br>
+                                <div *ngFor="let td of obj['turnover_data']; let i = index;">
+                                    <div class="row">
+
+                                        <div class="col-1">
+                                        </div>
+
+                                        <div class="col-10">
+
+                                            <div class="row">
+                                                <div style="width: 6%;" class="text-center">
+                                                    {{i+1}}.
+
+                                                </div>
+                                                <div style="width: 14%;">
+
+
+                                                    <ng-select [items]="mainService.codeValueTechObj['EN011']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="td['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                                    </ng-select>
+
+                                                </div>
+                                                <div style="width: 18%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="td['working_capital']">
+
+
+                                                </div>
+                                                <div style="width: 17%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="td['profit_after_tax']">
+
+
+                                                </div>
+                                                <div style="width: 18%;" class="text-right">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="td['turnover']">
+
+
+                                                </div>
+                                                <div style="width: 17%;">
+                                                    <input type="text" class="form-control" [(ngModel)]="td['profit_or_loss']">
+
+                                                </div>
+                                                <div style="width: 10%;">
+
+                                                    <button class="btn btn-danger" (click)="delete5(i)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-1">
+
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+
+
+
+                                <div class="row" style="margin-left: 10%;">
+                                    <div class="col-3">
+                                        <b>  NET WORTH CERTIFICATE :</b>
+
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div style="width: 15%;">
+                                            <button class="btn btn-success" (click)="view(obj['net_worth_document_id'])">VIEW</button>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <h6><b>TOTAL AVERAGE TURNOVER  </b></h6>
+
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" [(ngModel)]="obj['average_annual_turnover']">
+
+
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row" style="margin-left: 10%;">
+                                    <div class="col-3">
+                                        <b> ITR DOCUMENT</b>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div style="width: 15%;">
+                                            <button class="btn btn-success" (click)="view(obj['itr_document_id'])">VIEW</button>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-10">
+
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="row" style="margin-left: 10%;">
+                                    <div class="col-3">
+                                        <b>  BALANCE SHEET DOCUMENT</b>
+
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div style="width: 15%;">
+                                            <button class="btn btn-success" (click)="view(obj['balance_sheet_document_id'])">VIEW</button>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-10">
+
+                                    </div>
+                                </div>
+
+                                <br>
+
+
+                                <div class="row">
+
+                                    <div class="col-1">
+                                    </div>
+
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <h6><b>MANPOWER </b></h6>
+                                            </div>
+                                            <div class="col-12 text-right">
+                                                <button (click)="add3()" class="btn btn-primary"> <i class="fa fa-plus"></i> </button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                            <div style="width: 6%;">
+
+                                                <h6><b>S NO.</b></h6>
+
+                                            </div>
+                                            <div style="width: 32%;">
+
+                                                <h6><b>Name</b></h6>
+
+                                            </div>
+                                            <div style="width: 22%;">
+
+
+                                                <h6><b> QUALIFICATION DETAILS </b></h6>
+
+                                            </div>
+                                            <div style="width: 15%;">
+
+                                                <h6><b>DESIGNATION </b></h6>
+
+                                            </div>
+                                            <div style="width: 15%;">
+
+                                                <h6><b>YEARS OF EXPERIENCE </b></h6>
+
+                                            </div>
+                                            <div style="width: 10%;">
+
+                                                <h6><b>Action </b></h6>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div *ngFor="let md of obj['manpower_data']; let i = index;">
+                                    <div class="row">
+
+                                        <div class="col-1">
+                                        </div>
+
+                                        <div class="col-10">
+
+                                            <div class="row">
+                                                <div style="width: 6%;" class="text-center">
+                                                    {{i+1}}.
+
+                                                </div>
+                                                <div style="width: 32%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="md['name']">
+
+
+                                                </div>
+                                                <div style="width: 22%;">
+                                                    <ng-select [items]="mainService.codeValueTechObj['EN012']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="md['qualification_dtl']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                                    </ng-select>
+                                                    <!-- <input type="text" class="form-control" [(ngModel)]="md['qualification_dtl']"> -->
+
+
+                                                </div>
+                                                <div style="width: 15%;">
+                                                    <ng-select [items]="mainService.codeValueTechObj['EN013']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="md['designation']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                                    </ng-select>
+                                                    <!-- <input type="text" class="form-control" [(ngModel)]="md['designation']"> -->
+
+
+                                                </div>
+                                                <div style="width: 15%;" class="text-right">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="md['experience']">
+
+
+                                                </div>
+                                                <div style="width: 10%;">
+
+                                                    <button class="btn btn-danger" (click)="delete3(i)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-1">
+
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+
+
+
+                                <div class="row">
+
+                                    <div class="col-1">
+                                    </div>
+
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <h6><b>MACHINERY </b></h6>
+                                            </div>
+                                            <div class="col-12 text-right">
+                                                <button (click)="add4()" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                            <div style="width: 6%;">
+
+                                                <h6><b>S NO.</b></h6>
+
+                                            </div>
+                                            <div style="width: 44%;">
+
+                                                <h6><b>NAME OF THE MACHINERY </b></h6>
+
+                                            </div>
+                                            <div style="width: 20%;">
+
+
+                                                <h6><b> YEAR IT WAS PURCHASED</b></h6>
+
+                                            </div>
+                                            <div style="width: 20%;">
+
+                                                <h6><b>NUMBER OF UNITS</b></h6>
+
+                                            </div>
+                                            <div style="width: 10%;">
+
+                                                <h6><b>ACTION</b></h6>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div *ngFor="let mc of obj['machine_data']; let i = index;">
+                                    <div class="row">
+
+                                        <div class="col-1">
+                                        </div>
+
+                                        <div class="col-10">
+
+                                            <div class="row">
+                                                <div style="width: 6%;" class="text-center">
+                                                    {{i+1}}.
+
+                                                </div>
+                                                <div style="width: 44%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="mc['name']">
+
+
+                                                </div>
+                                                <div style="width: 20%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="mc['year']">
+
+
+                                                </div>
+                                                <div style="width: 20%;">
+
+                                                    <input type="text" class="form-control" [(ngModel)]="mc['num_of_unit']">
+
+
+                                                </div>
+                                                <div style="width: 10%;">
+
+                                                    <button class="btn btn-danger" (click)="delete4(i)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-1">
+
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-1">
+                                    </div>
+
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <h6><b>UNDERTAKINGS FOR FIRM NOT BEING BLACKLISTED</b></h6>
+                                            </div>
+                                            <div class="col-5">
+                                                <button class="btn btn-success" (click)="view(obj['firm_document_id'])">VIEW</button>
+
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <h6><b>BOARD RESOLUTION/ ATTORNEY </b></h6>
+                                            </div>
+                                            <div class="col-5">
+                                                <button class="btn btn-success" (click)="view(obj['board_document_id'])">VIEW</button>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <!-- <br>
+                                <div class="row" *ngIf="obj['challan_id']!=null" style="color: green;">
+                                    <div class="col-12 text-center">
+                                        <h6><b>PAYMENT SUCCESSFUL</b></h6>
+
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="obj['challan_id']==null" style="color: red;">
+                                    <div class="col-12 text-center">
+                                        <h6><b>.....INCOMPLETE PAYMENT</b></h6>
+
+                                    </div>
+                                </div> -->
+                                <div class="row" *ngIf="obj['status']=='APPLIED' || obj['status']=='INCOMPLETE'">
+                                    <div class="col-12 text-center">
+                                        <button class="btn btn-info" (click)="update()">UPDATE</button>
+
+                                        <button class="btn btn-primary" (click)="accept()">ACCEPT</button>
+                                        <button class="btn btn-danger" (click)="reject()">REJECT</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+<div class="modal" id="select">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Upload Document :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-4 text-right">
+                        Upload File:
+                    </div>
+                    <div class="col-4 text-center">
+                        <input #file type="file" name="pimage" ng2FileSelect [uploader]="uploader" class="form-control" style="border-color: black" (change)="onFileUpload($event,file.files)">
+                    </div>
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button type="button" [disabled]="!uploader.getNotUploadedItems().length" class="btn btn-info" (click)='upload()'><i class="fa fa-upload" aria-hidden="true">&nbsp;</i>Upload</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" (click)="Close()" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

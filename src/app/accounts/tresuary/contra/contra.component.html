@@ -1,0 +1,356 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Contra Voucher</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All Contra Voucher List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create Contra Voucher</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Contra Voucher</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="voucher_no">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Voucher No
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element " class="right">
+                                            {{ element.voucher_no }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="voucher_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Voucher Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <!-- {{ element.voucher_date }}  -->
+                                            <p *ngIf="element.voucher_date">
+                                                {{mainService.dateFormatChange(element.voucher_date )}}</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="remark">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Remark
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.remark }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }} </td>
+                                    </ng-container>
+
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element;let i = index" class="right">
+
+                                            <button class="btn btn-primary" (click)="open_update(element)">Update</button>&nbsp;&nbsp;
+                                            <button *ngIf="element.status=='GENERATED'" class="btn btn-danger" (click)="delete(element)">Delete</button>&nbsp;&nbsp;
+
+                                            <button class="btn btn-info" (click)="print1(element)">Print</button>&nbsp;&nbsp;
+                                            <button *ngIf="element.status=='APPROVED'" class="btn btn-success" (click)="process(element)">Process</button>&nbsp;&nbsp;
+                                            <button class="btn btn-primary" *ngIf="element.status=='GENERATED'" (click)="schedule(element)">Schedule</button>&nbsp;&nbsp;
+                                            <button class="btn btn-primary" *ngIf="element.status=='SCHEDULED'" (click)="status(element)">View Status</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Enter Remark :</h6>
+                                </div>
+                                <div class="col-5">
+                                    <textarea class="form-control" [(ngModel)]="contraObj['remark']"> </textarea>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6> Voucher No. :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" disabled [(ngModel)]="contraObj['voucher_no']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6> Voucher Date :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <!-- <input class="form-control" disabled [(ngModel)]="contraObj['voucher_date']"> -->
+                                    <p *ngIf="contraObj['voucher_date']">
+                                        {{mainService.dateFormatChange(contraObj['voucher_date'])}}</p>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addRow()"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+
+                                </div>
+                            </div>
+                            <br>
+                            <table class="table table-bordered">
+                                <thead style="background-color: #1589FF; color: white;">
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Type</th>
+                                        <th style="width: 15%;">Bank</th>
+                                        <th style="width: 25%;">Description</th>
+                                        <th style="width: 10%;">DR</th>
+                                        <th style="width: 10%;">CR</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let ob of contraObj['data']; let i = index">
+                                        <td>{{i+1}}</td>
+                                        <td>
+                                            <ng-select [items]="type" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="contraObj['data'][i]['type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                            </ng-select>
+                                        </td>
+                                        <td>
+                                            <ng-select [items]="allChartOfAccount" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="" [(ngModel)]="contraObj['data'][i]['bank']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                            </ng-select>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" [(ngModel)]="contraObj['data'][i]['desc']"></textarea>
+
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="number" [(ngModel)]="contraObj['data'][i]['dr']">
+
+                                        </td>
+
+                                        <td>
+                                            <input class="form-control" type="number" [(ngModel)]="contraObj['data'][i]['cr']">
+
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger" (click)="deleteRow(i)"><i class="fa fa-trash"
+                                                    aria-hidden="true"></i></button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Enter Remark:</h6>
+                                </div>
+                                <div class="col-5">
+                                    <textarea class="form-control" [(ngModel)]="contraObj['remark']"> </textarea>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6> Voucher No. :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" disabled [(ngModel)]="contraObj['voucher_no']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6> Voucher Date :</h6>
+                                </div>
+                                <div class="col-3">
+                                    <p *ngIf="contraObj['voucher_date']">
+                                        {{mainService.dateFormatChange(contraObj['voucher_date'])}}</p>
+
+                                    <!-- <input class="form-control" disabled [(ngModel)]="contraObj['voucher_date']"> -->
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addRow()"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <table class="table table-bordered">
+                                <thead style="background-color: #1589FF; color: white;">
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Type</th>
+                                        <th style="width: 15%;">Bank</th>
+                                        <th style="width: 25%;">Description</th>
+                                        <th style="width: 10%;">DR</th>
+                                        <th style="width: 10%;">CR</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let ob of contraObj['data']; let i = index">
+                                        <td>{{i+1}}</td>
+                                        <td>
+                                            <ng-select [items]="type" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="contraObj['data'][i]['type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                            </ng-select>
+                                        </td>
+                                        <td>
+                                            <ng-select [items]="allChartOfAccount" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="" [(ngModel)]="contraObj['data'][i]['bank']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                            </ng-select>
+                                        </td>
+                                        <td>
+                                            <textarea class="form-control" [(ngModel)]="contraObj['data'][i]['desc']"></textarea>
+
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="number" [(ngModel)]="contraObj['data'][i]['dr']">
+
+                                        </td>
+
+                                        <td>
+                                            <input class="form-control" type="number" [(ngModel)]="contraObj['data'][i]['cr']">
+
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger" (click)="deleteRow(i)"><i class="fa fa-trash"
+                                                    aria-hidden="true"></i></button>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+
+
+<div class="modal" id="myModal_Status">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Status</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <a *ngFor="let ob of statusArr;let i=index">
+                        <div class="step completed" *ngIf="ob.status=='APPROVED'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="barblue" style="color: blue;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                        <div class="step" *ngIf="ob.status=='REJECTED'">
+                            <div class="v-stepper">
+                                <div class="circles"></div>
+
+                            </div>
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                        <!-- active -->
+                        <div class="step" *ngIf="ob.status=='PENDING'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="bar" style="color: black;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

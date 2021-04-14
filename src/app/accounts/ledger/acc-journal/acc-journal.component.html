@@ -1,0 +1,872 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Journal</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All UnPosted Journal List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create Journal </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Journal </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+                            <br>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="org_unit_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Organization
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.org_unit_cd }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="acct_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Accounting Date
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            <!-- {{ element.acct_dt }} -->
+                                            <p *ngIf="element.acct_dt ">{{mainService.dateFormatChange(element.acct_dt )}}</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="prep_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Preparer ID
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.prep_id }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="appr_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Approver ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.appr_id }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="preparer_comment">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Preparer Comment
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.preparer_comment }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ledger_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Ledger
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ ledgerObj[element.ledger_type] }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+
+                                            <button class="btn btn-outline-danger" *ngIf="element.status=='Created'" (click)="delete(element)">Delete</button>&nbsp;&nbsp;
+                                            <button class="btn btn-outline-primary" *ngIf="element.status=='Created'" (click)="open_update(element)">Update</button>&nbsp;&nbsp;
+                                            <button *ngIf="element.status=='APPROVED'" class="btn btn-outline-info" (click)="post(element)">Post</button>
+                                            <button class="btn btn-primary" *ngIf="element.status=='Created'" (click)="schedule(element)">Schedule</button>
+                                            <button class="btn btn-primary" *ngIf="element.status=='SCHEDULED' ||  element.status=='REJECTED'" (click)="status(element)">View Status</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <div>
+                                <br>
+
+                                <div class="row" style="margin-left: 2%;margin-right: 2%;">
+                                    <div class="col-2 text-left">
+                                        <b>Organization :</b>
+                                    </div>
+                                    <div class="col-10">
+                                        {{this.mainService.accInfo['account_name']}} ({{this.mainService.accInfo['account_short_name']}})
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="row" style="margin-left: 2%;margin-right: 2%;">
+                                    <div class="col-2 text-left">
+                                        <b>Journal Id:</b>
+                                    </div>
+                                    <div class="col-2">
+                                        {{jrnl_id}}
+                                    </div>
+
+                                    <div class="col-2">
+                                        <b>Preparer ID:</b>
+                                    </div>
+                                    <div class="col-1">
+                                        {{obj['prep_id']}}
+                                    </div>
+                                    <div class="col-2">
+                                        <b>Approver ID:</b>
+                                    </div>
+                                    <div class="col-3">
+                                        <!--  <input class="form-control" type="text" [(ngModel)]="obj['appr_id']"> -->
+                                        {{obj['appr_id']}}
+                                    </div>
+
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="row" style="margin-left: 2%;margin-right: 2%;">
+                                    <div class="col-2 text-left">
+                                        <b>Accounting Date:</b>
+                                    </div>
+                                    <div class="col-3">
+                                        <input class="form-control" type="date" [(ngModel)]="obj['acct_dt']">
+                                    </div>
+
+                                    <div class="col-2">
+                                        <b>Remark :</b>
+                                    </div>
+                                    <div class="col-5">
+                                        <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="obj['preparer_comment']"></textarea>
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="row" style="margin-left: 2%;margin-right: 2%;">
+                                    <div class="col-2 text-left">
+                                        <b>Total Credits :</b>
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <b>Total Debits:</b>
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <b>Currency:</b>
+                                    </div>
+                                    <div class="col-3 text-left">
+                                        <b>Ledger:</b>
+                                    </div>
+                                    <div class="col-3 text-left">
+                                        <b>Status:</b>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-left: 2%;margin-right: 2%;">
+                                    <div class="col-2 text-left">
+                                        {{cr}}
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        -{{db}}
+
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        {{obj['tgt_curr_cd']}}
+                                    </div>
+                                    <div class="col-3 text-left">
+                                        <ng-select [items]="mainService.codeValueTechObj['ACC0113']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['ledger_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="ledger">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-3 text-left">
+                                        <!--   <ng-select [items]="Status" bindLabel="value" bindValue="code"
+                                            [multiple]="false" placeholder=" " [(ngModel)]="obj['status']"
+                                            [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                            [closeOnSelect]="true" name="status">
+                                        </ng-select> -->
+                                        {{obj['status']}}
+
+                                    </div>
+                                </div>
+                                <br>
+
+
+
+                            </div>
+
+                            <br>
+
+                            <!--  <div class="row">
+
+                                <div class="col-4 text-center">
+                                    <h4><b>Credit</b></h4>
+                                </div>
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-4 text-center">
+                                    <h4><b>Debit</b></h4>
+
+                                </div>
+                                <div class="col-1">
+
+                                </div>
+                                <div class="col-1">
+
+                                </div>
+                            </div>
+                            <br> -->
+                            <hr>
+                            <div class="row">
+
+
+
+                                <div class="col-1 text-center">S NO:</div>
+                                <div class="col-3 text-center"> Chart Of Account</div>
+                                <div class="col-2 text-center">Select Debit Credit Ind</div>
+                                <div class="col-2 text-center">Amount</div>
+                                <div class="col-3 text-center">Remark</div>
+
+
+                                <div class="col-1">
+                                    <button class="btn btn-primary" (click)="addRowCredit()"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+
+                                </div>
+                                <!-- <div class="col-5 text-center">
+                                    <div class="row">
+                                        <div class="col-3 text-center">S NO:</div>
+                                        <div class="col-6 text-center"> Chart Of Account</div>
+                                        <div class="col-3 text-center">Amount</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-1 text-center">
+                                    <button class="btn btn-primary" (click)="addRowDebit()"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+
+                                </div> -->
+                            </div>
+                            <hr>
+                            <br>
+                            <table>
+
+
+                                <div class="row" *ngFor="let ln of AllJournalRow_credit; let i = index;">
+                                    <br>
+
+                                    <div class="col-1 text-center">
+                                        {{i+1}}
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        <ng-select [items]="allChartOfAccount" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" (change)="changecoa(i)" [(ngModel)]="ln['chart_of_account']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                            [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <ng-select [items]="allDBIND" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Indicater" (change)="changedbcr(i)" [(ngModel)]="ln['db_cd_ind']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <input class="form-control" type="number" (change)="changeamt(i)" [(ngModel)]="ln['txn_amt']">
+
+
+                                    </div>
+                                    <div class="col-3 text-center">
+
+                                        <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="ln['remark']"></textarea>
+
+                                    </div>
+                                    <div class="col-1 text-center">
+                                        <button class="btn btn-danger " (click)="deleteRowCredit(i)"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                        <button class="btn btn-primary " data-toggle="modal" data-target="#change" data-backdrop="false" (click)="changeRowCredit(i)"><i class="fa fa-edit"></i></button>
+                                    </div>
+                                </div>
+
+
+
+                                <!--  <div class="col-6">
+
+                                <div class="row" *ngFor="let ln of AllJournalRow_debit; let i = index;">
+                                    <br>
+
+                                    <div class="col-2 text-center">
+                                        {{i+1}}
+                                    </div>
+                                    <div class="col-6 text-center">
+
+                                        <ng-select [items]="allChartOfAccount" bindLabel="leaf_value"
+                                            bindValue="leaf_code" [multiple]="false"
+                                            placeholder="Select Chart Of Account"
+                                            [(ngModel)]="ln['chart_of_account']" [selectableGroup]="true"
+                                            [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-1 text-center">
+
+                                        {{ln['txn_amt']}}
+                                    </div>
+                                    <div class="col-1 text-center">
+                                        <button class="btn btn-danger " (click)="deleteRowDebit(i)"><i
+                                                class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <button class="btn btn-primary " data-toggle="modal"
+                                            data-target="#change" data-backdrop="false"
+                                            (click)="changeRowDebit(i)"><i class="fa fa-edit"></i></button>
+                                    </div>
+                                </div>
+                            </div> -->
+
+
+
+
+                            </table>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="check()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-3">
+                            <div>
+                                <br>
+
+                                <div class="row" style="margin-left: 2%;margin-right: 2%;">
+                                    <div class="col-2 text-left">
+                                        <b>Organization :</b>
+                                    </div>
+                                    <div class="col-10">
+                                        {{this.mainService.accInfo['account_name']}} ({{this.mainService.accInfo['account_short_name']}})
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="row" style="margin-left: 2%;margin-right: 2%;">
+                                    <div class="col-2 text-left">
+                                        <b>Journal Id:</b>
+                                    </div>
+                                    <div class="col-2">
+                                        {{jrnl_id}}
+                                    </div>
+
+                                    <div class="col-2">
+                                        <b>Preparer ID:</b>
+                                    </div>
+                                    <div class="col-1">
+                                        {{obj['prep_id']}}
+                                    </div>
+                                    <div class="col-2">
+                                        <b>Approver ID:</b>
+                                    </div>
+                                    <div class="col-3">
+                                        <!--  <input class="form-control" type="text" [(ngModel)]="obj['appr_id']"> -->
+                                        {{obj['appr_id']}}
+                                    </div>
+
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="row" style="margin-left: 2%;margin-right: 2%;">
+                                    <div class="col-2 text-left">
+                                        <b>Accounting Date:</b>
+                                    </div>
+                                    <div class="col-3">
+                                        <input class="form-control" type="date" [(ngModel)]="obj['acct_dt']">
+                                    </div>
+
+                                    <div class="col-2">
+                                        <b>Remark :</b>
+                                    </div>
+                                    <div class="col-5">
+                                        <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="obj['preparer_comment']"></textarea>
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="row" style="margin-left: 2%;margin-right: 2%;">
+                                    <div class="col-2 text-left">
+                                        <b>Total Credits :</b>
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <b>Total Debits:</b>
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        <b>Currency:</b>
+                                    </div>
+                                    <div class="col-3 text-left">
+                                        <b>Ledger:</b>
+                                    </div>
+                                    <div class="col-3 text-left">
+                                        <b>Status:</b>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-left: 2%;margin-right: 2%;">
+                                    <div class="col-2 text-left">
+                                        {{cr}}
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        -{{db}}
+
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        {{obj['tgt_curr_cd']}}
+                                    </div>
+                                    <div class="col-3 text-left">
+                                        <ng-select [items]="mainService.codeValueTechObj['ACC0113']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['ledger_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="ledger">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-3 text-left">
+                                        <!--   <ng-select [items]="Status" bindLabel="value" bindValue="code"
+                                            [multiple]="false" placeholder=" " [(ngModel)]="obj['status']"
+                                            [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                            [closeOnSelect]="true" name="status">
+                                        </ng-select> -->
+                                        {{obj['status']}}
+
+                                    </div>
+                                </div>
+                                <br>
+
+
+
+                            </div>
+
+                            <br>
+
+                            <!--  <div class="row">
+
+                                <div class="col-4 text-center">
+                                    <h4><b>Credit</b></h4>
+                                </div>
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-4 text-center">
+                                    <h4><b>Debit</b></h4>
+
+                                </div>
+                                <div class="col-1">
+
+                                </div>
+                                <div class="col-1">
+
+                                </div>
+                            </div>
+                            <br> -->
+                            <hr>
+                            <div class="row">
+
+
+
+                                <div class="col-1 text-center">S NO:</div>
+                                <div class="col-3 text-center"> Chart Of Account</div>
+                                <div class="col-2 text-center">Select Debit Credit Ind</div>
+                                <div class="col-2 text-center">Amount</div>
+                                <div class="col-3 text-center">Remark</div>
+
+
+                                <div class="col-1">
+                                    <button class="btn btn-primary" (click)="addRowCredit()"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+
+                                </div>
+                                <!-- <div class="col-5 text-center">
+                                    <div class="row">
+                                        <div class="col-3 text-center">S NO:</div>
+                                        <div class="col-6 text-center"> Chart Of Account</div>
+                                        <div class="col-3 text-center">Amount</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-1 text-center">
+                                    <button class="btn btn-primary" (click)="addRowDebit()"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+
+                                </div> -->
+                            </div>
+                            <hr>
+                            <br>
+                            <table>
+
+
+                                <div class="row" *ngFor="let ln of AllJournalRow_credit; let i = index;">
+                                    <br>
+
+                                    <div class="col-1 text-center">
+                                        {{i+1}}
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        <ng-select [items]="allChartOfAccount" bindLabel="leaf_value" bindValue="leaf_code" [multiple]="false" placeholder="Select Chart Of Account" (change)="changecoa(i)" [(ngModel)]="ln['chart_of_account']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                            [closeOnSelect]="true" name="field_name">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <ng-select [items]="allDBIND" bindLabel="value" bindValue="code" [multiple]="false" placeholder="Select Indicater" (change)="changedbcr(i)" [(ngModel)]="ln['db_cd_ind']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                            name="field_name">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <input class="form-control" type="number" (change)="changeamt(i)" [(ngModel)]="ln['txn_amt']">
+
+
+                                    </div>
+                                    <div class="col-3 text-center">
+
+                                        <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="ln['remark']"></textarea>
+
+                                    </div>
+                                    <div class="col-1 text-center">
+                                        <button class="btn btn-danger " (click)="deleteRowCredit(i)"><i
+                                                        class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                        <button class="btn btn-primary " data-toggle="modal" data-target="#change" data-backdrop="false" (click)="changeRowCredit(i)"><i class="fa fa-edit"></i></button>
+                                    </div>
+                                </div>
+
+
+
+                                <!--  <div class="col-6">
+
+                                        <div class="row" *ngFor="let ln of AllJournalRow_debit; let i = index;">
+                                            <br>
+
+                                            <div class="col-2 text-center">
+                                                {{i+1}}
+                                            </div>
+                                            <div class="col-6 text-center">
+
+                                                <ng-select [items]="allChartOfAccount" bindLabel="leaf_value"
+                                                    bindValue="leaf_code" [multiple]="false"
+                                                    placeholder="Select Chart Of Account"
+                                                    [(ngModel)]="ln['chart_of_account']" [selectableGroup]="true"
+                                                    [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                                    name="field_name">
+                                                </ng-select>
+                                            </div>
+                                            <div class="col-1 text-center">
+
+                                                {{ln['txn_amt']}}
+                                            </div>
+                                            <div class="col-1 text-center">
+                                                <button class="btn btn-danger " (click)="deleteRowDebit(i)"><i
+                                                        class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                            </div>
+                                            <div class="col-2 text-center">
+                                                <button class="btn btn-primary " data-toggle="modal"
+                                                    data-target="#change" data-backdrop="false"
+                                                    (click)="changeRowDebit(i)"><i class="fa fa-edit"></i></button>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+
+
+
+                            </table>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="checkOnUpdate()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+
+<div class="modal" id="change">
+    <div class="modal-dialog modal-lg  modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Journal</h4>
+            </div>
+
+
+            <div class="modal-body">
+                <br>
+                <!-- <div class="row" *ngFor="let obj of field_code; let i = index" style="margin-top: 10px;">
+                    <br>
+                    <div class="col-4 text-right">
+                        <b>{{obj['field_business_name']}}:</b>
+                    </div>
+                    <div class="col-4 ">
+
+
+                        <div *ngIf="obj['field_technical_name']=='chart_of_account'">
+                            {{ChartOfAccountObj[jrnlLineObj[obj['field_technical_name']]]}}
+                        </div>
+
+                        <div *ngIf="obj['field_technical_name']=='ledger_type'">
+                            {{ledgerObj[jrnlLineObj[obj['field_technical_name']]]}}
+                        </div>
+
+
+                        <div *ngIf="obj['field_technical_name']=='event_code'">
+                            <ng-select [items]="allEventList" bindLabel="event_desc" bindValue="event_code"
+                                [multiple]="false" placeholder="Select Event"
+                                [(ngModel)]="jrnlLineObj[obj['field_technical_name']]" [selectableGroup]="true"
+                                [selectableGroupAsModel]="false" [closeOnSelect]="true" name="event_code">
+                            </ng-select>
+                        </div>
+
+                        <div *ngIf="obj['field_technical_name']=='db_cd_ind'
+                        || obj['field_technical_name']=='org_unit_cd' 
+                        || obj['field_technical_name']=='tgt_curr_cd' 
+                        || obj['field_technical_name']=='jrnl_id' 
+                        || obj['field_technical_name']=='prep_id' 
+                        || obj['field_technical_name']=='appr_id' 
+                        || obj['field_technical_name']=='jrnl_desc' 
+                        || obj['field_technical_name']=='jrnl_ln_id' 
+                        || obj['field_technical_name']=='jrnl_dtl_ln_id' 
+                        || obj['field_technical_name']=='db_cd_ind' 
+                        || obj['field_technical_name']=='proc_dt' 
+                        || obj['field_technical_name']=='fin_year' 
+                        || obj['field_technical_name']=='acct_dt'">
+                            {{jrnlLineObj[obj['field_technical_name']]}}
+                        </div>
+
+                        <div *ngIf="obj['field_technical_name']!='db_cd_ind' 
+                        && obj['field_technical_name']!='org_unit_cd' 
+                        && obj['field_technical_name']!='tgt_curr_cd' 
+                        && obj['field_technical_name']!='jrnl_id' 
+                        && obj['field_technical_name']!='prep_id' 
+                        && obj['field_technical_name']!='appr_id' 
+                        && obj['field_technical_name']!='jrnl_desc' 
+                        && obj['field_technical_name']!='ledger_type' 
+                        && obj['field_technical_name']!='jrnl_ln_id' 
+                        && obj['field_technical_name']!='jrnl_dtl_ln_id' 
+                        && obj['field_technical_name']!='db_cd_ind' 
+                        && obj['field_technical_name']!='proc_dt' 
+                        && obj['field_technical_name']!='fin_year' 
+                        && obj['field_technical_name']!='create_timestamp' 
+                        && obj['field_technical_name']!='id' 
+                        && obj['field_technical_name']!='event_code' 
+                        && obj['field_technical_name']!='chart_of_account' 
+                        && obj['field_technical_name']!='acct_dt'">
+
+                            <input class="form-control" type="{{obj['type']}}"
+                                [(ngModel)]="jrnlLineObj[obj['field_technical_name']]">
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <br> -->
+                <div class="row">
+                    <div class="col-3 text-left">
+                        Event Code:
+                    </div>
+
+                    <div class="col-3 ">
+                        <ng-select [items]="allEventList" bindLabel="event_desc" bindValue="event_code" [multiple]="false" placeholder="Select Event" [(ngModel)]="jrnlLineObj['event_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="event_code">
+                        </ng-select>
+                    </div>
+                    <div class="col-3 text-left">
+                        Event Id:
+                    </div>
+                    <div class="col-3 ">
+                        <input class="form-control" type="{{obj['type']}}" [(ngModel)]="jrnlLineObj['event_id']">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-left">
+                        Select Party :
+                    </div>
+
+                    <div class="col-3 ">
+                        <ng-select [items]="partyArr" bindLabel="party_name" bindValue="party_id" [multiple]="false" placeholder="Select Event" [(ngModel)]="jrnlLineObj['arr_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="event_code">
+                        </ng-select>
+                    </div>
+                    <div class="col-3 text-left">
+                        Enter Event Line ID:
+                    </div>
+                    <div class="col-3 ">
+                        <input class="form-control" type="{{obj['type']}}" [(ngModel)]="jrnlLineObj['event_ln_id']">
+                    </div>
+                </div>
+                <!--  <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="addLineItems()">ADD</button>
+                    </div>
+                </div> -->
+                <hr>
+
+                <!-- <div class=" example-container">
+                    <table mat-table [dataSource]="datasource1" matSort>
+
+                        <ng-container matColumnDef="jrnl_dtl_ln_id">
+                            <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Journal Detail Line ID
+                            </th>
+                            <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                {{i+1}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="jrnl_desc">
+                            <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Journal Description
+
+                            </th>
+                            <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                {{ element.jrnl_desc }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="db_cd_ind">
+                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Debit/Credit Indicater
+
+
+                            </th>
+                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                {{ element.db_cd_ind }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="txn_amt">
+                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Amount
+
+                            </th>
+                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                {{ element.txn_amt }} </td>
+                        </ng-container>
+
+
+
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                            <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+
+                                <button class="btn btn-outline-danger"
+                                    (click)="delete_row(element,i)">Delete</button>&nbsp;
+                                <button class="btn btn-outline-primary" (click)="update_row(element,i)">Update</button>
+
+
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                        </tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                </div> -->
+
+
+
+            </div>
+
+
+            <div class="modal-footer">
+                <!--  <button type="button" class="btn btn-primary" (click)="ok()">OK</button> -->
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveline()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="myModal_Status">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Status</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <a *ngFor="let ob of statusArr;let i=index">
+                        <div class="step completed" *ngIf="ob.status=='APPROVED'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="barblue" style="color: blue;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                        <div class="step" *ngIf="ob.status=='REJECTED'">
+                            <div class="v-stepper">
+                                <div class="circles"></div>
+
+                            </div>
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                        <!-- active -->
+                        <div class="step" *ngIf="ob.status=='PENDING'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="bar" style="color: black;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

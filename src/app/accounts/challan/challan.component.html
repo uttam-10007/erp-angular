@@ -1,0 +1,1723 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Challan Info </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart" (click)="refresh()"></i>
+                                All Challan List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                class="fa fa-plus-circle"></i>
+                                Create Challan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"></i>
+                                Update
+                                Challan</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <button class="btn btn-primary" (click)="payment_received()">Payment
+                                        Received</button> &nbsp;&nbsp;
+                                    <button class="btn btn-success" (click)="process()">Process</button>
+                                </div>
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="select">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Select
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            <input class="form-check-input" type="checkbox" id="is_header_present"
+                                                [(ngModel)]="element['select']">
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Challan ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.id }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Party ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.party_id }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="party_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Party Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Amount
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.amount }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="purpose">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Purpose
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.purpose }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="demand_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Demand ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.demand_id }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Status
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" *ngIf="element.status=='GENERATED'"
+                                                (click)="open_update(element)">Update</button>&nbsp;&nbsp;
+                                            <button class="btn btn-outline-info"
+                                                (click)="print(element)">Print</button>&nbsp;&nbsp;
+                                            <button class="btn btn-outline-danger" *ngIf="element.status=='GENERATED'"
+                                                (click)="deleteChallan(element)">Delete</button>
+                                            <!--   <button class="btn btn-info" (click)="changeStatus(element)">Change
+                                                Status</button> -->
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5><b>{{mainService.accInfo['account_short_name']}}'s Bank Details</b></h5>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                   <h6> Select Account:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <ng-select [items]="allAccountInfo" bindLabel="bank_acct_desc"
+                                        (change)="changeBank()" bindValue="id" [multiple]="false"
+                                        placeholder="Select Account Type" [(ngModel)]="challanObj['account_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="account_type">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                   <h6> Bank Name:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['bank_code']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Branch Name:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['branch_code']" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                  <h6>  Account Number:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['bank_acct_no']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                   <h6> IFSC Code:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['ifsc_code']" disabled>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5><b>Depositor's Details</b></h5>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Select Party:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <ng-select [items]="partyArr" bindLabel="party_name" (change)="changeParty()"
+                                        bindValue="party_id" [multiple]="false" placeholder="Select Party"
+                                        [(ngModel)]="challanObj['party_id']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_type">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Party Name:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['party_name']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Address:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['party_address']" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                   <h6> Email:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['party_email']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Mob Number:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['party_phone_no']" disabled>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Purpose:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <textarea type="text" class="form-control" placeholder="enter purpose"
+                                        [(ngModel)]="challanObj['purpose']"></textarea>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                   <h6> Demand Id:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder="enter demand id"
+                                        [(ngModel)]="challanObj['demand_id']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-11 text-center">
+                                </div>
+                                <div class="col-1 text-center">
+                                    <button class="btn btn-primary" (click)="addRow()"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div *ngFor="let ln of challanRows; let i = index;">
+                                <div class="row"
+                                    style="background-color: #1589FF;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <div style="width: 25%;" class="text-center">
+
+                                        <h6><b>Event</b></h6>
+
+                                    </div>
+
+                                    <div style="width: 20%;" class="text-center">
+                                        <h6><b> Amount</b></h6>
+
+
+                                    </div>
+
+                                    <div style="width: 20%;" class="text-center">
+                                        <h6><b>GST</b></h6>
+
+
+                                    </div>
+                                    <div style="width:20%;" class="text-center">
+                                        <h6><b>Total</b></h6>
+
+
+                                    </div>
+
+                                    <div style="width: 15%;" class="text-center">
+                                        <h6><b>Action</b></h6>
+
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div style="width: 25%;" class="text-center">
+
+
+
+                                        <div id="text" (click)="open_event_popup(i)" style="color: rgb(37, 130, 236);">
+                                            {{ln['event_code']}} - {{ln['event_desc']}} &nbsp;&nbsp;
+                                            <h6>
+                                                <b><u>Select Event</u></b></h6>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div style="width: 20%;" class="text-center">
+                                        <input type="number" class="form-control" placeholder=""
+                                            [(ngModel)]="ln['amount']">
+                                    </div>
+
+                                    <div style="width: 20%;" class="text-center">
+                                        <input type="number" class="form-control" placeholder=""
+                                            [(ngModel)]="ln['gst_amount']" disabled>
+
+
+
+                                    </div>
+                                    <div style="width: 20%;" class="text-center">
+                                        <input type="number" class="form-control" placeholder=""
+                                            [(ngModel)]="ln['total_amount']" disabled>
+
+
+
+                                    </div>
+
+                                    <div style="width: 15%;" class="text-center">
+                                        <button class="btn btn-danger " (click)="deleteRow(i)"><i class="fa fa-trash"
+                                                aria-hidden="true"></i></button>
+
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-5">
+
+                                        <div class="row">
+                                            <div class="col-2 text-right"><b>HSN:</b></div>
+                                            <div class="col-7">
+                                                <ng-select [items]="allHSNAccounts" bindLabel="hsn_desc"
+                                                    (change)="changeHSN(i)" bindValue="hsn_code" [multiple]="false"
+                                                    placeholder="Select HSN" [(ngModel)]="ln['hsn_code']"
+                                                    [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                                    [closeOnSelect]="true" name="hsn_code">
+                                                </ng-select>
+                                            </div>
+                                            <div class="col-3">
+                                                Rate @{{ln['igst']}}
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <div class="col-5">Select GST Type</div>
+                                            <div class="col-7">
+                                                <ng-select [items]="gstType" bindLabel="value" bindValue="code"
+                                                    [multiple]="false" placeholder="Select GST TYpe"
+                                                    (change)="changeGSTType(i)" [(ngModel)]="ln['gst_type']"
+                                                    [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                                    [closeOnSelect]="true" name="gst_type">
+                                                </ng-select>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <div class="col-4">CGST:{{ln['cgst_amount']}}</div>
+                                            <div class="col-4">SGST:{{ln['sgst_amount']}}</div>
+                                            <div class="col-4">IGST:{{ln['igst_amount']}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+                            </div>
+                            <hr>
+                            <div class="row"
+                                style="padding-top: 12px;padding-bottom: 12px;">
+                                <div style="width: 18%;" class="text-center">
+
+                                    <h6><b>TOTAL</b></h6>
+
+                                </div>
+                                <div style="width: 18%;" class="text-center">
+
+                                </div>
+                                <div style="width: 18%;" class="text-center">
+                                    <h6><b>Sum Of Amount:{{totalAmt.toFixed(2)}}</b></h6>
+
+                                </div>
+
+                                <div style="width: 18%;" class="text-center">
+                                    <h6><b>Sum Of GST :{{totalGst.toFixed(2)}}</b></h6>
+
+
+
+                                </div>
+                                <div style="width: 18%;" class="text-center">
+                                    <h6><b>Sum Of Total Amount:{{netTotal.toFixed(2)}}</b></h6>
+                                </div>
+
+                                <div style="width: 10%;" class="text-center">
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="check()">Check</button>&nbsp;&nbsp;
+                                    <button class="btn btn-info" (click)="createChallan()">Submit</button>&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5><b>{{mainService.accInfo['account_short_name']}}'s Bank Details</b></h5>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                  <h6>  Select Account:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <ng-select [items]="allAccountInfo" bindLabel="bank_acct_desc"
+                                        (change)="changeBank()" bindValue="id" [multiple]="false"
+                                        placeholder="Select Account Type" [(ngModel)]="challanObj['account_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="account_type">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Bank Name:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['bank_code']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Branch Name:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['branch_code']" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Account Number:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['bank_acct_no']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                   <h6> IFSC Code:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['ifsc_code']" disabled>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5><b>Depositor's Details</b></h5>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                   <h6> Select Party:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <ng-select [items]="partyArr" bindLabel="party_name" (change)="changeParty()"
+                                        bindValue="party_id" [multiple]="false" placeholder="Select Party"
+                                        [(ngModel)]="challanObj['party_id']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_type">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                   <h6> Party Name:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['party_name']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                   <h6> Address:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['party_address']" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                   <h6> Email:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['party_email']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                   <h6> Mob Number:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder=""
+                                        [(ngModel)]="challanObj['party_phone_no']" disabled>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                   <h6> Purpose:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <textarea type="text" class="form-control" placeholder="enter purpose"
+                                        [(ngModel)]="challanObj['purpose']"></textarea>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                   <h6> Demand Id:</h6>
+                                </div>
+                                <div class="col-3 text-left">
+                                    <input type="text" class="form-control" placeholder="enter demand id"
+                                        [(ngModel)]="challanObj['demand_id']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-11 text-center">
+                                </div>
+                                <div class="col-1 text-center">
+                                    <button class="btn btn-primary" (click)="addRow()"><i class="fa fa-plus"
+                                            aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div *ngFor="let ln of challanRows; let i = index;">
+                                <div class="row"
+                                    style="background-color: #1589FF;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                    <div style="width: 25%;" class="text-center">
+
+                                        <h6><b>Event</b></h6>
+
+                                    </div>
+
+                                    <div style="width: 20%;" class="text-center">
+                                        <h6><b> Amount</b></h6>
+
+
+                                    </div>
+
+                                    <div style="width: 20%;" class="text-center">
+                                        <h6><b>GST</b></h6>
+
+
+                                    </div>
+                                    <div style="width:20%;" class="text-center">
+                                        <h6><b>Total</b></h6>
+
+
+                                    </div>
+
+                                    <div style="width: 15%;" class="text-center">
+                                        <h6><b>Action</b></h6>
+
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div style="width: 25%;" class="text-center">
+
+
+
+                                        <div id="text" (click)="open_event_popup(i)" style="color:rgb(37, 130, 236);">
+                                            {{ln['event_code']}} - {{ln['event_desc']}} &nbsp;&nbsp;
+                                            <h6>
+                                                <b><u>Select Event</u></b></h6>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div style="width: 20%;" class="text-center">
+                                        <input type="number" class="form-control" placeholder=""
+                                            [(ngModel)]="ln['amount']">
+                                    </div>
+
+                                    <div style="width: 20%;" class="text-center">
+                                        <input type="number" class="form-control" placeholder=""
+                                            [(ngModel)]="ln['gst_amount']" disabled>
+
+
+
+                                    </div>
+                                    <div style="width: 20%;" class="text-center">
+                                        <input type="number" class="form-control" placeholder=""
+                                            [(ngModel)]="ln['total_amount']" disabled>
+
+
+
+                                    </div>
+
+                                    <div style="width: 15%;" class="text-center">
+                                        <button class="btn btn-danger " (click)="deleteRow(i)"><i class="fa fa-trash"
+                                                aria-hidden="true"></i></button>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-5">
+
+                                        <div class="row">
+                                            <div class="col-2 text-right"><b>HSN:</b></div>
+                                            <div class="col-7">
+                                                <ng-select [items]="allHSNAccounts" bindLabel="hsn_desc"
+                                                    (change)="changeHSN(i)" bindValue="hsn_code" [multiple]="false"
+                                                    placeholder="Select HSN" [(ngModel)]="ln['hsn_code']"
+                                                    [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                                    [closeOnSelect]="true" name="hsn_code">
+                                                </ng-select>
+                                            </div>
+                                            <div class="col-3">
+                                                Rate @{{ln['igst']}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <div class="col-5">Select GST Type</div>
+                                            <div class="col-7">
+                                                <ng-select [items]="gstType" bindLabel="value" bindValue="code"
+                                                    [multiple]="false" placeholder="Select GST TYpe"
+                                                    (change)="changeGSTType(i)" [(ngModel)]="ln['gst_type']"
+                                                    [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                                    [closeOnSelect]="true" name="gst_type">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <div class="col-4">CGST:{{ln['cgst_amount']}}</div>
+                                            <div class="col-4">SGST:{{ln['sgst_amount']}}</div>
+                                            <div class="col-4">IGST:{{ln['igst_amount']}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+                            </div>
+                            <hr>
+                            <div class="row"
+                                style="padding-top: 12px;padding-bottom: 12px;">
+                                <div style="width: 18%;" class="text-center">
+
+                                    <h6><b>TOTAL</b></h6>
+
+                                </div>
+                                <div style="width: 18%;" class="text-center">
+
+                                </div>
+                                <div style="width: 18%;" class="text-center">
+                                    <h6><b>Sum Of Amount:{{totalAmt.toFixed(2)}}</b></h6>
+
+                                </div>
+
+                                <div style="width: 18%;" class="text-center">
+                                    <h6><b>Sum Of GST:{{totalGst.toFixed(2)}}</b></h6>
+
+
+
+                                </div>
+                                <div style="width: 18%;" class="text-center">
+                                    <h6><b>Sum Of Total Amount:{{netTotal.toFixed(2)}}</b></h6>
+
+
+                                </div>
+
+                                <div style="width: 10%;" class="text-center">
+
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="check()">Check</button>&nbsp;&nbsp;
+
+                                    <button class="btn btn-info" (click)="updateChallan()">Submit</button>&nbsp;&nbsp;
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <!-- <div class="modal-header">
+                <h4 class="modal-title">Challan</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div> -->
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+
+
+                <div class="row">
+                    <div class="col-12 text-left">
+                        <h5><b>LDA's Bank Details</b></h5>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Select Account:
+                    </div>
+                    <div class="col-3 text-left">
+                        <ng-select [items]="allAccountInfo" bindLabel="bank_acct_desc" (change)="changeBank()"
+                            bindValue="id" [multiple]="false" placeholder="Select Account Type"
+                            [(ngModel)]="challanObj['account_id']" [selectableGroup]="true"
+                            [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_type">
+                        </ng-select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Bank Name:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['bank_code']"
+                            disabled>
+
+                    </div>
+                    <div class="col-3 text-right">
+                        Branch Name:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['branch_code']"
+                            disabled>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Account Number:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['bank_acct_no']"
+                            disabled>
+
+                    </div>
+                    <div class="col-3 text-right">
+                        IFSC Code:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['ifsc_code']"
+                            disabled>
+
+                    </div>
+                </div>
+
+
+                <hr>
+
+
+                <div class="row">
+                    <div class="col-12 text-left">
+                        <h5><b>Depositor's Details</b></h5>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Select Party:
+                    </div>
+                    <div class="col-3 text-left">
+                        <ng-select [items]="partyArr" bindLabel="party_name" (change)="changeParty()"
+                            bindValue="party_id" [multiple]="false" placeholder="Select Party"
+                            [(ngModel)]="challanObj['party_id']" [selectableGroup]="true"
+                            [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_type">
+                        </ng-select>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Party Name:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['party_name']"
+                            disabled>
+
+                    </div>
+                    <div class="col-3 text-right">
+                        Address:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['party_address']"
+                            disabled>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Email:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['party_email']"
+                            disabled>
+
+                    </div>
+                    <div class="col-3 text-right">
+                        Mob Number:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder=""
+                            [(ngModel)]="challanObj['party_phone_no']" disabled>
+
+                    </div>
+                </div>
+
+
+
+                <hr>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Purpose:
+                    </div>
+                    <div class="col-3 text-left">
+                        <textarea type="text" class="form-control" placeholder=""
+                            [(ngModel)]="challanObj['purpose']"></textarea>
+
+                    </div>
+                    <div class="col-3 text-right">
+                        Demand Id:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['demand_id']">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" (click)="createChallan()">Save</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModal2">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <!-- <div class="modal-header">
+                <h4 class="modal-title">Challan</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div> -->
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+
+
+                <div class="row">
+                    <div class="col-12 text-left">
+                        <h5><b>LDA's Bank Details</b></h5>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Select Account:
+                    </div>
+                    <div class="col-3 text-left">
+                        <ng-select [items]="allAccountInfo" bindLabel="bank_acct_desc" (change)="changeBank()"
+                            bindValue="id" [multiple]="false" placeholder="Select Account Type"
+                            [(ngModel)]="challanObj['account_id']" [selectableGroup]="true"
+                            [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_type">
+                        </ng-select>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Bank Name:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['bank_code']"
+                            disabled>
+
+                    </div>
+                    <div class="col-3 text-right">
+                        Branch Name:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['branch_code']"
+                            disabled>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Account Number:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['bank_acct_no']"
+                            disabled>
+
+                    </div>
+                    <div class="col-3 text-right">
+                        IFSC Code:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['ifsc_code']"
+                            disabled>
+
+                    </div>
+                </div>
+                <!-- Modal footer -->
+
+                <hr>
+
+
+                <div class="row">
+                    <div class="col-12 text-left">
+                        <h5><b>Depositor's Details</b></h5>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Select Party:
+                    </div>
+                    <div class="col-3 text-left">
+                        <ng-select [items]="partyArr" bindLabel="party_name" (change)="changeParty()"
+                            bindValue="party_id" [multiple]="false" placeholder="Select Party"
+                            [(ngModel)]="challanObj['party_id']" [selectableGroup]="true"
+                            [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_type">
+                        </ng-select>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Party Name:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['party_name']"
+                            disabled>
+
+                    </div>
+                    <div class="col-3 text-right">
+                        Address:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['party_address']"
+                            disabled>
+
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Email:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['party_email']"
+                            disabled>
+
+                    </div>
+                    <div class="col-3 text-right">
+                        Mob Number:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder=""
+                            [(ngModel)]="challanObj['party_phone_no']" disabled>
+
+                    </div>
+                </div>
+
+
+
+                <hr>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Purpose:
+                    </div>
+                    <div class="col-3 text-left">
+                        <textarea type="text" class="form-control" placeholder=""
+                            [(ngModel)]="challanObj['purpose']"></textarea>
+
+                    </div>
+                    <div class="col-3 text-right">
+                        Demand Id:
+                    </div>
+                    <div class="col-3 text-left">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="challanObj['demand_id']">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" (click)="updateChallan()">Update</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+                <div class="row"
+                    style="background-color: #217dbb;color:white;padding-top:8px;padding-bottom:8px;margin-left:5px;margin-right:5px;">
+                    <div class="col-3">Select Project</div>
+                    <div class="col-3">Select Product</div>
+                    <div class="col-3">Select Activity</div>
+                    <div class="col-3">Select Budget</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allProject" bindLabel="desc" (change)="changeProject()"
+                                    bindValue="code" [multiple]="false" placeholder="Select Project"
+                                    [(ngModel)]="selectObj['proj_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="proj_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('project')">Select</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allProduct" bindLabel="desc" (change)="changeProduct()"
+                                    bindValue="code" [multiple]="false" placeholder="Select Product"
+                                    [(ngModel)]="selectObj['prod_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="prod_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('product')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allActivity" bindLabel="desc" (change)="changeActivity()"
+                                    bindValue="code" [multiple]="false" placeholder="Select Activity"
+                                    [(ngModel)]="selectObj['act_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="act_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('activity')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+
+                        <div class="row">
+                            <div class="col-7">
+                                <ng-select [items]="allBudget" bindLabel="desc" (change)="changeBudget()"
+                                    bindValue="code" [multiple]="false" placeholder="Select Budget"
+                                    [(ngModel)]="selectObj['bud_cd']" [selectableGroup]="true"
+                                    [selectableGroupAsModel]="false" [closeOnSelect]="true" name="bud_cd">
+                                </ng-select>
+                            </div>
+                            <div class="col-2">
+                                OR
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-primary" (click)="Select('budget')">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="row"
+                            style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+                            <div class="col-9">Project</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['proj_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['proj_lvl']}}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row"
+                            style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Product</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['prod_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['prod_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row"
+                            style="background-color: #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Activity</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['act_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['act_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row"
+                            style="background-color:  #217dbb;color:white;padding-top:6px;padding-bottom:6px;margin-left: 2px;margin-right: 2px;">
+
+                            <div class="col-9">Budget</div>
+                            <div class="col-3">Level</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 text-left">
+                                {{selectObj['bud_desc']}}
+                            </div>
+                            <div class="col-3 text-left">
+                                {{selectObj['bud_lvl']}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button type="button" class="btn btn-outline-primary" (click)="FilteredEvents()">Submit</button>
+                    </div>
+                </div>
+                <hr>
+                <br>
+                <div class=" table-container ">
+                    <div class="row">
+                        <div class="col-4">
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4 text-center">
+
+                        </div>
+
+                    </div>
+
+                    <div class="example-container">
+                        <table mat-table [dataSource]="dataSource1" matSort #sortCol2="matSort" style="width: 100%">
+
+                            <ng-container matColumnDef="event_code">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b>Event Code</b> </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                    {{ element.event_code}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="event_desc">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> <b>Event
+                                        Description</b> </th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                    {{ element.event_desc }} </td>
+                            </ng-container>
+
+
+
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                    <button class="btn btn-outline-primary" (click)="select(element)">Select</button>
+
+                                </td>
+
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns1;sticky: true">
+                            </tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                            </tr>
+                        </table>
+                        <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="select">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Select Event :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-3 text-center">
+
+
+                    </div>
+                    <div class="col-3 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b>Code</b></h6>
+
+
+                    </div>
+                    <div class="col-3 text-center"
+                        style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                        <h6><b> Value</b></h6>
+
+
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 1:
+                    </div>
+                    <div class="col-3" >
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl1_cd']" disabled>
+                    </div>
+                   
+                    <div class="col-3">
+                        <ng-select [items]="level1" bindLabel="lvl1_value" bindValue="lvl1_cd"
+                            (change)="onChangeLvl1()" [multiple]="false" placeholder="Select Level 1 "
+                            [(ngModel)]="Chartobj['lvl1_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl1_value">
+                        </ng-select>
+                    </div>
+                
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3 text-right">
+                        Level 2 :
+                    </div>
+                    <div class="col-3" >
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl2_cd']" disabled>
+
+                    </div>
+                   
+                    <div class="col-3" >
+                        <ng-select [items]="level2" bindLabel="lvl2_value" bindValue="lvl2_cd"
+                            (change)="onChangeLvl2()" [multiple]="false" placeholder="Select Level 2"
+                            [(ngModel)]="Chartobj['lvl2_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl2_value">
+                        </ng-select>
+                    </div>
+
+                   
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 3 :</h6>
+                    </div>
+                    <div class="col-3" >
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl3_cd']" disabled>
+
+                    </div>
+                   
+                    <div class="col-3" >
+                        <ng-select [items]="level3" bindLabel="lvl3_value" bindValue="lvl3_cd"
+                            (change)="onChangeLvl3()" [multiple]="false" placeholder="Select Level 3"
+                            [(ngModel)]="Chartobj['lvl3_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl3_value">
+                        </ng-select>
+                    </div>
+                   
+                   
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 4 :</h6>
+                    </div>
+                    <div class="col-3" >
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl4_cd']" disabled>
+
+                    </div>
+                   
+
+                    <div class="col-3" >
+                        <ng-select [items]="level4" bindLabel="lvl4_value" bindValue="lvl4_cd"
+                            (change)="onChangeLvl4()" [multiple]="false" placeholder="Select Level 4"
+                            [(ngModel)]="Chartobj['lvl4_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl4_value">
+                        </ng-select>
+                    </div>
+                 
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 5 :</h6>
+                    </div>
+                    <div class="col-3" >
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl5_cd']" disabled>
+
+                    </div>
+                   
+                    <div class="col-3" >
+
+                        <ng-select [items]="level5" bindLabel="lvl5_value" bindValue="lvl5_cd"
+                            (change)="onChangeLvl5()" [multiple]="false" placeholder="Select Level 5"
+                            [(ngModel)]="Chartobj['lvl5_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl5_value">
+                        </ng-select>
+                    </div>
+                   
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 6 :</h6>
+                    </div>
+                    <div class="col-3" >
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl6_cd']" disabled>
+
+                    </div>
+
+                  
+                    <div class="col-3" >
+
+                        <ng-select [items]="level6" bindLabel="lvl6_value" bindValue="lvl6_cd"
+                            (change)="onChangeLvl6()" [multiple]="false" placeholder="Select Level 6"
+                            [(ngModel)]="Chartobj['lvl6_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl6_value">
+                        </ng-select>
+                    </div>
+                   
+                </div>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Level 7 :</h6>
+                    </div>
+                    <div class="col-3" >
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['lvl7_cd']" disabled>
+
+                    </div>
+                   
+                    <div class="col-3" >
+
+                        <ng-select [items]="level7" (change)="onChangeLvl7()" bindLabel="lvl7_value"
+                            bindValue="lvl7_cd" [multiple]="false" placeholder="Select Level 7"
+                            [(ngModel)]="Chartobj['lvl7_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true" name="lvl7_value">
+                        </ng-select>
+                    </div>
+                  
+                </div>
+
+                <br>
+
+                <div class="row">
+
+                    <div class="col-3 text-right">
+                        <h6> Leaf :</h6>
+                    </div>
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['leaf_cd']">
+
+                    </div>
+
+                    <div class="col-3">
+
+                        <input type="text" class="form-control" [(ngModel)]="Chartobj['leaf_value']">
+
+                    </div>
+                </div>
+                <br>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="SubmitSelectedEvnetHier()">Submit</button>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+
+<!-- 
+<div class="modal" id="account">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title"> Account Detail:</h4>
+            </div>
+
+            <div class="modal-body">
+                <br>
+                <div class="row">
+
+                    <div class="col-12">
+                        <h4><b>LDA's Bank Account Details:</b> </h4>
+                    </div>
+
+
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-3">
+                        Select Bank:
+                    </div>
+                    <div class="col-3">
+                        Select Branch:
+                    </div>
+                    <div class="col-3">
+                        Select Account:
+                    </div>
+                    <div class="col-3">
+                        IFSC Code:
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3">
+                        <ng-select [items]="bankArr" bindLabel="bank" (change)="changeBank1()" bindValue="bank"
+                            [multiple]="false" placeholder="Select Bank" [(ngModel)]="bankObj['bank']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="bank">
+                        </ng-select>
+                    </div>
+                    <div class="col-3">
+                        <ng-select [items]="branchArr" bindLabel="branch" (change)="changeBranch()" bindValue="branch"
+                            [multiple]="false" placeholder="Select Branch" [(ngModel)]="bankObj['branch']"
+                            [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                            name="branch">
+                        </ng-select>
+                    </div>
+                    <div class="col-3">
+                        <ng-select [items]="accountArr" bindLabel="account_num" (change)="changeAccount()"
+                            bindValue="account_num" [multiple]="false" placeholder="Select Account"
+                            [(ngModel)]="bankObj['account_num']" [selectableGroup]="true"
+                            [selectableGroupAsModel]="false" [closeOnSelect]="true" name="account_num">
+                        </ng-select>
+                    </div>
+                    <div class="col-3">
+                        {{bankObj['ifsc_code']}}
+                    </div>
+                </div>
+                <hr>
+                <br>
+                <div class="row">
+
+                    <div class="col-12">
+                        <h4><b>Depositor Details:</b> </h4>
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-3">
+                        Name:
+                    </div>
+                    <div class="col-3">
+                        Address:
+                    </div>
+                    <div class="col-3">
+                        Email:
+                    </div>
+                    <div class="col-3">
+                        Mobile No.:
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="Obj['name']">
+
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="Obj['address']">
+
+                    </div>
+                    <div class="col-3">
+                        <input type="email" class="form-control" placeholder="" [(ngModel)]="Obj['email']">
+
+                    </div>
+                    <div class="col-3">
+                        <input type="number" class="form-control" placeholder="" [(ngModel)]="Obj['mobile']">
+
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-3">
+                        Purpose:
+                    </div>
+                    <div class="col-3">
+                        Demand Id:
+                    </div>
+                    <div class="col-3">
+
+                    </div>
+                    <div class="col-3">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="Obj['purpose']">
+
+                    </div>
+                    <div class="col-3">
+                        <input type="text" class="form-control" placeholder="" [(ngModel)]="Obj['demand_id']">
+
+                    </div>
+                    <div class="col-3">
+
+                    </div>
+                    <div class="col-3">
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>&nbsp;
+                <button type="button" class="btn btn-primary" (click)="Submit()">Submit</button>
+
+            </div>
+        </div>
+    </div>
+</div> -->

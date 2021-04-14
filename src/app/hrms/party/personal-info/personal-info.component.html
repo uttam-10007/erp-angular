@@ -1,0 +1,452 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Employee Personal Info </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Employee Personal Detail</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i
+                                    class="ti-announcement"></i> Update Employee Personal Detail</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" (change)="changeEmployee()" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Employee ID :
+                                </div>
+                                <div class="col-4">
+                                    <h6>{{personalInfoObj['emp_id']}}</h6>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee Name:
+                                </div>
+                                <div class="col-3">
+                                    <h6>{{personalInfoObj['emp_name']}}</h6>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee Email:
+                                </div>
+                                <div class="col-3">
+                                    <h6>{{personalInfoObj['emp_email']}}</h6>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee Phone No. :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_phone_no']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee DOB :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_dob']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee's Fathers Name  :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_father_name']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee PAN No. :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_pan_no']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee Adhar No. :
+                                </div>
+                                <div class="col-3">
+                                    <input size="12" type="number" class="form-control" [(ngModel)]="personalInfoObj['emp_adhar_no']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee Gender :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_sex']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <h5>PERMANANT ADDRESS</h5>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Address Line 1 :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="emp_permanent_addr_line1" [(ngModel)]="personalInfoObj['emp_permanent_addr_line1']" placeholder="Current Address Line 1" disabled></textarea>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Address Line 2 :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="emp_permanent_addr_line2" [(ngModel)]="personalInfoObj['emp_permanent_addr_line2']" placeholder="Current Address Line 2" disabled></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    City :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_permanent_addr_city']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    State :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_permanent_addr_state']" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    District :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_permanent_addr_dist']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    PIN Code :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_permanent_addr_pin_code']" disabled>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <h5>LOCAL ADDRESS</h5>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Address Line 1 :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="party_local_addr_line1" [(ngModel)]="personalInfoObj['emp_local_addr_line1']" placeholder="" disabled></textarea>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Address Line 2 :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="party_local_addr_line2" [(ngModel)]="personalInfoObj['emp_local_addr_line2']" placeholder="" disabled></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    City :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_local_addr_city']" disabled>
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    State :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_local_addr_state']" disabled>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    District :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_local_addr_dist']" disabled>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    PIN Code :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_local_addr_pin_code']" disabled>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row"  *ngIf="errorMsg!=''" style="color: red;">
+                                <div class="col-12 text-center">
+                                    {{errorMsg}}
+                                </div>
+                            </div>
+
+
+                            
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" (change)="changeEmployee()" bindValue="emp_id" [multiple]="false" placeholder="Select Employee" [(ngModel)]="selectEmpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Employee ID :
+                                </div>
+                                <div class="col-4">
+                                    <h6>{{selectEmpObj['emp_id']}}</h6>
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee Name:
+                                </div>
+                                <div class="col-3">
+                                    <h6>{{personalInfoObj['emp_name']}}</h6>
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee Email:
+                                </div>
+                                <div class="col-3">
+                                    <h6>{{personalInfoObj['emp_email']}}</h6>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee Phone No. :
+                                </div>
+                                <div class="col-3">
+                                    <input size="10" type="number" class="form-control" [(ngModel)]="personalInfoObj['emp_phone_no']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee DOB :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_dob']" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee's Fathers Name :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_father_name']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Employee PAN No. * :
+                                </div>
+                                <div class="col-3">
+                                    <input  class="form-control" [(ngModel)]="personalInfoObj['emp_pan_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Employee Adhar No. :
+                                </div>
+                                <div class="col-3">
+                                    <input size="12" type="number" class="form-control" [(ngModel)]="personalInfoObj['emp_adhar_no']">
+                                </div>
+                                <div class="col-3 text-right">
+                                    Gender * :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0008']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_sex']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                            <br>
+                            <h5>PERMANANT ADDRESS</h5>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Address Line 1 * :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="party_permanent_addr_line1" [(ngModel)]="personalInfoObj['emp_permanent_addr_line1']" placeholder="Current Address Line 1"></textarea>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Address Line 2 :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="party_permanent_addr_line2" [(ngModel)]="personalInfoObj['emp_permanent_addr_line2']" placeholder="Current Address Line 2"></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    City * :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_permanent_addr_city']">
+
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    State * :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0009']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_permanent_addr_state']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    District * :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0010']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_permanent_addr_dist']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    PIN Code * :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_permanent_addr_pin_code']">
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <h5>LOCAL ADDRESS</h5>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Address Line 1 * :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="party_local_addr_line1" [(ngModel)]="personalInfoObj['emp_local_addr_line1']" placeholder=""></textarea>
+                                </div>
+                                <div class="col-3 text-right">
+                                    Address Line 2 :
+                                </div>
+                                <div class="col-3">
+                                    <textarea class="form-control" rows="4" cols="50" type="text" name="party_local_addr_line2" [(ngModel)]="personalInfoObj['emp_local_addr_line2']" placeholder=""></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    City * :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_local_addr_city']">
+
+
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    State * :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0009']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_local_addr_state']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    District * :
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0010']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="personalInfoObj['emp_local_addr_dist']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    PIN Code * :
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="personalInfoObj['emp_local_addr_pin_code']">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="updatePersonalInfo()">Update</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

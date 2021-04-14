@@ -1,0 +1,681 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Employee Salary Register </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Employee Salary Generation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="fa fa-plus-circle"></i> Release
+                                Salary   </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i> Employee
+                                Salary Bill Detail </a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Year :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0023']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salaryObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Month :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salaryObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Individual or Category Wise :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="t" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salaryObj['type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div *ngIf="salaryObj['type'] == 'sec'" class="row">
+                                <div class="col-4 text-right">
+                                    Select Category :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0046']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salaryObj['emp_cat_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <div *ngIf="salaryObj['type'] == 'ind'" class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="allEmplyees_new" bindLabel="emp_name" bindValue="emp_id" [multiple]="true" placeholder="" [(ngModel)]="ind_emp_id" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Bill Date :
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="salaryObj['accrual_date']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row text-center">
+                                <div class="col-5">
+
+                                </div>
+                                <button class="btn btn-outline-primary" (click)="getSalary()">Get Salary</button> &nbsp;&nbsp;
+                            </div>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-outline-primary" (click)="generateSalary()">Salary Accrual</button>
+
+                                </div>
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            VDA{{ element['emp_id'] }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ salaryObj['emp_info'][element.emp_id]['emp_name'] }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emp_phone_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Phone No
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ salaryObj['emp_info'][element.emp_id]['emp_phone_no'] }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="pay_component_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Pay Component
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_component_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="pay_component_amt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_component_amt }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pay_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Payable / Deduction
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-warning" (click)="openUpdate(element)">UPDATE</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade " id="tab-3">
+
+                            <br>
+
+                            <!--   <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Year :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0023']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salaryObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Month :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salaryObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Individual or Category Wise :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="t" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salaryObj['type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div *ngIf="salaryObj['type'] == 'sec'" class="row">
+                                <div class="col-4 text-right">
+                                    Select Category :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0046']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="salaryObj['emp_cat_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div> -->
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="data" bindLabel="tempid" bindValue="id" [multiple]="false" placeholder="" [(ngModel)]="hold_emp_id" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Bill Date :
+                                </div>
+                                <div class="col-4">
+                                    <input type="date" class="form-control" [(ngModel)]="salaryObj['accrual_date']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row text-center">
+                                <div class="col-5">
+
+                                </div>
+                                <button class="btn btn-outline-primary" (click)="getSalaryhold()">Submit</button> &nbsp;&nbsp;
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter3($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-outline-primary" (click)="generateholdSalary()">Salary Accrual</button>
+
+                                </div>
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource3" matSort #sortCol3="matSort">
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            VDA{{ element['emp_id'] }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ salaryObj['emp_info'][element.emp_id]['emp_name'] }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emp_phone_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Phone No
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ salaryObj['emp_info'][element.emp_id]['emp_phone_no'] }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="pay_component_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Pay Component
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_component_code }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="pay_component_amt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_component_amt }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pay_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Payable / Deduction
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-warning" (click)="openUpdate(element)">UPDATE</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns3;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator3 [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Year :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0023']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="billIdObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Month :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="billIdObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="getbillbydate()">GET ALL BILL</button>
+                                </div>
+                            </div>
+
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                                <!-- <div class="col-4 text-right">
+                                    <button class="btn btn-primary" (click)="downloadFile()">Download Excel</button>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <button class="btn btn-primary" (click)="print()">Download Pdf</button>
+                                </div> -->
+
+
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="dataSource1" matSort #sortCol2="matSort">
+                                    <ng-container matColumnDef="bill_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Bill Id
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element['bill_id'] }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="bill_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bill Description
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.bill_desc }} </td>
+                                    </ng-container>
+
+                                    <!-- <ng-container matColumnDef="section_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Section
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.section_code }} </td>
+                                    </ng-container> -->
+                                    <ng-container matColumnDef="bill_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bill Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.bill_status_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="bill_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bill Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.dateformatchange(element.accrual_date)}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="print">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Download
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-primary" (click)="getAllBill(element,'bill')">Bill</button>
+                                            <button class="btn btn-primary" (click)="getAllBill(element,'summary')">Summary</button>
+
+
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button *ngIf="element.bill_status_code == 'GENERATED'" class="btn btn-info" (click)="schedule(element)">Schedule</button>
+                                            <button *ngIf="element.bill_status_code == 'GENERATED' || element.bill_status_code == 'REJECTED'" class="btn btn-danger" (click)="deleteBill(element)">Delete</button>
+                                            <button *ngIf="element.bill_status_code == 'SCHEDULED' || element.bill_status_code == 'REJECTED'" class="btn btn-primary" (click)="status(element)">View Status</button>
+
+
+                                        </td>
+                                    </ng-container>
+
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator1 [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Status</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+                <!--   <div class="container cc">
+                    <span *ngFor="let ob of statusArr;let i = index">
+                      <span class="circle-desc" [class.circle-desc-active]="ob.status == 'PENDING'">
+                          {{levelOfApproval[ob.level_of_approval]['designation_code']}}
+                        </span>
+                    <span class="circles" [class.aa]="ob.status == 'PENDING'"></span>
+                    <span class="bar" *ngIf="(i != statusArr.length-1)"></span>
+                    </span>
+                </div>  -->
+                <!-- <table style="width: 100%;">
+                    <tr>
+                        <th>Level</th>
+                        <th>Section</th>
+                        <th>Designation</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr *ngFor="let ob of statusArr;let i=index">
+                        <td> {{ob.level_of_approval}}</td>
+                        <td> {{levelOfApproval[ob.level_of_approval]['section_code']}}</td>
+                        <td> {{levelOfApproval[ob.level_of_approval]['designation_code']}}</td>
+
+                        <td>
+                            <h6 *ngIf="ob.status=='PENDING'">PENDING</h6>
+                            <h6 *ngIf="ob.status=='REJECTED'">REJECTED</h6>
+                            <h6 *ngIf="ob.status=='APPROVED'">DONE</h6>
+
+
+
+
+                        </td>
+                    </tr>
+
+                </table> -->
+
+                <!--   <ul class="progtrckr" data-progtrckr-steps="8" >
+                    <a *ngFor="let ob of statusArr;let i=index">
+                    <li class="progtrckr-done" *ngIf="ob.status=='APPROVED'">{{levelOfApproval[ob.level_of_approval]['designation_code']}}</li>
+                    <li class="progtrckr-todo" *ngIf="ob.status=='PENDING'">{{levelOfApproval[ob.level_of_approval]['designation_code']}}</li>
+                    </a>
+                </ul> -->
+
+                <div class="container">
+                    <!-- completed -->
+                    <a *ngFor="let ob of statusArr;let i=index">
+                        <div class="step completed" *ngIf="ob.status=='APPROVED'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="barblue" style="color: blue;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                        <div class="step" *ngIf="ob.status=='REJECTED'">
+                            <div class="v-stepper">
+                                <div class="circles"></div>
+
+                            </div>
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                        <!-- active -->
+                        <div class="step" *ngIf="ob.status=='PENDING'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="bar" style="color: black;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[levelOfApproval[ob.level_of_approval]['user_id']]}}
+                            </div>
+                        </div>
+                    </a>
+                    <!-- empty -->
+                    <!--  <div class="step empty">
+                        <div class="v-stepper">
+                          <div class="circle"></div>
+                          <div class="line"></div>
+                        </div>
+                  
+                        <div class="content">
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                  Lorem Ipsum is simply dummy text of the printing and typesetting
+                        </div>
+                    </div> -->
+
+                    <!-- regular -->
+                    <!--    <div class="step">
+                        <div class="v-stepper">
+                          <div class="circle"></div>
+                          <div class="line"></div>
+                        </div>
+                  
+                        <div class="content">
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        </div>
+                    </div> -->
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModal2">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> Paid Salary Details :</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <!--  <div class="row">
+                    <div class="col-3 text-right"><h6>Employee ID :</h6></div>
+                    <div class="col-3"> {{ind_emp_id[0]}}</div>
+                    <div class="col-3 text-right"><h6>Employee Name :</h6></div>
+                    <div class="col-3">{{view_data_header['emp_name']}}</div>
+                </div> -->
+                <br>
+                <div class="row text-center">
+                    <div class="col-5">
+
+                    </div>
+                    &nbsp;&nbsp;
+                </div>
+                <div class="">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <!-- <th>Account Code</th> -->
+                                <th>Finacial Year</th>
+                                <th>Month</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of paid_arr;let i = index;">
+                                <td><input type="checkbox" (click)="check(item,i)"></td>
+                                <!-- <td>{{obj['c_acc']}}</td> -->
+                                <td>{{item['fin_year']}}</td>
+                                <td>{{monthObj[item['month']]}}</td>
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-outline-primary" data-dismiss="modal" (click)="generateSalaryhold()">Generate Salary</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

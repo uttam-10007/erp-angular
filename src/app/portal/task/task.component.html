@@ -1,0 +1,482 @@
+<div class="page-content fade-in-up">
+    <br>
+    <div class="row">
+        <button style="margin-left:0.5%;" class="btn btn-link" (click)="back()"><i class="fa fa-arrow-left"
+                aria-hidden="true"></i> Go Back</button>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <br>
+                <div class="ibox-head">
+                    <div class="ibox-title">TASK MANAGEMENT</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i> All Task</a>
+                        </li>
+
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab"><i class="fa fa-cogs"></i> View Document</a>
+                        </li> -->
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+                            <br>
+                            <table id="tbl1">
+
+                                <tr>
+                                    <th>
+                                        S.NO.
+                                    </th>
+                                    <th>
+                                        Document Local No
+                                    </th>
+                                    <th>
+                                        Document Description
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                    <th>
+                                        Download
+                                    </th>
+                                </tr>
+                                <tr *ngFor="let ob of allTaskArr; let i = index">
+                                    <td>{{i+1}}</td>
+                                    <td> {{ob.doc_local_no}}</td>
+                                    <td> {{ob.doc_local_desc}}</td>
+                                    <td>
+                                        <button class="btn btn-info" (click)="status(ob)">Status</button>
+
+                                        <button class="btn btn-primary" *ngIf="ob['action']==1 && ob['last_approval_level']!=ob['last_level']" (click)="taskStatusChange(ob)">Forward</button>
+                                        <button class="btn btn-primary" *ngIf="ob['action']==1 && ob['last_approval_level']==ob['last_level']" (click)="taskStatusChange(ob)">Approve</button>
+
+                                        <button class="btn btn-danger" *ngIf="ob['action']==1" (click)="taskStatusChange_Reject(ob)">REJECT</button>
+
+
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-info" *ngIf="ob['doc_type']=='SALBILL'" (click)="getAllBill(ob,'bill')">Bill</button>
+                                        <button class="btn btn-primary" *ngIf="ob['doc_type']=='SALBILL'" (click)="getAllBill(ob)">Summary</button>
+                                        <button class="btn btn-primary" *ngIf="ob['doc_type']=='LEAVE'" (click)="ViewLeave(ob)">View</button>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <img [src]="imgURL" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- <div class="tab-pan fade" id="tab-7-3">
+                            <br>
+
+                            <div id="p">
+
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <img [src]="mainService.accountImageUrl" class="img-circle" width="90px" />
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h4>{{mainService.accInfo['account_name']}} ({{mainService.accInfo['account_short_name']}})</h4>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Financial Year : {{currentBillObj['header']['fin_year']}} - {{currentBillObj['header']['fin_year']+1}}
+                                    </div>
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Month : {{monthObj[currentBillObj['header']['month']]}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Bill Amount : {{currentBillObj['header']['total']}}
+                                    </div>
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Bill Date : {{currentBillObj['header']['accrual_date']}}
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Bill Description : Employee Salary Bill for {{monthObj[currentBillObj['header']['month']]}}/{{currentBillObj['header']['year']}}
+                                    </div>
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Section : {{currentBillObj['header']['section_code']}}
+                                    </div>
+
+
+                                </div>
+
+                                <hr>
+                                <br>
+                                <div style="overflow: auto;">
+                                    <table id="tbl">
+
+                                        <tr>
+                                            <th>
+                                                S.NO.
+                                            </th>
+                                            <th>
+                                                EMPLOYEE DETAIL
+                                            </th>
+                                            <th>
+                                                PAYMENT DETAIL
+                                            </th>
+                                            <th>
+                                                ALLOWANCES
+                                            </th>
+                                            <th>
+                                                AMOUNT
+                                            </th>
+                                            <th>
+                                                DEDUCTIONS
+                                            </th>
+
+                                            <th>
+                                                AMOUNT
+                                            </th>
+                                            <th>
+                                                NET
+                                            </th>
+
+
+                                        </tr>
+                                        <br>
+
+                                        <tr *ngFor="let ob of currentBillObj['allEmployees']; let i = index">
+                                            <td>{{i+1}}</td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        Employee ID : {{ob}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        Name : {{currentBillObj['data'][ob]['personal_info']['emp_name']}}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        Grade Pay : {{currentBillObj['data'][ob]['personal_info']['grade_pay_code']}}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        Designation : {{currentBillObj['data'][ob]['personal_info']['designation_code']}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        For {{currentBillObj['data'][ob]['personal_info']['num_of_days']}} days
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        PAN NO : {{currentBillObj['data'][ob]['bank_info']['emp_pan_no']}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        Account No : {{currentBillObj['data'][ob]['bank_info']['acct_no']}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        PF Account No : {{currentBillObj['data'][ob]['bank_info']['pf_acct_no']}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        IFSC Code : {{currentBillObj['data'][ob]['bank_info']['ifsc_code']}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        Bank : {{currentBillObj['data'][ob]['bank_info']['bank_name']}}
+                                                    </div>
+                                                </div>
+
+
+
+                                            </td>
+                                            <td>
+                                                <div class="row" *ngFor="let ded of currentBillObj['data'][ob]['payable']">
+                                                    <div class="col-12">
+                                                        {{ded.pay_component_code}}
+                                                    </div>
+
+                                                </div>
+
+
+                                            </td>
+                                            <td>
+                                                <div class="row" *ngFor="let ded of currentBillObj['data'][ob]['payable']">
+                                                    <div class="col-12 text-right">
+                                                        {{ded.pay_component_amt}}
+                                                    </div>
+
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div class="row" *ngFor="let ded of currentBillObj['data'][ob]['deduction']">
+                                                    <div class="col-12">
+                                                        {{ded.pay_component_code}}
+                                                    </div>
+
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div class="row" *ngFor="let ded of currentBillObj['data'][ob]['deduction']">
+                                                    <div class="col-12 text-right">
+                                                        {{ded.pay_component_amt}}
+                                                    </div>
+
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        GROSS PAY :
+                                                    </div>
+                                                    <div class="col-6 text-right">
+                                                        {{currentBillObj['data'][ob]['gross_pay']}}
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        NET DEDUCTION :
+                                                    </div>
+                                                    <div class="col-6 text-right">
+                                                        {{currentBillObj['data'][ob]['ded']}}
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        NET PAYABLE :
+                                                    </div>
+                                                    <div class="col-6 text-right">
+                                                        {{currentBillObj['data'][ob]['net']}}
+                                                    </div>
+                                                </div>
+
+                                            </td>
+
+
+
+                                        </tr>
+
+
+
+                                    </table>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6>Total Employees : {{currentBillObj['allEmployees'].length}}</h6>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h5>PAYABLES</h5>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div *ngFor="let ob of payArr" class="col-3">
+                                        <h6>{{ob['code']}} : {{ob['value']}}</h6>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h5>DEDUCTIONS</h5>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div *ngFor="let ob of dedArr" class="col-3">
+                                        <h6>{{ob['code']}} : {{ob['value']}}</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h5>TOTAL</h5>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <h6>GROSS : {{gross}}</h6>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>DEDUCTION : {{netded}}</h6>
+
+                                    </div>
+                                    <div class="col-4">
+                                        <h6> NET : {{net}}</h6>
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h6>Certified :</h6>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        (1) That I satisfied myself that all the salaries included the bills drawn in the {{monthObj[currentBillObj['header']['month']]}} (the last proceeding month) with the exceptions at these detailed below of which the total has been refunded by deduction
+                                        from the bill, have been distributed to the proper persons and their receipts have been taken in acquaintance rolls filled in my office with receipt stamp duly cancelled for payment in excess of Rs.20.00 and that
+                                        all leaves promotions etc. have been entered in service book of the official concerned.
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        (2) That all the persons, to whom pay has been drawn in this bill, have actually been entertained during the month.
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        (3) That all the persons for whom house rent allowance has been shown in this bill actually occupied rented house for which they paid rents as shown in this bill and are entitled to the allowance under the standard instructions.
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        (4) That all the persons in respect of whom conveyance has been drawn in this bill have satisfied me that they have actually maintained the prescribed conveyance in a workable condition and have been using them in favour of LDA.
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        (5) That the bill has been checked with the sanctioned scale recorded in the scale register.
+
+                                    </div>
+
+                                </div>
+
+                                <br>
+                                <hr>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6 text-center">
+                                        <h6>Dated :</h6>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <h6>Signature Of Drawing Officer :</h6>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Status</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <!-- completed -->
+                    <a *ngFor="let ob of statusArr;let i=index">
+                        <div class="step completed" *ngIf="ob.status=='APPROVED'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="barblue" style="color: blue;margin-left: 40%;" *ngIf="i <statusArr.length-1"></div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[ob['user_id']]}}
+                            </div>
+                        </div>
+                        <div class="step" *ngIf="ob.status=='REJECTED'">
+                            <div class="v-stepper">
+                                <div class="circles"></div>
+
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[ob['user_id']]}}
+                            </div>
+                        </div>
+                        <!-- active -->
+                        <div class="step" *ngIf="ob.status=='PENDING'">
+                            <div class="v-stepper">
+                                <div class="circle"></div>
+                                <div class="bar" style="color: black;margin-left: 40%;" *ngIf="i <statusArr.length-1">
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                {{UserObj[ob['user_id']]}}
+                            </div>
+                        </div>
+                    </a>
+
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

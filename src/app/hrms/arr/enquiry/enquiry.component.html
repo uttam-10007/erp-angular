@@ -1,0 +1,172 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Complaint Enquiry Register </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                 Complaint  Enquiry List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Add 
+                                Complaint Enquiry Detail</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enter Complaint ID :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="selectCompObj['complaint_id']">
+
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-primary" (click)="getEnquiry()">GET ENQUIRY STEPS</button>
+                                </div>
+
+                            </div>
+
+                            <hr>
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Enquiry ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="en_type_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Enquiry Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0036'][element.en_type_code]}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="en_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Enquiry Desc
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.en_desc}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="en_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Enquiry Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{mainService.dateformatchange(element.en_dt)}} </td>
+                                    </ng-container>
+
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="enquiry(element)">Enquiry</button>
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enter Complaint ID :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="enquiryObj['complaint_id']">
+
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enquiry Type :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0036']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="enquiryObj['en_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enquiry Desc :
+                                </div>
+                                <div class="col-4">
+                                    <textarea style="width: 100%;" id="desc" name="desc" [(ngModel)]="enquiryObj['en_desc']"></textarea>
+
+
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Enquiry Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="enquiryObj['en_dt']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submitEnquiry()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

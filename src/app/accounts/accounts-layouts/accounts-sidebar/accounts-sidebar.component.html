@@ -1,0 +1,216 @@
+<div id="sidebar-collapse">
+    <div class="admin-block d-flex">
+        <div>
+            <img [src]="imgURL" class="img-circle" width="53px" />
+        </div>
+        <div class="admin-info">
+            <div class="font-strong">{{userInfo['first_name']}}</div><small>{{userInfo['designation']}}</small></div>
+    </div>
+    <ul class="side-menu metismenu">
+        <li>
+            <a routerLinkActive="active" routerLink="/accounts/index"><i class="sidebar-item-icon fa fa-th-large"></i>
+                <span class="nav-label">Dashboard</span>
+            </a>
+        </li>
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-bar-chart"></i>
+                <span class="nav-label">Report</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">Trial Balance</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/ledger-report" routerLinkActive="active">Ledger Report</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/bank-report" routerLinkActive="active">Bank Book</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/gst" routerLinkActive="active">GST</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/tds-gst" routerLinkActive="active">TDS on GST</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/tds" routerLinkActive="active">TDS</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/all-ded" routerLinkActive="active">Deductions</a>
+                </li>
+                <!--  <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">PF</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">GIS</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">Labour Cess</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">Royality</a>
+                </li> -->
+                <!-- <li>
+                    <a routerLink="/accounts/ledger/report/trail-balance" routerLinkActive="active">LIC</a>
+                </li> -->
+
+
+
+            </ul>
+        </li>
+
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-money"></i>
+                <span class="nav-label">Accounts Payable</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/accounts/bill" routerLinkActive="active">Bills</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/bank-payment" routerLinkActive="active">Bank Payment</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/advice" routerLinkActive="active">Advice</a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-get-pocket"></i>
+                <span class="nav-label">Accounts Receivable</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/accounts/challan" routerLinkActive="active">Challans</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/demand" routerLinkActive="active">Demand</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/challan" routerLinkActive="active">Challan Settlement</a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-id-card"></i>
+                <span class="nav-label">Treasury</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/accounts/tresuary/contra" routerLinkActive="active">Contra</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/tresuary/bank-account" routerLinkActive="active">Bank Account</a>
+                </li>
+
+
+            </ul>
+        </li>
+
+
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-book"></i>
+                <span class="nav-label">Ledger</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/accounts/ledger/jv" routerLinkActive="active">JV</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/setting/fin-year" routerLinkActive="active">Financial Year</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/budget" routerLinkActive="active">Budget</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/ledger/jrnl" routerLinkActive="active">Manual Journal</a>
+                </li>
+
+
+            </ul>
+        </li>
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-database"></i>
+                <span class="nav-label">Master Data</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+
+                <li>
+                    <a routerLinkActive="active" routerLink="/accounts/setting/party"><i
+                            class="sidebar-item-icon fa fa-users"></i>
+                        <span class="nav-label">Party </span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLinkActive="active" routerLink="/accounts/setting/work"><i
+                            class="sidebar-item-icon fa fa-address-card"></i>
+                        <span class="nav-label">Contract</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li routerLinkActive="active">
+            <a href="javascript:;"><i class="sidebar-item-icon fa fa-user-plus"></i>
+                <span class="nav-label">Administration</span><i class="fa fa-angle-left arrow"></i></a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li routerLinkActive="active">
+                    <a href="javascript:;"><i class="sidebar-item-icon "></i>
+                        <span class="nav-label">Configuration</span><i class="fa fa-angle-left arrow"></i></a>
+                    <ul class="nav-3-level collapse" routerLinkActive="in">
+                        <li>
+                            <a routerLink="/accounts/ledger/events" routerLinkActive="active">Business Event (HEAD)</a>
+                        </li>
+                        <!--  <li>
+                            <a routerLink="/accounts/ledger/report/party-report" routerLinkActive="active">Chart of Account (Ledger)</a>
+                        </li> -->
+                        <li>
+                            <a routerLink="/accounts/ledger/rule" routerLinkActive="active">Accounting Rule </a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/ledger/coa" routerLinkActive="active">Chart Of Account</a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/ledger/bud-hier" routerLinkActive="active">Budget Hierarchy</a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/ledger/proj-hier" routerLinkActive="active">Project Hierarchy</a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/ledger/activity-hier" routerLinkActive="active">Activity Hierarchy</a>
+                        </li>
+                        <li>
+                            <a routerLink="/accounts/ledger/prod-hier" routerLinkActive="active">Product Hierarchy</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a routerLink="/accounts/setting/project-bank" routerLinkActive="active">Project Bank Account</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/setting/deduction-mapping" routerLinkActive="active">Deduction Mapping</a>
+                </li>
+                <li>
+                    <a routerLink="/accounts/setting/acc-mapping" routerLinkActive="active">Account Mapping</a>
+                </li>
+
+
+                <li>
+                    <a routerLink="/accounts/setting/code-value" routerLinkActive="active">Code-Value</a>
+                </li>
+                <!-- <li>
+                    <a routerLink="/accounts/setting/fields" routerLinkActive="active">Fields</a>
+                </li> -->
+                <li>
+                    <a routerLink="/accounts/setting/hsn" routerLinkActive="active">GST</a>
+                </li>
+
+
+            </ul>
+        </li>
+
+
+
+
+    </ul>
+</div>

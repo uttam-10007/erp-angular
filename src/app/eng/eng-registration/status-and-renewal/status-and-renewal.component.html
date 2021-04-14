@@ -1,0 +1,182 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Verification</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i>All Application List</a>
+                        </li>
+                       
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Select Status:</h6>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <ng-select [items]="status" bindLabel="value"  bindValue="value" [multiple]="false" 
+                                    placeholder="Select Status" [(ngModel)]="selectedStatus" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                    name="field_name">
+                                </ng-select>
+    
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Select Month:</h6>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN019']"  bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="month" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                </ng-select>
+    
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Select Year:</h6>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN018']"  bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="year" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                </ng-select>
+    
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row" >
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="changeyear()">Submit</button>
+
+                                    
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" >
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" >Reminder</button>
+
+                                    
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+
+
+                            </div>
+
+
+                            <div class=" example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="s_no">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.id}}. </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>NAME OF THE
+                                            COMPANY
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="modication_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>DATE OF ISSUE 
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.modication_dt}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="expire_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>DATE OF EXPIRY
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.expiry_dt}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="reminder_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>REMINDER FOR RENEW			
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.reminder_dt}} </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <!-- <button class="btn btn-outline-primary"
+                                                (click)="open_update(element)">Update</button>&nbsp;&nbsp; -->
+                                            <button class="btn btn-outline-primary"
+                                                >Reminder</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                     
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

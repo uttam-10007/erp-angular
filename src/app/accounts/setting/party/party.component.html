@@ -1,0 +1,440 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Party Info </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Party Detail</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i class="fa fa-plus-circle"></i> Add
+                                Party</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Party Detail</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="{{col}}" *ngFor="let col of displayedColumns_temp; let i = index">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>
+                                            {{techToBusNameObj[col]}}
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            <p *ngIf="col=='effective_date'">{{ mainService.dateFormatChange(element[col])}}</p>
+                                            <p *ngIf="col!='effective_date'">{{ element[col]}}</p>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-warning" (click)="openUpdate(element)">UPDATE</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Legal Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_name']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Email :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['email']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Phone No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['phone_no']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Adhar No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['adhar_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    State :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0004']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_state']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    Country :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0005']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_country']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    City :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['city']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    PAN :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['pan_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Address Line 1 :
+                                </div>
+                                <div class="col-4">
+                                    <textarea id="t1" name="t1" [(ngModel)]="partyObj['addr_line_1']"></textarea>
+                                </div>
+                                <div class="col-2 text-right">
+                                    Address Line 2 :
+                                </div>
+                                <div class="col-4">
+                                    <textarea id="t2" name="t2" [(ngModel)]="partyObj['addr_line_2']"></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Party PIN Code :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['zip']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Father or Husband Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['father_or_husband_name']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h5>Other Party Details</h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Source :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0037']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['evt_grp_src_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    Party Type :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0002']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    GSTIN :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['gstin_no']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Effective Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="partyObj['effective_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Party Bank Account Number :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['bank_acct_num']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Party Bank :
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0006']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['bank_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Bank Branch:
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['branch_code']">
+                                    <!-- <ng-select [items]="mainService.codeValueTechObj['ACC0007']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['branch_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select> -->
+                                </div>
+                                <div class="col-2 text-right">
+                                    IFS Code :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['ifsc_code']">
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">SUBMIT</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Legal Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['party_name']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Email :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['email']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Phone No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['phone_no']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Adhar No :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['adhar_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    State :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0004']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_state']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    Country :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0005']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_country']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    City :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['city']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    PAN :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['pan_no']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Address Line 1 :
+                                </div>
+                                <div class="col-4">
+                                    <textarea id="t1" name="t1" [(ngModel)]="partyObj['addr_line_1']"></textarea>
+                                </div>
+                                <div class="col-2 text-right">
+                                    Address Line 2 :
+                                </div>
+                                <div class="col-4">
+                                    <textarea id="t2" name="t2" [(ngModel)]="partyObj['addr_line_2']"></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Party PIN Code :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['zip']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Father or Husband Name :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['father_or_husband_name']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h5>Other Party Details</h5>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Source :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0037']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['evt_grp_src_cd']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-2 text-right">
+                                    Party Type :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0002']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['party_type_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    GSTIN :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['gstin_no']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Effective Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="partyObj['effective_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Party Bank Account Number :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['bank_acct_num']">
+                                </div>
+                                <div class="col-2 text-right">
+                                    Party Bank :
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="mainService.codeValueTechObj['ACC0006']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['bank_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2 text-right">
+                                    Bank Branch:
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['branch_code']">
+                                    <!-- <ng-select [items]="mainService.codeValueTechObj['ACC0007']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="partyObj['branch_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select> -->
+                                </div>
+                                <div class="col-2 text-right">
+                                    IFS Code :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" [(ngModel)]="partyObj['ifsc_code']">
+                                </div>
+                            </div>
+                            <br>
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">UPDATE</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

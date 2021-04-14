@@ -1,0 +1,662 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Employee Promotion Info </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-settings"></i>
+                                Employee Promotion List</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " href="#tab-2" data-toggle="tab"><i class="ti-settings"></i>
+                                ACP Expected List</a>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link " href="#tab-3" data-toggle="tab"><i class="ti-settings"></i>
+                                Promote</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#tab-5" data-toggle="tab"><i class="ti-settings"></i>
+                                Add Expected ACP</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="#tab-4" data-toggle="tab"><i class="ti-settings"></i>
+                                Add DPC</a>
+                        </li>
+                    </ul>
+                    <br>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee Id
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{element.tempid}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{empNameMap.get(element.emp_id)}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="promotion_type_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Promotion Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.promotion_type_code }}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="order_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Order ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.order_id}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="grade_pay_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Grade Pay
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.grade_pay_code}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="basic_pay">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Basic
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.basic_pay}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="promotion_interval">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Promotion Interval
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.promotion_interval}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="promotion_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Promotion Due Date
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.temppromotion_date}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="effective_dt">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Promotion Effective Date
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.temppromotion_effective_dt}} </td>
+                                    </ng-container>
+
+                                    <!-- <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-outline-primary" *ngIf="element.promotion_status=='GENRATED'"
+                                                (click)="promote(element)">Promote</button>
+                                            <button class="btn btn-outline-danger" *ngIf="element.promotion_status=='GENRATED'"
+                                                (click)="reject(element)">Reject</button>
+                                                <div *ngIf="element.promotion_status!='GENRATED'">{{element.promotion_status}}</div>
+                                        </td>
+                                    </ng-container> -->
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource1" matSort #sortCol2="matSort">
+                                    <ng-container matColumnDef="emp_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Employee Id
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{element.tempid}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="emp_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.emp_name }}
+                                        </td>
+                                    </ng-container>
+                                    <!-- <ng-container matColumnDef="previous_promotion">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Previous Promotion Interval
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.previous_promotion_interval}} </td>
+                                    </ng-container> -->
+                                    <ng-container matColumnDef="next_promotion">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Promotion Interval
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.promotion_interval}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="next_promotion_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>
+                                            Promotion Due Date
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.temppromotion_date}}
+                                        </td>
+                                    </ng-container>
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-primary" (click)="promote(element)">Promote</button>
+                                            <button class="btn btn-danger" (click)="deleteACP(element)">Delete</button>
+
+
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                                    </tr>
+                                </table>
+                                <mat-paginator #paginator1 [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade " id="tab-3">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+
+                                    <input class="form-control" type="text" [(ngModel)]="addEstObj['emp_name']" disabled>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Old Pay Scale:
+                                </div>
+                                <div class="col-4">
+
+                                    {{addEstObj['old_pay_scale_code']}}
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Old Grade Pay :
+                                </div>
+                                <div class="col-4">
+
+                                    {{addEstObj['old_grade_pay_code']}}
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Old Level :
+                                </div>
+                                <div class="col-4">
+
+                                    {{addEstObj['old_level_code']}}
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Old Basic Pay :
+                                </div>
+                                <div class="col-4">
+
+                                    {{addEstObj['old_basic_pay']}}
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Next Pay Band:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="htmlpayScaleArr" (change)="changePayScale()" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['pay_scale_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="pay_scale">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Next Grade Pay :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="htmlgradePayArr" (change)="changeGradePay()" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['grade_pay_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="grade_pay_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Next Level :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="htmllevelArr" (change)="changeLevel()" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['level_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="level_code">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Next Basic Pay :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="htmlbasicPayArr" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="addEstObj['basic_pay']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Order ID :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="addEstObj['order_id']">
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Promotion Effective Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="addEstObj['promotion_effective_dt']">
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="askAcp()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade " id="tab-5">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+
+
+                                    <ng-select [items]="newallEmplyees" bindLabel="emp_name" bindValue="emp_id" (change)="changeDCPEmployee()" [multiple]="false" placeholder="" [(ngModel)]="acpObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+
+
+
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Promotion Due Date:
+                                </div>
+                                <div class="col-4">
+
+                                    <input class="form-control" type="date" [(ngModel)]="acpObj['promotion_date']">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    ACP Type :
+                                </div>
+                                <div class="col-4">
+
+                                    <ng-select [items]="intArr" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="acpObj['promotion_interval']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="grade_pay_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="addACP()">Submit</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade " id="tab-4">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Employee :
+                                </div>
+                                <div class="col-4">
+
+
+                                    <ng-select [items]="newallEmplyees" bindLabel="emp_name" bindValue="emp_id" (change)="changeDCPEmployee()" [multiple]="false" placeholder="" [(ngModel)]="addDCPEstObj['emp_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Old Pay Band:
+                                </div>
+                                <div class="col-4">
+
+                                    {{addDCPEstObj['old_pay_scale_code']}}
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Old Grade Pay :
+                                </div>
+                                <div class="col-4">
+
+                                    {{addDCPEstObj['old_grade_pay_code']}}
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Old Level :
+                                </div>
+                                <div class="col-4">
+
+                                    {{addDCPEstObj['old_level_code']}}
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Old Basic Pay :
+                                </div>
+                                <div class="col-4">
+
+                                    {{addDCPEstObj['old_basic_pay']}}
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Old Designation :
+                                </div>
+                                <div class="col-4">
+
+                                    {{addDCPEstObj['old_designation_code']}}
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Next Pay Band:
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="htmlpayScaleArr" (change)="changePayScaleDCP()" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="addDCPEstObj['pay_scale_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="pay_scale">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Next Grade Pay :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="htmlgradePayArr" (change)="changeGradePayDCP()" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="addDCPEstObj['grade_pay_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="grade_pay_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Next Level :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="htmllevelArr" (change)="changeLevelDCP()" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="addDCPEstObj['level_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="level_code">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Next Basic Pay :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="htmlbasicPayArr" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="addDCPEstObj['basic_pay']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Next Designation :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0011']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="addDCPEstObj['designation_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="field_name">
+                                    </ng-select>
+
+                                    <!-- <input class="form-control" type="text" [(ngModel)]="addDCPEstObj['designation_code']"> -->
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Order ID :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" [(ngModel)]="addDCPEstObj['order_id']">
+
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Effective Date :
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control" type="date" [(ngModel)]="addDCPEstObj['effective_dt']">
+
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="askDpc()">Submit</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Are You Sure?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h6>Following Component are being modified after this promotion..</h6>
+                    </div>
+                </div>
+
+                <table style="width: 100%;">
+                    <tr>
+                        <th>Component Code</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr *ngFor="let ob of salArr;let i=index">
+                        <td> {{ob['pay_component_code']}}</td>
+                        <td> {{ob['pay_component_amt']}}</td>
+                        <td> {{ob['pay_code']}}</td>
+                        <td> <button class="btn btn-danger" (click)="deleteSalArr(i)">Delete</button></td>
+                    </tr>
+
+                </table>
+
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" (click)="addEmpPromotion()">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Are You Sure?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h6>Following Component are being modified after this promotion..</h6>
+                    </div>
+                </div>
+
+                <table style="width: 100%;">
+                    <tr>
+                        <th>Component Code</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr *ngFor="let ob of salArr;let i=index">
+                        <td> {{ob['pay_component_code']}}</td>
+                        <td> {{ob['pay_component_amt']}}</td>
+                        <td> {{ob['pay_code']}}</td>
+                        <td> <button class="btn btn-danger" (click)="deleteSalArr(i)">Delete</button></td>
+                    </tr>
+
+                </table>
+
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" (click)="addEmpDCPPromotion()">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

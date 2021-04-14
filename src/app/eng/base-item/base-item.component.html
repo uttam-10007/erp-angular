@@ -1,0 +1,456 @@
+<ngx-spinner>Loading....</ngx-spinner>
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Engineering Item</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i>Engineering Item List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle" aria-hidden="true"></i> Create
+                                Item
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"> </i> Update
+                                Item
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-7-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-4">
+
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button class="btn btn-danger" (click)="deleteAll()">DELETE ALL</button>
+                                </div>
+
+                            </div>
+
+
+                            <div class=" example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="base_item_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Item ID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.base_item_id }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="base_item_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Item Descreption
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.base_item_desc}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="base_item_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Item Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.base_item_code}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="activity_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Activity Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.activity_code}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="output_capacity_unit">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Output Capacity Unit
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.output_capacity_unit}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="output_capacity_quantity">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Output Capacity Quantity
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.output_capacity_quantity}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="costing_rate_unit">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Costing Rate Unit
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.costing_rate_unit}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="costing_rate_at_source">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Costing Rate Source
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.costing_rate_at_source}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="costing_rate_at_site">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Costing Rate Site
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.costing_rate_at_site}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="create_user_id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Create UserID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.create_user_id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="create_timestamp">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Create TS
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.create_timestamp}} </td>
+                                    </ng-container>
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-primary" (click)="open_update(element)">Update</button>&nbsp;&nbsp;
+                                            <button class="btn btn-danger" (click)="delete(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-7-2">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Engineering Item Identifier :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['base_item_id']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Engineering Item Category Code *:</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN004'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['base_item_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Engineering Item Description :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="Obj['base_item_desc']"></textarea>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Activity Code :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN006'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['activity_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="activity_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Output Capacity Unit :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN007'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['output_capacity_unit']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="output_capacity_unit">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Output Capacity Quantity :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['output_capacity_quantity']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Costing Rate Unit *:</h6>
+
+                                </div>
+
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN009'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['costing_rate_unit']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="costing_rate_unit">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Costing Rate at Source ^ :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['costing_rate_at_source']">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Costing Rate at Site ^ :</h6>
+
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['costing_rate_at_site']">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Remark :</h6>
+
+                                </div>
+                                <div class="col-3">
+
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="Obj['remark']"></textarea>
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:blue;">NOTE - </h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:brown;">* Required Fields</h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color: brown;">^ One of these is required</h6>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-7-3">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Engineering Item Identifier :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['base_item_id']" disabled>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Engineering Item Category Code *:</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN004'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['base_item_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Engineering Item Description:</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="Obj['base_item_desc']"></textarea>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Activity Code :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN006'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['activity_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="activity_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Output Capacity Unit :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN007'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['output_capacity_unit']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="output_capacity_unit">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Output Capacity Quantity :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['output_capacity_quantity']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Costing Rate Unit * :</h6>
+
+                                </div>
+
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN009'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['costing_rate_unit']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="costing_rate_unit">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Costing Rate at Source ^ :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['costing_rate_at_source']">
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Costing Rate at Site ^:</h6>
+
+                                </div>
+                                <div class="col-3">
+
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['costing_rate_at_site']">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Remark :</h6>
+
+                                </div>
+                                <div class="col-3">
+
+                                    <textarea style="width: 100%;" id="re" name="re" class="form-control" [(ngModel)]="Obj['remark']"></textarea>
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="update()">Update</button>
+                                </div>
+                            </div>
+
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:blue;">NOTE - </h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:brown;">* Required Fields</h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color: brown;">^ One of these is required</h6>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

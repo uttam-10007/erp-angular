@@ -1,0 +1,635 @@
+<ngx-spinner>Loading....</ngx-spinner>
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-12">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Evaluation</div>
+                </div>
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                       <!--  <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-1" data-toggle="tab"><i
+                                    class="fa fa-line-chart"></i>Evaluation List</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-7-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle" aria-hidden="true"></i> 
+                                    Evaluation Tender
+                            </a>
+                        </li>
+
+                       <!--  <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-3" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-settings"> </i> Update
+                                    Evaluation Tender
+                            </a>
+                        </li> -->
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-7-4" data-toggle="tab"><i class="fa fa-upload"
+                                    aria-hidden="true"></i> Upload
+                                File
+                            </a>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content">
+                        <!-- <div class="tab-pane fade show active" id="tab-7-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-4">
+
+                                </div>
+                                
+
+                            </div>
+
+
+                            <div class=" example-container">
+
+                                <table mat-table [dataSource]="datasource" matSort>
+
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>TenderID
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.id }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="name_of_tender">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Name of Tender
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.name_of_tender}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="tender_opening_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Tender Opening Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.tender_opening_date}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="tender_closing_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Tender Closing Date
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.tender_closing_date}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="tender_type_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Tender Type 
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{element.tender_type_cd}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="packet_type_cd">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Packet Type
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.packet_type_cd}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="apply_start_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Apply Start Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.apply_start_date}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="apply_end_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Apply End Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.apply_end_date}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="est_value">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Estimate Value
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.est_value}} </td>
+                                    </ng-container>
+
+
+
+
+
+
+
+
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-outline-primary" (click)="open_update(element)">Update</button>&nbsp;&nbsp;
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>  -->
+
+                        <div class="tab-pane fade show active" id="tab-7-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6> NIC Tender ID :</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="importedtender" (change)="changeestimate()" bindLabel="nic_tender_id"
+                                        bindValue="id" [multiple]="false" placeholder="" [(ngModel)]="Obj['impoted_tender_id']"
+                                        [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true"
+                                        name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <br>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>WORK TITLE/ TENDER NAME :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_name']">
+                                </div>
+                                
+                                <div class="col-3 text-right">
+                                    TENDER OPENED BY :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_opened_by']">
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>WORK DESCRIPTION :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="Obj['tender_desc']">
+                                </div>
+                            
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>TENDER CATEGORY :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN025'] " bindLabel="value"
+                                        bindValue="code" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['tender_category']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>ITEM WISE TECHNICAL EVALUATION ALLOWED :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="select" bindLabel="value"
+                                        bindValue="value" [multiple]="false" placeholder=""
+                                        [(ngModel)]="Obj['evaluation_allowed']" [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                            
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>METHOD OF SELECTION :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['EN022'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['method_of_selection']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                               
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>No. OF APPLICANT FIRMS  :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="Obj['no_of_applicants']">
+                                </div>
+                               <div class="col-3 text-right">
+                                OPENED ON :
+                               </div>
+                               <div class="col-3">
+                                <input type="date" class="form-control" [(ngModel)]="Obj['opened_date']">
+                            </div>
+                            </div>
+                            <br>
+                            <div class="row" *ngFor="let lnm of tenderapplicationname; let i = index;" style="margin-top: 15px;">
+                                <div class="col-4 text-right">
+                                    <h6>NAME OF THE FIRM {{i+1}} :</h6>
+
+                                </div>
+                                <div class="col-4">
+                                   <!--  <ng-select [items]="mainService.codeValueTechObj['EN004'] " bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="Obj['department']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select> -->
+                                    <input type="text" class="form-control" [(ngModel)]="tenderapplicationname[i]['firm_name']" >
+                                </div>
+                                
+                            </div>
+                            <br>
+                            
+                            
+
+                           
+                            <br>
+                            <hr>
+                           <!--  <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="addline()" style="align-content: right;"><i
+                                            class="fa fa-plus" aria-hidden="true"></i></button></div>
+                            </div> -->
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-12 text-right">
+
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5 style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;"><b
+                                            style="margin-left:5% ;"> TECHNICAL EVALUATION  </b></h5>
+                                </div>
+                            </div>
+                            <br>
+
+
+
+                             <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 40%;text-align: center;">
+                                    <b>NAME OF APPLICANT </b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>VIEW </b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>STATUS </b>
+                                </div>
+                                
+                                
+                                <div style="width: 10%;text-align: center;">
+                                    <b>MARKS ALLOTED </b>
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row" *ngFor="let lnmn of techevaluationdata; let i = index;" style="margin-top: 15px;">
+                                <div style="width: 10%;text-align: center;">
+                                    {{i+1}}
+                                </div>
+                                <div style="width: 40%;">
+                                    
+                                    <input type="text" class="form-control" [(ngModel)]="lnmn['firm_name']" > </div>   
+                                <div style="width: 20%;text-align: center;">
+                                    
+                                    <button class="btn btn-success" (click)="open(i)" >VIEW</button> </div>  
+                                                         
+                                <div style="width: 20%;text-align: center;">
+                                    <ng-select [items]="status" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="lnmn['technical_status']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                
+                                <div style="width: 10%;">
+                                    <input type="text" class="form-control" [(ngModel)]="lnmn['technical_marks']" >
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    
+
+                                    <button class="btn btn-primary" (click)="enable_financial()">ENABLE FINANCIAL</button>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                          
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5 style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;"><b
+                                            style="margin-left:5% ;"> FINANCIAL EVALUATION  </b></h5>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 10%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b>NAME OF APPLICANT </b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>BOQ </b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b>OFFER VALUE </b>
+                                </div>
+                                <div style="width: 10%;text-align: center;">
+                                    <b >% ABOVE/BELOW </b>
+                                </div>
+                                <div style="width: 20%;text-align: center;">
+                                    <b *ngIf="Obj['method_of_selection'] == 'ics'">RANKING </b>
+                               
+                                    <b *ngIf="Obj['method_of_selection'] == 'qcbs'">MARKS ALOTTED  </b>
+                                </div>
+                                
+                                
+                                <div style="width: 10%;text-align: center;">
+                                    <b>STATUS </b>
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row" *ngFor="let ln of finevaluationdata; let i = index;" style="margin-top: 15px;">
+                                <div style="width: 10%;text-align: center;">
+                                    {{i+1}}
+                                </div>
+                                <div style="width: 20%;">
+                                    
+                                    <input type="text" class="form-control" [(ngModel)]="ln['firm_name']" > </div> 
+                                <div style="width: 10%;text-align: center;">
+                                    
+                                    <button class="btn btn-success" (click)="view(ln['financial_document_id'])" *ngIf="ln['financial_document_id']!=null">VIEW</button> </div>
+                                    <div style="width: 10%;">
+                                   
+                                        <input type="number" class="form-control" (change) = "changeoffervalue(i)" [(ngModel)]="ln['offer_value']" > </div> 
+                                        <div style="width: 10%;">
+                                    
+                                            <input type="number" class="form-control" [(ngModel)]="ln['below_and_avg']" > </div> 
+                                        
+                                            <div style="width: 20%;">
+                                                <div *ngIf="Obj['method_of_selection'] == 'ics'">
+                                                    <input type="text" class="form-control" [(ngModel)]="ln['rank']" ></div> 
+                                                    <div *ngIf="Obj['method_of_selection'] == 'qcbs'">
+                                                <input type="text" class="form-control" [(ngModel)]="ln['marks']" ></div> </div>                
+                                <div style="width: 20%;text-align: center;">
+                                    <ng-select [items]="status" bindLabel="value" bindValue="value" [multiple]="false" placeholder="" [(ngModel)]="ln['financial_status']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="base_item_code">
+                                    </ng-select>
+                                </div>
+                                
+                               
+                            </div>
+                            <br> 
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    
+                                    
+                                    <button class="btn btn-primary" (click)="gnerate_score()">GNERATE SCORE</button>
+                                    
+                                </div>
+                            </div>
+                            <br> 
+                            <div class="row">
+                                <div class="col-12 text-left">
+                                    <h5 style="background-color: #217dbb;color:white;margin-right: 80%;border-color: black;"><b
+                                            style="margin-left:5% ;"> RANKING </b></h5>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Valadity Start Date :</h6>
+
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['result_start_date']">
+                                </div>
+                                
+                                <div class="col-3 text-right">
+                                    Valadity Start Date :
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="Obj['result_end_date']">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                                <div style="width: 20%;text-align: center;">
+                                    <b>Sr NO.</b>
+                                </div>
+                                <div style="width: 40%;text-align: center;">
+                                    <b>NAME OF APPLICANT </b>
+                                </div>
+                                
+                                
+                                <div style="width: 40%;text-align: center;">
+                                    <b>Rank </b>
+                                </div>
+                            </div>
+                            <br>
+
+                            <hr>
+                            <div class="row" *ngFor="let ln of scorearr; let i = index;" style="margin-top: 15px;">
+                                <div style="width: 20%;text-align: center;">
+                                    {{i+1}}
+                                </div>
+                                <div style="width: 40%;text-align: center;">
+                                    {{ln['firm_name']}}
+                                     </div> 
+                                <div style="width: 40%;text-align: center;">
+                                    
+                                  
+                                   {{ln['rank']}}
+                                        </div> 
+                                                       
+                                
+                                
+                               
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    
+                                    
+                                    
+                                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:blue;">NOTE - </h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color:brown;">* Required Fields</h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <h6 style="color: brown;">^ One of these is required</h6>
+                                </div>
+
+                            </div>
+                        </div>
+                       
+
+                    
+
+
+
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>
+
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="row">&nbsp;&nbsp;&nbsp;
+                    <h4 class="modal-title"> TECHNICAL EVALUATION </h4>&nbsp;
+
+                    
+                </div>
+
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+
+
+                <div class="row">
+                    <div class="col-12 text-right">
+
+                    </div>
+                </div>
+
+                <br>
+                <div class="row"
+                style="background-color: #217dbb;color:white;padding-top: 8px;padding-bottom: 8px;">
+                <div style="width: 10%;text-align: center;">
+                    <b>Sr NO.</b>
+                </div>
+                <div style="width: 25%;text-align: center;">
+                    <b>DOCUMENT</b>
+                </div>
+                <div style="width: 25%;text-align: center;">
+                    <b>DOCUMENT DESCRIPTION</b>
+                </div>
+                <div style="width: 30%;text-align: center;">
+                    <b>FILE </b>
+                </div>
+
+
+                <div style="width: 10%;text-align: center;">
+                    <b>Action</b>
+                </div>
+            </div>
+            <br>
+
+            <hr>
+            <div *ngIf ="techevaluationdata[indexmodal] != undefined">
+            <div class="row" *ngFor="let lnm of techevaluationdata[indexmodal]['evaluation_allowed_dataarr']; let i = index;" 
+                style="margin-top: 15px;">
+                <div style="width: 10%;text-align: center;">
+                    {{i+1}}
+                </div>
+                <div style="width: 25%;">
+
+                    <input type="text" class="form-control" [(ngModel)]="lnm['document_type']">
+                </div>
+                <div style="width: 25%;">
+
+                    <textarea style="width: 100%;" id="re" name="re" class="form-control"
+                        [(ngModel)]="lnm['document_desc']"></textarea>
+                </div>
+                <div style="width: 30%;text-align: center;">
+                    <button class="btn btn-success" (click)="view(lnm['document_id'])"
+                        *ngIf="lnm['document_id']!=null">VIEW</button>
+                    <button class="btn btn-primary" (click)="openUploadTable('TENDER DOC',i)"
+                        *ngIf="lnm['document_id'] ==null"><i class="fa fa-upload"></i>Upload
+                        Document</button> 
+
+                </div>
+
+                <div style="width: 10%;">
+                    <button class="btn btn-danger" (click)="deleteline2(i)"><i class="fa fa-trash"
+                            aria-hidden="true"></i></button>
+                </div>
+            </div>
+</div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="save_popUp()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

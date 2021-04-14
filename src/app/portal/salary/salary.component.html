@@ -1,0 +1,435 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+        <br>
+        <button style="margin-left:0.5%;" class="btn btn-link" (click)="back()"><i class="fa fa-arrow-left"
+                aria-hidden="true"></i> Go Back</button>
+
+    </div>
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <br>
+                <div class="ibox-head">
+                    <div class="ibox-title">Employee Salary Register </div>
+                </div>
+
+                <div class="ibox-body">
+                    <div class="row">
+                        <div class="col-4 text-right">
+                            Select Year :
+                        </div>
+                        <div class="col-4">
+                            <ng-select [items]="mainService.codeValueTechObj['HR0023']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="selectObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                            </ng-select>
+                        </div>
+
+                    </div>
+
+                    <br>
+                    <!-- <div class="row">
+                        <div class="col-4 text-right">
+                            Select Month :
+                        </div>
+                        <div class="col-4">
+                            <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="selectObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                            </ng-select>
+
+                        </div>
+
+                    </div>
+                    <br> -->
+
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button class="btn btn-primary" (click)="getPaySlip()">SUBMIT</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button class="btn btn-success" (click)="itreport()">DOWNLOAD IT REPORT</button>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+
+                    <div *ngIf="salarySlipArr.length == 0" class="row">
+                        <div class="col-12 text-center">
+                            <h6>Salary Not Found</h6>
+                        </div>
+                    </div>
+                    <div *ngIf="salarySlipArr.length>0">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <img [src]="mainService.accountImageUrl" class="img-circle" width="90px" />
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h4>{{mainService.accInfo['account_name']}} ({{mainService.accInfo['account_short_name']}})
+                                </h4>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h5> Salary for {{mainService.codeValueShowObj['HR0023'][selectObj['fin_year']]}}</h5>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-3 text-right">
+                                <h6>Employee ID : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj['emp_id']}}
+                            </div>
+                            <div class="col-3 text-right">
+                                <h6> Name : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj['emp_name']}}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-3 text-right">
+                                <h6>Phone No. : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj1['emp_phone_no']}}
+                            </div>
+                            <div class="col-3 text-right">
+                                <h6>Pan No. : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj1['emp_pan_no']}}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-3 text-right">
+                                <h6>Designation : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{mainService.codeValueShowObj['HR0011'][personalInfoObj['designation_code']]}}
+                            </div>
+                            <div class="col-3 text-right">
+                                <h6>Cadre : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{mainService.codeValueShowObj['HR0013'][personalInfoObj['cadre_code']]}}
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-3 text-right">
+                                <h6>Class : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{mainService.codeValueShowObj['HR0014'][personalInfoObj['class_code']]}}
+
+                            </div>
+                            <div class="col-3 text-right">
+                                <h6>Account No. :</h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj1['acct_no']}}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-3 text-right">
+                                <h6>IFSC Code : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj1['ifsc_code']}}
+                            </div>
+                            <div class="col-3 text-right">
+                                <h6>Bank :</h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj1['bank_code']}}
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+
+                        <div style="overflow: scroll;">
+                            <table id="tbl" style="overflow: auto;">
+
+                                <tr>
+                                    <th style="min-width:40px">
+                                        Month
+                                    </th>
+                                    <th *ngFor="let pay of PAY; let i = index;" style="min-width:62px">
+                                        {{pay}}
+                                    </th>
+                                    <th style="min-width:62px">
+                                        GROSS
+                                    </th>
+                                    <th *ngFor="let ded of DED; let i = index;" style="min-width:62px">
+                                        {{ded}}
+                                    </th>
+                                    <th style="min-width:62px">
+                                        NET
+                                    </th>
+                                    <th style="min-width:62px">
+                                        Action
+                                    </th>
+
+                                </tr>
+                                <br>
+                                <tr *ngFor="let month of monthArr; let j = index;">
+                                    <td>
+                                        {{monthObj[month]}}
+                                    </td>
+                                    <td *ngFor="let pay of PAY; let i = index;">
+                                        {{topObject[month]['PAY'][pay]}}
+
+                                    </td>
+                                    <td *ngIf="topObject[month]['gross']==0">
+                                    </td>
+                                    <td *ngIf="topObject[month]['gross']!=0">
+                                        {{topObject[month]['gross']}}
+                                    </td>
+                                    <td *ngFor="let ded of DED; let i = index;">
+                                        {{topObject[month]['DED'][ded]}}
+
+                                    </td>
+                                    <td *ngIf="topObject[month]['net']==0">
+                                    </td>
+                                    <td *ngIf="topObject[month]['net']!=0">
+                                        {{topObject[month]['net']}}
+                                    </td>
+                                    <td *ngIf="topObject[month]['gross']==0">
+                                    </td>
+                                    <td *ngIf="topObject[month]['gross']!=0">
+                                        <button class="btn btn-primary" (click)="buildSlip(month)">Print</button>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+
+                            </table>
+                        </div>
+                        <br>
+                        <div class="row r align-items-center">
+                            <div class="col-6 text-right">
+                                <h5>Total Payable : Rs. {{payable}}</h5>
+                            </div>
+                            <div class="col-6 text-right">
+                                <h5>Total Deductions : Rs. {{deduction}}</h5>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row r1 align-items-center">
+                            <div class="col-12 text-right">
+                                <h5>Net Payable : Rs. {{total}}</h5>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+
+                    </div>
+
+
+                    <div [hidden]="true" id="p">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <img [src]="mainService.accountImageUrl" class="img-circle" width="90px" />
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h4>{{mainService.accInfo['account_name']}} ({{mainService.accInfo['account_short_name']}})
+                                </h4>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h5> Salary Slip for {{mainService.codeValueShowObj['HR0024'][selectObj['month']]}} / {{mainService.codeValueShowObj['HR0023'][selectObj['fin_year']]}}
+                                </h5>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-3 text-right">
+                                <h6>Employee ID : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj['emp_id']}}
+                            </div>
+                            <div class="col-3 text-right">
+                                <h6> Name : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj['emp_name']}}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-3 text-right">
+                                <h6>Phone No. : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj1['emp_phone_no']}}
+                            </div>
+                            <div class="col-3 text-right">
+                                <h6>Pan No. : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj1['emp_pan_no']}}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-3 text-right">
+                                <h6>Designation : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{mainService.codeValueShowObj['HR0011'][personalInfoObj['designation_code']]}}
+                            </div>
+                            <div class="col-3 text-right">
+                                <h6>Cadre : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{mainService.codeValueShowObj['HR0013'][personalInfoObj['cadre_code']]}}
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-3 text-right">
+                                <h6>Class : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{mainService.codeValueShowObj['HR0014'][personalInfoObj['class_code']]}}
+
+                            </div>
+                            <div class="col-3 text-right">
+                                <h6>Account No. :</h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj1['acct_no']}}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-3 text-right">
+                                <h6>IFSC Code : </h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj1['ifsc_code']}}
+                            </div>
+                            <div class="col-3 text-right">
+                                <h6>Bank :</h6>
+                            </div>
+                            <div class="col-3">
+                                {{personalInfoObj1['bank_code']}}
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+
+                        <div style="overflow: scroll;">
+                            <table id="tb2" style="overflow: auto;">
+
+                                <tr>
+                                    <th style="min-width:200px">
+                                        PAYABLES
+                                    </th>
+                                    <th style="min-width:200px">
+                                        AMOUNT
+                                    </th>
+                                    <th style="min-width:200px">
+                                        DEDUCTIONS
+                                    </th>
+                                    <th style="min-width:200px">
+                                        AMOUNT
+                                    </th>
+                                </tr>
+                                <br>
+                                <tr *ngFor="let ln of lines; let i = index;">
+
+                                    <td>
+                                        <h6 *ngIf="i < payableArr.length">
+                                            {{mainService.codeValueShowObj['HR0021'][payableArr[i]['pay_component_code']]}}
+                                        </h6>
+                                    </td>
+                                    <td class="r3">
+                                        <h6 *ngIf="i < payableArr.length">{{payableArr[i]['pay_component_amt']}}</h6>
+                                    </td>
+                                    <td>
+                                        <h6 *ngIf="i < dedArr.length">
+                                            {{mainService.codeValueShowObj['HR0021'][dedArr[i]['pay_component_code']]}}
+                                        </h6>
+                                    </td>
+
+                                    <td class="r3">
+                                        <h6 *ngIf="i < dedArr.length">{{dedArr[i]['pay_component_amt']}}</h6>
+                                    </td>
+
+                                </tr>
+
+
+
+                            </table>
+                        </div>
+                        <br>
+                        <div class="row r align-items-center">
+                            <div class="col-6 text-right">
+                                <h5>Total Payable : Rs. {{payableMonth}}</h5>
+                            </div>
+                            <div class="col-6 text-right">
+                                <h5>Total Deductions : Rs. {{deductionMonth}}</h5>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row r1 align-items-center">
+                            <div class="col-12 text-right">
+                                <h5>Net Payable : Rs. {{totalMonth}}</h5>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-3">
+                                <h6>Employer Signature :</h6>
+                            </div>
+                            <div class="col-3">
+                                <h6>Date :</h6>
+                            </div>
+                            <div class="col-3">
+                                <h6>Employee Signature :</h6>
+                            </div>
+                            <div class="col-3">
+                                <h6>Date :</h6>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

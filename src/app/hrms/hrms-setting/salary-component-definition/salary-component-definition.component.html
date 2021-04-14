@@ -1,0 +1,239 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Salary Rules</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                All Rules</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create Rule</a>
+                        </li>
+
+                        
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Component :
+                                </div>
+                                <div class="col-4 text-center">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0021']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="selectedComponentCode" (change)="changeComponent()" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                                        [closeOnSelect]="true" name="component_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="effective_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Effective Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.dateformatchange(element.effective_dt) }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="component_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Component
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.component_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="dependent_component">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Dependent Component
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.dependent_component }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="rate_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Rule Type
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.rate_type }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="upper_limit">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Upper LIMIT
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.upper_limit }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="lower_limit">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Lower LIMIT
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.lower_limit }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="amount">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Amount
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.amount }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Status
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.status }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="pay_type_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Pay Type
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['HR0022'][element.pay_code] }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button *ngIf="element.status=='INACTIVE'" class="btn btn-primary" (click)="activate(element)">ACTIVATE</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Rule For:
+                                </div>
+                                <div class="col-4 text-center">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0021']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['component_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="component_code">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    <h6>Rule Type:</h6>
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="rateType" bindLabel="rate_type" bindValue="rate_type" [multiple]="false" placeholder="" [(ngModel)]="obj['rate_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="rate_type">
+                                    </ng-select>
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div *ngIf="obj['rate_type']=='PERCENTAGE'" class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Percentage of sum of:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0021']" bindLabel="value" bindValue="code" [multiple]="true" placeholder="" [(ngModel)]="obj['dependent_component']" [selectableGroup]="true" [selectableGroupAsModel]="false" [multiple]="true" [closeOnSelect]="false"
+                                        name="dependent_component">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Enter Percentage:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" [(ngModel)]="obj['amount']">
+                                </div>
+                            </div>
+
+                            <br>
+                            <div *ngIf="obj['rate_type'] == 'LIMIT'" class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Enter Grade Pay Start:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" type="number" [(ngModel)]="obj['lower_limit']" name="upper_limit">
+
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Enter Grade Pay End:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" type="number" [(ngModel)]="obj['upper_limit']" name="lower_limit">
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div *ngIf="obj['rate_type'] == 'LIMIT' || obj['rate_type'] == 'FIX'" class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Amount:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" type="number" [(ngModel)]="obj['amount']" name="amount">
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    <h6>Payable / Deduction:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0022']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="obj['pay_code']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="pay_type_code">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <h6>Effective Date:</h6>
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control" type="date" [(ngModel)]="obj['effective_dt']" name="effective_date">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="save()">Submit</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

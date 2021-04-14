@@ -1,0 +1,434 @@
+<div class="page-content fade-in-up">
+
+    <div class="row">
+        <div class="col-lg-3 col-md-6" *ngFor="let ob of allTrialBalance1;let i=index">
+            <div class="ibox bg-red color-white widget-stat" *ngIf= "i%4==0">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{ob['net_amount']}}</h2>
+                    <!-- <button class="btn btn-primary">VIEW</button> -->
+                    <div class="m-b-5">{{ob['lvl3_value']}}</div><i class="fa fa-tasks widget-stat-icon"></i>
+                    <!-- <div><i class="fa fa-level-up m-r-5"></i><small></small></div> -->
+                </div>
+            </div>
+            <div class="ibox bg-green color-white widget-stat" *ngIf= "i%4==1">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{ob['net_amount']}}</h2>
+                    <!-- <button class="btn btn-primary">VIEW</button> -->
+                    <div class="m-b-5">{{ob['lvl3_value']}}</div><i class="fa fa-adjust widget-stat-icon"></i>
+                    <!-- <div><i class="fa fa-level-up m-r-5"></i><small></small></div> -->
+                </div>
+            </div>
+            <div class="ibox bg-primary color-white widget-stat" *ngIf= "i%4==2">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{ob['net_amount']}}</h2>
+                    <!-- <button class="btn btn-primary">VIEW</button> -->
+                    <div class="m-b-5">{{ob['lvl3_value']}}</div><i class="fa fa-money widget-stat-icon"></i>
+                    <!-- <div><i class="fa fa-level-up m-r-5"></i><small></small></div> -->
+                </div>
+            </div>
+            <div class="ibox bg-success color-white widget-stat" *ngIf= "i%4==3">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{ob['net_amount']}}</h2>
+                    <!-- <button class="btn btn-primary">VIEW</button> -->
+                    <div class="m-b-5">{{ob['lvl3_value']}}</div><i class="fa fa-eercast widget-stat-icon"></i>
+                    <!-- <div><i class="fa fa-level-up m-r-5"></i><small></small></div> -->
+                </div>
+            </div>
+            
+        </div>
+        <!-- <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-info color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{cr_liability-db_liability}}</h2>
+                    <div class="m-b-5">LIABILITY</div><i class="fa fa-users widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-warning color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{cr_equity-db_equity}}</h2>
+                    <div class="m-b-5">EQUITY</div><i class="fa fa-remove widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-success color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{cr_income-db_income}}</h2>
+                    <div class="m-b-5">INCOME</div><i class="fa fa-tasks widget-stat-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="ibox bg-info color-white widget-stat">
+                <div class="ibox-body">
+                    <h2 class="m-b-5 font-strong">{{cr_expense-db_expense}}</h2>
+                    <div class="m-b-5">EXPENSE</div><i class="fa fa-tasks widget-stat-icon"></i>
+                </div>
+            </div>
+        </div> -->
+
+    </div>
+
+    <!--    <div class="row">
+         <div class="col-lg-6">
+            <div class="ibox">
+                <div class="ibox-body">
+
+
+                    <div>
+                        <canvas height="200" baseChart [datasets]="barChartData" [labels]="mbarChartLabels"
+                            [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
+                            [chartType]="barChartType" (chartClick)="chartClicked($event)"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ibox">
+
+                <div class="ibox-body">
+                    <div>
+                        <canvas height="200" baseChart [datasets]="barChartData1" [labels]="mbarChartLabels1"
+                            [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
+                            [chartType]="barChartType" (chartClick)="chartClicked1($event)"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <h6 style="background-color: rgb(243, 208, 10);"></h6>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox">
+                <div class="ibox-body">
+
+
+                    <div>
+                        <canvas height="200" baseChart [datasets]="barChartData2" [labels]="mbarChartLabels2"
+                            [options]="barChartOptions" [colors]="barChartColors1" [legend]="barChartLegend"
+                            [chartType]="barChartType" (chartClick)="chartClicked2($event)"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ibox">
+                <div class="ibox-body">
+
+
+                    <div>
+                        <canvas height="200" baseChart [datasets]="barChartData3" [labels]="mbarChartLabels3"
+                            [options]="barChartOptions" [colors]="barChartColors2" [legend]="barChartLegend"
+                            [chartType]="barChartType" (chartClick)="chartClicked3($event)"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+   
+
+    <!-- ========== -->
+ 
+
+<table class="table table-bordered" style="background-color: rgb(45, 199, 109);" *ngIf="s1  || s2 || s3 || s4">
+    <tbody>
+        <tr style="color: white;">
+            <th> Monthly Bills<span style="margin-left:2.0em; margin-right: 5%; ;"><button style="background-color: rgb(45, 199, 101); color: white; cursor: pointer;" class="btn" (click)="view1()" ><h2 class="m-b-5 font-strong">{{allCBCount}}</h2></button></span></th>
+            <th> Monthly Bank Payment <span style="margin-left:5%; margin-right: 5%;"><button style="background-color: rgb(45, 199, 109);color: white; cursor: pointer;" class="btn" (click)="view2()"><h2 class="m-b-5 font-strong">{{allBP_count}}</h2></button></span></th>
+            <th> Monthly Manual Journal <span style="margin-left:5%; margin-right: 5%;"><button style="background-color: rgb(45, 199, 109);color: white;cursor: pointer;" class="btn" (click)="view3()"><h2 class="m-b-5 font-strong">{{all_jrnl_count}}</h2></button></span></th>
+            <th> Monthly Challan <span style="margin-left:15%; margin-right: 5%;"><button style="background-color: rgb(45, 199, 109);color: white;cursor: pointer;" class="btn" (click)="view4()"><h2 class="m-b-5 font-strong">{{all_chalan_count}}</h2></button></span></th>
+        </tr>
+    </tbody>
+</table>
+
+    <style>
+        .visitors-table tbody tr td:last-child {
+            display: flex;
+            align-items: center;
+        }
+
+        .visitors-table .progress {
+            flex: 1;
+        }
+
+        .visitors-table .progress-parcent {
+            text-align: right;
+            margin-left: 10px;
+        }
+    </style>
+</div>
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Amount Of : {{chart_of_account_name}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row ">
+                    <div class="col-6 text-center">
+                        <h4>Credit Amount : </h4>{{cr_amount}}
+                    </div>
+                    <div class="col-6 text-center">
+                        <h4>Debit Amount : </h4>{{db_amount}}
+                    </div>
+
+                </div>
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Amount Of : {{chart_of_account_name}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table style="width: 100%;">
+                    <tr>
+                        <th>Chart Of Account</th>
+                        <th>CR</th>
+                        <th>DB</th>
+                    </tr>
+                    <tr *ngFor="let ob of showArr;let i=index">
+                        <td> {{ob.chart_of_account}}</td>
+                        <td> {{ob.cr_amount}}</td>
+                        <td> {{ob.db_amount}}</td>
+                    </tr>
+
+                </table>
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="myModal2">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Amount Of : {{chart_of_account_name}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table style="width: 100%;">
+                    <tr>
+                        <th>Chart Of Account</th>
+                        <th>Amount</th>
+                    </tr>
+                    <tr *ngFor="let ob of showArr1;let i=index">
+                        <td> {{ob.leaf_value}}</td>
+                        <td> {{ob.txn_amt}}</td>
+                    </tr>
+
+                </table>
+
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModalA">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4>Monthly Bills</h4>
+                <!-- <h4 class="modal-title">Amount Of : {{chart_of_account_name}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Bill Date</th>
+                            <th>Work Or Service Name</th>
+                            <th>Bill Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let i of allCBInfo">
+                            <td>{{MainService.dateFormatChange(i['cb_date'])}}</td>
+                            <td>{{i['work_or_service_name']}}</td>
+                            <td>{{i['net_amt']}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModalB">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4>Monthly Bank Payments</h4>
+
+                <!-- <h4 class="modal-title">Amount Of : {{chart_of_account_name}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Bank Payment Date</th>
+                            <th>Remark</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let i of table_data">
+                            <td>{{MainService.dateFormatChange(i['bp_date'])}}</td>
+                            <td>{{i['remark']}}</td>
+                            <td>{{i['bp_amount']}}</td>
+                            <td>{{i['status']}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModalC">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4>Monthly Manual Journal</h4>
+
+                <!-- <h4 class="modal-title">Amount Of : {{chart_of_account_name}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table class="table table-bordered" >
+                    <thead>
+                        <tr>
+                            <th>Accounting Date</th>
+                            <th>Remark</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let i of allUnPostedJournalList">
+                            <td>{{MainService.dateFormatChange(i['acct_dt'])}}</td>
+                            <td>{{i['preparer_comment']}}</td>
+                            <td>{{i['status']}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModalD">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4>Monthly Challan</h4>
+
+                <!-- <h4 class="modal-title">Amount Of : {{chart_of_account_name}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Challan Date</th>
+                            <th>Challan Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let i of allChallan">
+                            <td>{{MainService.dateFormatChange(i['challan_generate_date'])}}</td>
+                            <td>{{i['amount']}}</td>
+                            <td>{{i['status']}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

@@ -1,0 +1,341 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">BOQ</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab" (click)="refresh()"><i
+                                    class="ti-bar-chart"></i>
+                                Boq List</a>
+                        </li>
+
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab" (click)="refresh()"><i
+                                    class="fa fa-plus-circle"></i> Create Boq </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update Boq
+                            </a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+                            <br>
+                            <div class="row">
+                                <div class="col-4">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Party ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; "
+                                            class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="boq_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Party Name
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{party[element.party_id]}}
+                                        </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action
+
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-success" (click)="open_update(element)"
+                                                *ngIf="element['status']=='GENERATED'">Update</button>
+                                            <button class="btn btn-secondary" style="margin-left: 2px;"
+                                                (click)="print1(element)">Print</button>
+                                            <button class="btn btn-danger" style="margin-left: 2px;"
+                                                (click)="delete(element)">Delete</button>
+
+
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="list"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: list;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+                            <br>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Boq ID:
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="embData['boq_id']" disabled>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Boq Description :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="embData['boq_desc']">
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Date:
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="embData['date']">
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <!-- ---table                        -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <button (click)="add()" class="btn btn-primary" style="margin-right: 3%;"> <i
+                                            class="fa fa-plus" style="font-size: 20px;"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Sr. No.</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Unit</th>
+                                    <th scope="col">Quanitity</th>
+                                
+                                    <th scope="col" class="text-center" >Rate In Figure</th>
+
+                                    <th scope="col" class="text-center">Rate In Words</th>
+                                
+
+                                    <th scope="col">Total Amount</th>
+
+                                    <th scope="col">Remark</th>
+                                    <th scope="col">Action</th>
+
+
+                                  </tr>
+                                </thead>
+                                <tbody >
+                                
+                                <tr *ngFor="let item of embData['data'];let j=index">
+                                    <td>{{j+1}}</td>
+                                    <td> <input type="text" class="form-control" [(ngModel)]="item['desc']"></td>
+                                    <td> <input type="text" class="form-control" [(ngModel)]="item['unit']"></td>
+                                    <td> <input type="number" class="form-control" (change)="changeTotal()" [(ngModel)]="item['quantity']"></td>
+                                    <td> <input type="number" class="form-control" (change)="changeTotal()" [(ngModel)]="item['rate_in_figure']"></td>
+                                    <td> <input type="text" class="form-control" [(ngModel)]="item['rate_in_words']"></td>
+                                    <td> <input type="number" class="form-control"  [(ngModel)]="item['total']" disabled></td>
+                                    <td> <input type="text" class="form-control" [(ngModel)]="item['remark']"></td>
+                                    <td>
+                                        <button (click)="delete(j)"> <i class="fa fa-trash-o"
+                                            style="color:red ;font-size: 20px;" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            
+
+                                </tbody>
+                              </table>
+                              <br>
+                              <div class="row">
+                                  <div class="col-3">
+
+                                  </div>
+                                  <div class="col-3">
+                                      
+                                </div>
+                                <div class="col-3 text-right">
+                                   total Amount :   
+                                </div>
+                                <div class="col-3">
+                                       <input type="number" [(ngModel)]="embData['sum']" disabled class="form-control">
+                                </div>
+                              </div>
+                              <br>
+                              <div class="row">
+                                  <div class="col-12 text-center">
+                                      <button (click)="submit()" class="btn btn-primary">Submit</button>
+                                  </div>
+                              </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Boq ID:
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control" [(ngModel)]="embData['boq_id']" disabled>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Boq Description :
+                                </div>
+                                <div class="col-3">
+                                    <input type="text" class="form-control" [(ngModel)]="embData['boq_desc']">
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3 text-right">
+                                    Date:
+                                </div>
+                                <div class="col-3">
+                                    <input type="date" class="form-control" [(ngModel)]="embData['date']">
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+                            <!-- ---table                        -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <button (click)="add()" class="btn btn-primary" style="margin-right: 3%;"> <i
+                                            class="fa fa-plus" style="font-size: 20px;"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Sr. No.</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Unit</th>
+                                    <th scope="col">Quanitity</th>
+                                
+                                    <th scope="col" class="text-center" >Rate In Figure</th>
+
+                                    <th scope="col" class="text-center">Rate In Words</th>
+                                
+
+                                    <th scope="col">Total Amount</th>
+
+                                    <th scope="col">Remark</th>
+                                    <th scope="col">Action</th>
+
+
+                                  </tr>
+                                </thead>
+                                <tbody >
+                                
+                                <tr *ngFor="let item of embData['data'];let j=index">
+                                    <td>{{j+1}}</td>
+                                    <td> <input type="text" class="form-control" [(ngModel)]="item['desc']"></td>
+                                    <td> <input type="text" class="form-control" [(ngModel)]="item['unit']"></td>
+                                    <td> <input type="number" class="form-control" (change)="changeTotal()" [(ngModel)]="item['quantity']"></td>
+                                    <td> <input type="number" class="form-control" (change)="changeTotal()" [(ngModel)]="item['rate_in_figure']"></td>
+                                    <td> <input type="text" class="form-control" [(ngModel)]="item['rate_in_words']"></td>
+                                    <td> <input type="number" class="form-control"  [(ngModel)]="item['total']" disabled></td>
+                                    <td> <input type="text" class="form-control" [(ngModel)]="item['remark']"></td>
+                                    <td>
+                                        <button (click)="delete(j)"> <i class="fa fa-trash-o"
+                                            style="color:red ;font-size: 20px;" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            
+
+                                </tbody>
+                              </table>
+                              <br>
+                              <div class="row">
+                                  <div class="col-3">
+
+                                  </div>
+                                  <div class="col-3">
+                                      
+                                </div>
+                                <div class="col-3 text-right">
+                                   total Amount :   
+                                </div>
+                                <div class="col-3">
+                                       <input type="number" [(ngModel)]="embData['sum']" disabled class="form-control">
+                                </div>
+                              </div>
+                              <br>
+                              <div class="row">
+                                  <div class="col-12 text-center">
+                                      <button (click)="update()" class="btn btn-primary">Update</button>
+                                  </div>
+                              </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner>Loading....</ngx-spinner>

@@ -1,0 +1,230 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Employee Salary Register </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-settings"></i> Salary Bill Detail </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-settings"></i> Bank Pay Bill File
+                                </a>
+                        </li>
+
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-bar-chart"></i> Print Summary
+                                </a>
+                        </li> -->
+
+                    </ul>
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Year :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0023']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="billIdObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Month :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="billIdObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="getAllBillID()">GET ALL BILL</button>
+                                </div>
+                            </div>
+
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field style="margin-left: 2%">
+                                        <input matInput (keyup)="applyFilter1($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" (click)="generateXl()">EXPORT</button>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="dataSource1" matSort>
+                                    <ng-container matColumnDef="bill_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>Bill Id
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element['bill_id'] }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="bill_desc">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bill Description
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.bill_desc }} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="bill_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bill Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.bill_status_code }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="bill_date">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bill Date
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.tempaccrual_date }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="print">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Download
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            <button class="btn btn-primary" (click)="getAllBill(element,'bill')">BILL</button>
+                                            <button class="btn btn-primary" (click)="getAllBill(element,'summary')">SUMMARY</button>
+
+                                        </td>
+                                    </ng-container>
+
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Year :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0023']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="selectObj['fin_year']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Month :
+                                </div>
+                                <div class="col-4">
+                                    <ng-select [items]="mainService.codeValueTechObj['HR0024']" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="selectObj['month']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="getoneclickPaySlip()">GET Bill</button>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-6 text-right">
+                                    <button class="btn btn-primary" *ngIf="oneclickslip.length>0" (click)="print12()">Download PDF</button>
+                                </div>
+                                <div class="col-6 text-left">
+                                    <button class="btn btn-primary" *ngIf="oneclickslip.length>0" (click)="excelExport()">Download Excel</button>
+                                </div>
+                            </div>
+                            <br>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Select Bills</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div *ngFor="let ob of allBillId;let i=index" class="row">
+                    <div class="col-2 text-center">
+                        <input type="checkbox" [(ngModel)]="allBillId[i]['selected']">
+                    </div>
+                    <div class="col-2 text-center">
+                        {{ob.bill_id}}
+                    </div>
+                    <div class="col-8 text-center">
+                        {{ob.bill_desc}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button class="btn btn-primary" (click)="generateXl()">SUBMIT</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

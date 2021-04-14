@@ -1,0 +1,192 @@
+<div class="page-content fade-in-up">
+    <br>
+    <div class="row">
+        <button style="margin-left:0.5%;" class="btn btn-link" (click)="back()"><i class="fa fa-arrow-left"
+                aria-hidden="true"></i> Go Back</button>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">FILE TRACKING</div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                View ALL File Tracking Rule</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="fa fa-plus-circle"></i> Create
+                                Rule For File Tracking</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-3" data-toggle="tab"><i class="ti-settings"></i> Update
+                                Rule For File Tracking</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header>ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.id }}</td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="doc_type">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Document Type
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ mainService.codeValueShowObj['MD0005'][element['doc_type']]}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Action</th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+
+                                            <button class="btn btn-info" (click)="viewRule(element)">View</button>&nbsp;&nbsp;
+                                            <button class="btn btn-danger" (click)="deleteRule(element)">Delete</button>
+
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3 text-left">
+                                    <h6>Select Ducument Type : </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="docType" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="fileType['doc_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3"></div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-info" (click)="addRow()">ADD</button>
+                                </div>
+                            </div>
+                            <br>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <th class="r">User</th>
+                                    <th class="r">Level</th>
+                                    <th class="r">Action</th>
+                                </tr>
+                                <tr *ngFor="let ob of fileType['data']; let i = index">
+                                    <td class="r">
+                                        <ng-select [items]="allUser" bindLabel="name" bindValue="user_id" [multiple]="false" placeholder="Select User" [(ngModel)]="fileType['data'][i]['user_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="user_id">
+                                        </ng-select>
+                                    </td>
+                                    <td class="r">
+                                        <h6>{{i+1}}</h6>
+
+                                    </td>
+                                    <td class="r">
+                                        <button class="btn btn-danger" (click)="deleteRow(i)">DELETE</button>
+
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-primary" (click)="createRule()">CREATE</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-3">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+
+                                <div class="col-3 text-left">
+                                    <h6>Select Document Type : </h6>
+                                </div>
+                                <div class="col-3">
+                                    <ng-select [items]="docType" bindLabel="value" bindValue="code" [multiple]="false" placeholder="" [(ngModel)]="fileType['doc_type']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="field_name">
+                                    </ng-select>
+                                </div>
+                                <div class="col-3"></div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-info" (click)="addRow()">ADD</button>
+                                </div>
+                            </div>
+                            <br>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <th class="r">USER</th>
+                                    <th class="r">Level</th>
+                                    <th class="r">Action</th>
+                                </tr>
+                                <tr *ngFor="let ob of fileType['data']; let i = index">
+                                    <td class="r">
+
+                                        <ng-select [items]="allUser" bindLabel="name" bindValue="user_id" [multiple]="false" placeholder="Select User" [(ngModel)]="fileType['data'][i]['user_id']" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="true" name="user_id">
+                                        </ng-select>
+                                    </td>
+                                    <td class="r">
+                                        <h6>{{i+1}}</h6>
+
+                                    </td>
+                                    <td class="r">
+                                        <button class="btn btn-danger" (click)="deleteRow(i)">DELETE</button>
+
+
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <br>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info" (click)="updateRule()">UPDATE</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>

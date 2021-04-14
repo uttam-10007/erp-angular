@@ -1,0 +1,284 @@
+<div class="page-content fade-in-up">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12">
+
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Manage Paid Salary </div>
+                </div>
+
+                <div class="ibox-body">
+                    <ul class="nav nav-tabs tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#tab-1" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Paid Salary Detail List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-2" data-toggle="tab"><i class="ti-bar-chart"></i>
+                                Paid Salary Detail List</a>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-1">
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Year :
+                                </div>
+                                <div class="col-4">
+                                    <input *ngIf="mainService.codeValueTechObj['year']==undefined" class="form-control" [(ngModel)]="year">
+                                    <select *ngIf="mainService.codeValueTechObj['year']!=undefined" class="form-control" [(ngModel)]="year">
+                                        <option *ngFor="let ob of mainService.codeValueTechObj['year']"
+                                            [(ngValue)]="ob['code']">{{ob['value']}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-4 text-right">
+                                    Select Month :
+                                </div>
+                                <div class="col-4">
+                                    <input *ngIf="mainService.codeValueTechObj['month']==undefined" class="form-control" [(ngModel)]="month">
+                                    <select *ngIf="mainService.codeValueTechObj['month']!=undefined" class="form-control" [(ngModel)]="month">
+                                        <option *ngFor="let ob of mainService.codeValueTechObj['month']"
+                                            [(ngValue)]="ob['code']">{{ob['value']}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row text-center">
+                                <div class="col-5">
+
+                                </div>
+                                <button class="btn btn-outline-primary" (click)="getSalary()">Get Status</button>
+                            </div>
+                            <hr>
+                            <div class="row">
+
+                                <div class="col-12 text-right">
+                                    <button class="btn btn-primary" (click)="printBiLL()">Print Bill</button>
+
+                                    <button class="btn btn-primary" (click)="markPaid()">Mark ALL Paid</button>
+                                </div>
+                            </div>
+
+
+
+
+                            <mat-form-field style="margin-left: 2%">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+
+                            <div class=" example-container">
+                                <table mat-table [dataSource]="datasource" matSort>
+                                    <ng-container matColumnDef="party_id">
+                                        <th mat-header-cell *matHeaderCellDef class="left" mat-sort-header> Employee ID
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element; let i = index; " class="right">
+                                            {{ element.party_id }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="party_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Employee Name Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.party_name }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="total_paid_salary">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Toatl Paid Salary Amount
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.total_paid_salary}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="year">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Year
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.year}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="month">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Month
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.month}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pay_status_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Status
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.pay_status_code}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="bank_name">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bnak Name
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.bank_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="bank_account_number">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bnak Account Number
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.bank_account_number}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="bank_ifsc_code">
+                                        <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header>Bnak IFSC Code
+
+                                        </th>
+                                        <td mat-cell flex-stretch *matCellDef="let element" class="right">
+                                            {{ element.bank_ifsc_code}} </td>
+                                    </ng-container>
+
+
+
+
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-2">
+                            <div class="row">
+                                <div class="col-7"></div>
+                                <div class="col-3 text-right">
+                                    <input class="form-control" type="date" [(ngModel)]="billDate">
+                                </div>
+                                <div class="col-2">
+
+                                    <button class="btn btn-primary" (click)="print()">PRINT</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div id="p">
+
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <img [src]="mainService.accountImageUrl" class="img-circle" width="90px" />
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <h4>{{mainService.accInfo['account_name']}} ({{mainService.accInfo['account_short_name']}})</h4>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Year : {{year}}
+                                    </div>
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Month : {{monthObj[month]}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Bill Amount : {{billTotal}}
+                                    </div>
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Bill Date : {{billDate}}
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-2"></div>
+                                    <div class="col-4">
+                                        Bill Description : Employee Salary Bill
+                                    </div>
+
+
+                                </div>
+                                <hr>
+                                <br>
+                                <div style="overflow: scroll;">
+                                    <table id="tbl" style="overflow: auto;">
+
+                                        <tr>
+                                            <th>
+                                                S.NO.
+                                            </th>
+                                            <th>
+                                                EMPLOYEE ID
+                                            </th>
+                                            <th>
+                                                EMPLOYEE NAME
+                                            </th>
+                                            <th>
+                                                PAY AMOUNT
+                                            </th>
+
+                                            <th>
+                                                BANK NAME
+                                            </th>
+                                            <th>
+                                                BANK ACCOUNT NUMBER
+                                            </th>
+                                            <th>
+                                                IFSC CODE
+                                            </th>
+                                        </tr>
+                                        <br>
+                                        <tr *ngFor="let ob of printObj; let i = index">
+                                            <td>{{i}}</td>
+                                            <td>{{ob.arr_id}}</td>
+                                            <td>{{ob.party_name}}</td>
+                                            <td>{{ob.total_paid_salary}}</td>
+                                            <td>{{ob.bank_name}}</td>
+                                            <td>{{ob.bank_account_number}}</td>
+                                            <td>{{ob.bank_ifsc_code}}</td>
+
+                                        </tr>
+
+
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<ngx-spinner>Loading....</ngx-spinner>
